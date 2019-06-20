@@ -1,24 +1,10 @@
-﻿#region MIT License
+﻿#region License
 
-// Copyright (c) 2019 exomia - Daniel Bätz
+// Copyright (c) 2018-2019, exomia
+// All rights reserved.
 // 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+// This source code is licensed under the BSD-style license found in the
+// LICENSE file in the root directory of this source tree.
 
 #endregion
 
@@ -29,54 +15,45 @@ using Exomia.Framework.Game;
 
 namespace Exomia.ECS.Systems
 {
-
     /// <summary>
     ///     An entity system base.
     /// </summary>
     public abstract class EntitySystemBase : IDisposable
     {
-
         /// <summary>
         ///     The entity map.
         /// </summary>
         protected readonly Dictionary<Entity, int> _entityMap;
-
 
         /// <summary>
         ///     The manager.
         /// </summary>
         protected readonly EntityManager _manager;
 
-
         /// <summary>
         ///     this lock.
         /// </summary>
         protected readonly object _thisLock = new object();
-
 
         /// <summary>
         ///     True to enable, false to disable.
         /// </summary>
         protected bool _enabled = true;
 
-
         /// <summary>
         ///     The entities.
         /// </summary>
         protected Entity[] _entities;
-
 
         /// <summary>
         ///     Number of entities.
         /// </summary>
         protected int _entitiesCount;
 
-
         /// <summary>
         ///     True if this object is initialized.
         /// </summary>
         protected bool _isInitialized;
-
 
         /// <summary>
         ///     Gets a value indicating whether this object is enabled.
@@ -89,9 +66,8 @@ namespace Exomia.ECS.Systems
             get { return _enabled; }
         }
 
-
         /// <summary>
-        ///     Initializes a new instance of the <see cref="EntitySystemBase"/> class.
+        ///     Initializes a new instance of the <see cref="EntitySystemBase" /> class.
         /// </summary>
         /// <param name="manager"> The manager. </param>
         /// <exception cref="ArgumentNullException"> Thrown when one or more required arguments are null. </exception>
@@ -102,20 +78,17 @@ namespace Exomia.ECS.Systems
             _entityMap = new Dictionary<Entity, int>(EntityManager.INITIAL_ARRAY_SIZE);
         }
 
-
         /// <summary>
         ///     Executes the initialize action.
         /// </summary>
         /// <param name="registry"> The registry. </param>
         protected virtual void OnInitialize(IServiceRegistry registry) { }
 
-
         /// <summary>
         ///     Grows.
         /// </summary>
         /// <param name="size"> The size. </param>
         protected abstract void Grow(int size);
-
 
         /// <summary>
         ///     Adds entity.
@@ -127,14 +100,12 @@ namespace Exomia.ECS.Systems
         /// </returns>
         protected abstract bool Add(Entity entity, int index);
 
-
         /// <summary>
         ///     Removes the given entity.
         /// </summary>
         /// <param name="index"> Zero-based index of the. </param>
         /// <param name="swap">  The swap. </param>
         protected abstract void Remove(int index, int swap);
-
 
         /// <summary>
         ///     Updates the or draw described by gameTime.
@@ -143,7 +114,6 @@ namespace Exomia.ECS.Systems
         /// <param name="e">        The Entity to process. </param>
         /// <param name="index">    Zero-based index of the. </param>
         protected abstract void UpdateOrDraw(GameTime gameTime, Entity e, int index);
-
 
         /// <summary>
         ///     Initializes this object.
@@ -157,7 +127,6 @@ namespace Exomia.ECS.Systems
                 _isInitialized = true;
             }
         }
-
 
         /// <summary>
         ///     Changed the given entity.
@@ -191,7 +160,6 @@ namespace Exomia.ECS.Systems
             }
         }
 
-
         /// <summary>
         ///     Removes the given entity.
         /// </summary>
@@ -212,7 +180,6 @@ namespace Exomia.ECS.Systems
             }
         }
 
-
         /// <summary>
         ///     Begins this object.
         /// </summary>
@@ -223,7 +190,6 @@ namespace Exomia.ECS.Systems
         {
             return _isInitialized && _enabled;
         }
-
 
         /// <summary>
         ///     Updates the or draw described by gameTime.
@@ -237,12 +203,10 @@ namespace Exomia.ECS.Systems
             }
         }
 
-
         /// <summary>
         ///     Ends this object.
         /// </summary>
         internal virtual void End() { }
-
 
         /// <summary>
         ///     Ensures that capacity.
@@ -260,20 +224,17 @@ namespace Exomia.ECS.Systems
 
         #region IDisposable Support
 
-
         /// <summary>
         ///     True if disposed.
         /// </summary>
         protected bool _disposed;
 
-
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
 
         /// <summary>
         ///     Releases the unmanaged resources used by the Exomia.ECS.Systems.EntitySystemBase and
@@ -297,7 +258,6 @@ namespace Exomia.ECS.Systems
                 _disposed = true;
             }
         }
-
 
         /// <summary>
         ///     Executes the dispose action.

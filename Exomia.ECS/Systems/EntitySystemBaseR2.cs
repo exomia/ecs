@@ -1,24 +1,10 @@
-﻿#region MIT License
+﻿#region License
 
-// Copyright (c) 2019 exomia - Daniel Bätz
+// Copyright (c) 2018-2019, exomia
+// All rights reserved.
 // 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+// This source code is licensed under the BSD-style license found in the
+// LICENSE file in the root directory of this source tree.
 
 #endregion
 
@@ -27,7 +13,6 @@ using Exomia.Framework.Game;
 
 namespace Exomia.ECS.Systems
 {
-
     /// <summary>
     ///     An entity system base r 2.
     /// </summary>
@@ -37,18 +22,15 @@ namespace Exomia.ECS.Systems
         where TComponent1 : IEntityComponent
         where TComponent2 : IEntityComponent
     {
-
         /// <summary>
         ///     The first components.
         /// </summary>
         protected TComponent1[] _components1;
 
-
         /// <summary>
         ///     The second components.
         /// </summary>
         protected TComponent2[] _components2;
-
 
         /// <summary>
         ///     Initializes a new instance of the &lt;see cref="EntitySystemBaseR2&lt;TComponent1,
@@ -62,8 +44,7 @@ namespace Exomia.ECS.Systems
             _components2 = new TComponent2[EntityManager.INITIAL_ARRAY_SIZE];
         }
 
-
-        /// <inheritdoc/>
+        /// <inheritdoc />
         protected override bool Add(Entity entity, int index)
         {
             return
@@ -71,8 +52,7 @@ namespace Exomia.ECS.Systems
                 entity.Get(out _components2[index]);
         }
 
-
-        /// <inheritdoc/>
+        /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
@@ -82,21 +62,18 @@ namespace Exomia.ECS.Systems
             _components2[swap]  = default;
         }
 
-
-        /// <inheritdoc/>
+        /// <inheritdoc />
         protected override void Grow(int size)
         {
             Array.Resize(ref _components1, size);
             Array.Resize(ref _components2, size);
         }
 
-
-        /// <inheritdoc/>
+        /// <inheritdoc />
         protected override void UpdateOrDraw(GameTime gameTime, Entity entity, int index)
         {
             UpdateOrDraw(gameTime, entity, _components1[index], _components2[index]);
         }
-
 
         /// <summary>
         ///     Updates or draws the system.
@@ -107,8 +84,7 @@ namespace Exomia.ECS.Systems
         /// <param name="c2">       The second TComponent2. </param>
         protected abstract void UpdateOrDraw(GameTime gameTime, Entity entity, TComponent1 c1, TComponent2 c2);
 
-
-        /// <inheritdoc/>
+        /// <inheritdoc />
         protected override void OnDispose(bool disposing)
         {
             _components1 = null;

@@ -1,24 +1,10 @@
-﻿#region MIT License
+﻿#region License
 
-// Copyright (c) 2019 exomia - Daniel Bätz
+// Copyright (c) 2018-2019, exomia
+// All rights reserved.
 // 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+// This source code is licensed under the BSD-style license found in the
+// LICENSE file in the root directory of this source tree.
 
 #endregion
 
@@ -155,6 +141,56 @@ namespace Exomia.ECS
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        ///     Inserts.
+        /// </summary>
+        /// <param name="sorted">          The sorted. </param>
+        /// <param name="current">         The current. </param>
+        /// <param name="collisionDegree"> (Optional) The collision degree. </param>
+        /// <exception cref="OverflowException"> Thrown when an arithmetic overflow occurs. </exception>
+        private static void Insert(IList<EntitySystemConfiguration> sorted, EntitySystemConfiguration current,
+                                   int                              collisionDegree = 0)
+        {
+            if (collisionDegree > sorted.Count + 1)
+            {
+                throw new OverflowException("A unresolvable collision occurred in the entity system configurations.");
+            }
+
+            int indexA = sorted.Count - 1;
+            for (; indexA >= 0; indexA--)
+            {
+                EntitySystemConfiguration system = sorted[indexA];
+                if (Contains(current.Configuration.After, system.Configuration.Name))
+                {
+                    indexA++;
+                    break;
+                }
+                if (Contains(system.Configuration.Before, current.Configuration.Name))
+                {
+                    indexA++;
+                    break;
+                }
+            }
+            int indexB = 0;
+            for (; indexB < sorted.Count; indexB++)
+            {
+                EntitySystemConfiguration system = sorted[indexB];
+                if (Contains(current.Configuration.Before, system.Configuration.Name)) { break; }
+                if (Contains(system.Configuration.After, current.Configuration.Name)) { break; }
+            }
+            if (indexB >= indexA) //no collision
+            {
+                sorted.Insert(indexB, current);
+            }
+            else //collision
+            {
+                EntitySystemConfiguration collision = sorted[indexB];
+                sorted.RemoveAt(indexB);
+                Insert(sorted, current, collisionDegree   + 1);
+                Insert(sorted, collision, collisionDegree + 1);
+            }
         }
 
         /// <summary>
@@ -608,56 +644,6 @@ namespace Exomia.ECS
 
             systems.Clear();
             systems = sorted;
-        }
-
-        /// <summary>
-        ///     Inserts.
-        /// </summary>
-        /// <param name="sorted">          The sorted. </param>
-        /// <param name="current">         The current. </param>
-        /// <param name="collisionDegree"> (Optional) The collision degree. </param>
-        /// <exception cref="OverflowException"> Thrown when an arithmetic overflow occurs. </exception>
-        private static void Insert(IList<EntitySystemConfiguration> sorted, EntitySystemConfiguration current,
-                            int                              collisionDegree = 0)
-        {
-            if (collisionDegree > sorted.Count + 1)
-            {
-                throw new OverflowException("A unresolvable collision occurred in the entity system configurations.");
-            }
-
-            int indexA = sorted.Count - 1;
-            for (; indexA >= 0; indexA--)
-            {
-                EntitySystemConfiguration system = sorted[indexA];
-                if (Contains(current.Configuration.After, system.Configuration.Name))
-                {
-                    indexA++;
-                    break;
-                }
-                if (Contains(system.Configuration.Before, current.Configuration.Name))
-                {
-                    indexA++;
-                    break;
-                }
-            }
-            int indexB = 0;
-            for (; indexB < sorted.Count; indexB++)
-            {
-                EntitySystemConfiguration system = sorted[indexB];
-                if (Contains(current.Configuration.Before, system.Configuration.Name)) { break; }
-                if (Contains(system.Configuration.After, current.Configuration.Name)) { break; }
-            }
-            if (indexB >= indexA) //no collision
-            {
-                sorted.Insert(indexB, current);
-            }
-            else //collision
-            {
-                EntitySystemConfiguration collision = sorted[indexB];
-                sorted.RemoveAt(indexB);
-                Insert(sorted, current, collisionDegree   + 1);
-                Insert(sorted, collision, collisionDegree + 1);
-            }
         }
 
         /// <summary>
