@@ -85,7 +85,7 @@ namespace Exomia.ECS.Systems
 
 
         /// <summary>
-        ///     Updates the or draw.
+        ///     Updates or draws the system.
         /// </summary>
         /// <param name="gameTime"> The game time. </param>
         /// <param name="entity">   The entity. </param>
