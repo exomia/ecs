@@ -23,7 +23,7 @@ namespace Exomia.ECS
     /// <summary>
     ///     Manager for entities. This class cannot be inherited.
     /// </summary>
-    public sealed class EntityManager : ADrawableComponent
+    public sealed class EntityManager : DrawableComponent
     {
         /// <summary>
         ///     Initial size of the array.
@@ -539,7 +539,7 @@ namespace Exomia.ECS
                 if (a.FullName.StartsWith("SharpDX")) { continue; }
                 if (a.FullName.StartsWith("ms")) { continue; }
                 if (a.FullName.StartsWith("Xilium.CefGlue")) { continue; }
-                if (a.FullName.StartsWith("TridentG.Framework")) { continue; }
+                if (a.FullName.StartsWith("Exomia.Framework")) { continue; }
 
                 foreach (Type t in a.GetTypes())
                 {
