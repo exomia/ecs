@@ -27,7 +27,7 @@ namespace Exomia.ECS
         /// <typeparam name="TComponent"> Type of the component. </typeparam>
         /// <param name="component"> The component. </param>
         public static void Release<TComponent>(TComponent component)
-            where TComponent : IEntityComponent, new()
+            where TComponent : new()
         {
             EntityComponentPool<TComponent>.Release(component);
         }
@@ -38,7 +38,7 @@ namespace Exomia.ECS
     /// </summary>
     /// <typeparam name="TComponent"> Type of the component. </typeparam>
     static class EntityComponentPool<TComponent>
-        where TComponent : IEntityComponent, new()
+        where TComponent : new()
     {
         /// <summary>
         ///     True to use pooling.

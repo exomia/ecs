@@ -268,7 +268,7 @@ namespace Exomia.ECS
                 }
             }
 
-            foreach (IEntityComponent component in entity.Components)
+            foreach (object component in entity.Components)
             {
                 EntityComponentPool.Release((dynamic)component);
             }
@@ -288,7 +288,7 @@ namespace Exomia.ECS
         ///     An EntityManager.
         /// </returns>
         public EntityManager Add<TComponent>(Entity entity, Action<TComponent>? action = null)
-            where TComponent : IEntityComponent, new()
+            where TComponent : new()
         {
             return Add(entity, true, action);
         }
@@ -304,7 +304,7 @@ namespace Exomia.ECS
         ///     An EntityManager.
         /// </returns>
         public EntityManager Add<TComponent>(Entity entity, bool usePooling, Action<TComponent>? action = null)
-            where TComponent : IEntityComponent, new()
+            where TComponent : new()
         {
             TComponent component = usePooling ? EntityComponentPool<TComponent>.Take() : new TComponent();
             action?.Invoke(component);
@@ -330,7 +330,7 @@ namespace Exomia.ECS
         ///     An EntityManager.
         /// </returns>
         public EntityManager Remove<TComponent>(Entity entity, Action<TComponent>? action = null)
-            where TComponent : IEntityComponent, new()
+            where TComponent : new()
         {
             return Remove(entity, true, action);
         }
@@ -346,7 +346,7 @@ namespace Exomia.ECS
         ///     An EntityManager.
         /// </returns>
         public EntityManager Remove<TComponent>(Entity entity, bool usePooling, Action<TComponent>? action = null)
-            where TComponent : IEntityComponent, new()
+            where TComponent : new()
         {
             if (entity.Get(out TComponent component))
             {
