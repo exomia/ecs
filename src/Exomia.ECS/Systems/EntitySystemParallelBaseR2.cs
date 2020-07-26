@@ -19,8 +19,6 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent1"> Type of the component 1. </typeparam>
     /// <typeparam name="TComponent2"> Type of the component 2. </typeparam>
     public abstract class EntitySystemParallelBaseR2<TComponent1, TComponent2> : EntitySystemParallelBase
-        where TComponent1 : IEntityComponent
-        where TComponent2 : IEntityComponent
     {
         /// <summary>
         ///     The first components.

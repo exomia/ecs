@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Exomia.ECS
 {
@@ -41,7 +42,7 @@ namespace Exomia.ECS
         /// <summary>
         ///     The components.
         /// </summary>
-        private readonly Dictionary<Type, IEntityComponent> _components;
+        private readonly Dictionary<Type, object> _components;
 
         /// <summary>
         ///     Gets the components.
@@ -49,7 +50,7 @@ namespace Exomia.ECS
         /// <value>
         ///     The components.
         /// </value>
-        internal IEnumerable<IEntityComponent> Components
+        internal IEnumerable<object> Components
         {
             get { return _components.Values; }
         }
@@ -61,7 +62,7 @@ namespace Exomia.ECS
         internal Entity(Guid guid)
         {
             Guid        = guid;
-            _components = new Dictionary<Type, IEntityComponent>(INITIAL_COMPONENTS_SIZE);
+            _components = new Dictionary<Type, object>(INITIAL_COMPONENTS_SIZE);
         }
 
         /// <summary>
@@ -72,9 +73,9 @@ namespace Exomia.ECS
         /// <returns>
         ///     True if it succeeds, false if it fails.
         /// </returns>
-        public bool Get<T>(out T component) where T : IEntityComponent
+        public bool Get<T>(out T component)
         {
-            bool res = _components.TryGetValue(typeof(T), out IEntityComponent c);
+            bool res = _components.TryGetValue(typeof(T), out object c);
             component = (T)c;
             return res;
         }
@@ -106,9 +107,10 @@ namespace Exomia.ECS
         /// </summary>
         /// <typeparam name="T"> Generic type parameter. </typeparam>
         /// <param name="component"> The component. </param>
-        internal void Add<T>(T component) where T : IEntityComponent
+        internal void Add<T>(T component)
         {
-            _components.Add(typeof(T), component);
+            Debug.Assert(component != null, nameof(component) + " != null");
+            _components.Add(typeof(T), component!);
         }
 
         /// <summary>
@@ -118,7 +120,7 @@ namespace Exomia.ECS
         /// <returns>
         ///     True if it succeeds, false if it fails.
         /// </returns>
-        internal bool Remove<T>() where T : IEntityComponent
+        internal bool Remove<T>()
         {
             return _components.Remove(typeof(T));
         }
