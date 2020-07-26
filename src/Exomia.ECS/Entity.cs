@@ -31,7 +31,7 @@ namespace Exomia.ECS
         /// <summary>
         ///     The name.
         /// </summary>
-        public string Name;
+        public string? Name;
 
         /// <summary>
         ///     True if this object is initialized.

@@ -42,7 +42,7 @@ namespace Exomia.ECS.Systems
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap]  = default;
+            _components1[swap]  = default!;
         }
 
         /// <inheritdoc />
@@ -63,7 +63,7 @@ namespace Exomia.ECS.Systems
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
         {
-            _components1 = null;
+            _components1 = null!;
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Exomia.ECS.Attributes
         /// <value>
         ///     The after.
         /// </value>
-        public string[] After { get; set; }
+        public string[]? After { get; set; }
 
         /// <summary>
         ///     get or set the list of system names which has to be executed before this one.
@@ -58,7 +58,7 @@ namespace Exomia.ECS.Attributes
         /// <value>
         ///     The before.
         /// </value>
-        public string[] Before { get; set; }
+        public string[]? Before { get; set; }
 
         /// <summary>
         ///     get or set a system name to be replaced with this one.
@@ -66,7 +66,7 @@ namespace Exomia.ECS.Attributes
         /// <value>
         ///     The replace.
         /// </value>
-        public string Replace { get; set; }
+        public string? Replace { get; set; }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="EntitySystemConfigurationAttribute" />

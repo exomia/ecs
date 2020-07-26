@@ -48,7 +48,7 @@ namespace Exomia.ECS
         /// <summary>
         ///     The free.
         /// </summary>
-        private static readonly Stack<TComponent> s_free;
+        private static readonly Stack<TComponent> s_free = null!;
 
         /// <summary>
         ///     Initializes static members of the <see cref="EntityComponentPool{TComponent}" /> class.

@@ -83,7 +83,7 @@ namespace Exomia.ECS
         /// <summary>
         ///     The entity drawable systems.
         /// </summary>
-        private EntitySystemBase[] _entityDrawableSystems;
+        private EntitySystemBase[] _entityDrawableSystems = null!;
 
         /// <summary>
         ///     Number of entity drawable systems.
@@ -93,7 +93,7 @@ namespace Exomia.ECS
         /// <summary>
         ///     The entity updateable systems.
         /// </summary>
-        private EntitySystemBase[] _entityUpdateableSystems;
+        private EntitySystemBase[] _entityUpdateableSystems = null!;
 
         /// <summary>
         ///     Number of entity updateable systems.
@@ -130,7 +130,7 @@ namespace Exomia.ECS
         /// <returns>
         ///     True if the object is in this collection, false if not.
         /// </returns>
-        private static bool Contains(string[] arr, string name)
+        private static bool Contains(string[]? arr, string name)
         {
             if (arr == null) { return false; }
             for (int a = 0; a < arr.Length; ++a)
@@ -201,7 +201,7 @@ namespace Exomia.ECS
         /// <returns>
         ///     An Entity.
         /// </returns>
-        public Entity Create(string template, Action<EntityManager, Entity> initialize = null)
+        public Entity Create(string template, Action<EntityManager, Entity>? initialize = null)
         {
             lock (_initialTemplates)
             {
@@ -225,7 +225,7 @@ namespace Exomia.ECS
         /// <returns>
         ///     An Entity.
         /// </returns>
-        public Entity Create(Action<EntityManager, Entity> initialize = null)
+        public Entity Create(Action<EntityManager, Entity>? initialize = null)
         {
             Entity entity = _entityPool.Take();
             initialize?.Invoke(this, entity);
@@ -260,7 +260,7 @@ namespace Exomia.ECS
 
                     _entitiesCount--;
                     _entities[index]          = _entities[_entitiesCount];
-                    _entities[_entitiesCount] = null;
+                    _entities[_entitiesCount] = null!;
                 }
                 lock (_toRemove)
                 {
@@ -275,7 +275,7 @@ namespace Exomia.ECS
 
             _entityPool.Release(entity);
 
-            entity = null;
+            entity = null!;
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace Exomia.ECS
         /// <returns>
         ///     An EntityManager.
         /// </returns>
-        public EntityManager Add<TComponent>(Entity entity, Action<TComponent> action = null)
+        public EntityManager Add<TComponent>(Entity entity, Action<TComponent>? action = null)
             where TComponent : IEntityComponent, new()
         {
             return Add(entity, true, action);
@@ -303,7 +303,7 @@ namespace Exomia.ECS
         /// <returns>
         ///     An EntityManager.
         /// </returns>
-        public EntityManager Add<TComponent>(Entity entity, bool usePooling, Action<TComponent> action = null)
+        public EntityManager Add<TComponent>(Entity entity, bool usePooling, Action<TComponent>? action = null)
             where TComponent : IEntityComponent, new()
         {
             TComponent component = usePooling ? EntityComponentPool<TComponent>.Take() : new TComponent();
@@ -329,7 +329,7 @@ namespace Exomia.ECS
         /// <returns>
         ///     An EntityManager.
         /// </returns>
-        public EntityManager Remove<TComponent>(Entity entity, Action<TComponent> action = null)
+        public EntityManager Remove<TComponent>(Entity entity, Action<TComponent>? action = null)
             where TComponent : IEntityComponent, new()
         {
             return Remove(entity, true, action);
@@ -345,7 +345,7 @@ namespace Exomia.ECS
         /// <returns>
         ///     An EntityManager.
         /// </returns>
-        public EntityManager Remove<TComponent>(Entity entity, bool usePooling, Action<TComponent> action = null)
+        public EntityManager Remove<TComponent>(Entity entity, bool usePooling, Action<TComponent>? action = null)
             where TComponent : IEntityComponent, new()
         {
             if (entity.Get(out TComponent component))
@@ -486,20 +486,20 @@ namespace Exomia.ECS
                     _entityUpdateableSystems[si].Dispose();
                 }
                 _entityUpdateableSystemsCount = 0;
-                _entityUpdateableSystems      = null;
+                _entityUpdateableSystems      = null!;
 
                 for (int si = _entityDrawableSystemsCount - 1; si >= 0; si--)
                 {
                     _entityDrawableSystems[si].Dispose();
                 }
                 _entityDrawableSystemsCount = 0;
-                _entityDrawableSystems      = null;
+                _entityDrawableSystems      = null!;
 
                 lock (_thisLock)
                 {
                     _entitiesCount = 0;
                     _entityMap.Clear();
-                    _entities = null;
+                    _entities = null!;
                 }
 
                 lock (_initialTemplates)

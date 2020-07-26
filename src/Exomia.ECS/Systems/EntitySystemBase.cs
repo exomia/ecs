@@ -142,7 +142,7 @@ namespace Exomia.ECS.Systems
                     {
                         _entitiesCount--;
                         _entities[index]          = _entities[_entitiesCount];
-                        _entities[_entitiesCount] = null;
+                        _entities[_entitiesCount] = null!;
                         _entityMap.Remove(entity);
 
                         Remove(index, _entitiesCount);
@@ -172,7 +172,7 @@ namespace Exomia.ECS.Systems
                 {
                     _entitiesCount--;
                     _entities[index]          = _entities[_entitiesCount];
-                    _entities[_entitiesCount] = null;
+                    _entities[_entitiesCount] = null!;
                     _entityMap.Remove(entity);
 
                     Remove(index, _entitiesCount);
@@ -252,7 +252,7 @@ namespace Exomia.ECS.Systems
                     {
                         _entitiesCount = 0;
                         _entityMap.Clear();
-                        _entities = null;
+                        _entities = null!;
                     }
                 }
                 _disposed = true;
