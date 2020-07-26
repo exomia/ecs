@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2015
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exomia.ECS", "src\Exomia.ECS\Exomia.ECS.csproj", "{95D2AFAA-CD06-493D-9D36-D11BEDAB11C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exomia.ECS", "src\Exomia.ECS\Exomia.ECS.csproj", "{95D2AFAA-CD06-493D-9D36-D11BEDAB11C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F224F60D-7A2B-4233-B1D2-9DE55FCE16A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exomia.ECS.Tests", "tests\L0\Exomia.ECS.Tests\Exomia.ECS.Tests.csproj", "{FA060F95-E75B-497B-AF09-0CADA97E7C91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +31,24 @@ Global
 		{95D2AFAA-CD06-493D-9D36-D11BEDAB11C9}.Release|x64.Build.0 = Release|x64
 		{95D2AFAA-CD06-493D-9D36-D11BEDAB11C9}.Release|x86.ActiveCfg = Release|x86
 		{95D2AFAA-CD06-493D-9D36-D11BEDAB11C9}.Release|x86.Build.0 = Release|x86
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91}.Debug|x64.Build.0 = Debug|Any CPU
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91}.Debug|x86.Build.0 = Debug|Any CPU
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91}.Release|x64.ActiveCfg = Release|Any CPU
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91}.Release|x64.Build.0 = Release|Any CPU
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91}.Release|x86.ActiveCfg = Release|Any CPU
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FA060F95-E75B-497B-AF09-0CADA97E7C91} = {F224F60D-7A2B-4233-B1D2-9DE55FCE16A3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {10F281FA-6D54-4AAD-86DE-2C5CE337320D}
