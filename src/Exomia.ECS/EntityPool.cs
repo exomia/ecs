@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2019, exomia
+// Copyright (c) 2018-2020, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -18,9 +18,6 @@ namespace Exomia.ECS
     /// </summary>
     sealed class EntityPool
     {
-        /// <summary>
-        ///     The free.
-        /// </summary>
         private readonly Stack<Entity> _free;
 
         /// <summary>
@@ -36,10 +33,6 @@ namespace Exomia.ECS
             }
         }
 
-        /// <summary>
-        ///     Releases the given entity.
-        /// </summary>
-        /// <param name="entity"> The entity. </param>
         internal void Release(Entity entity)
         {
             lock (_free)
@@ -49,12 +42,6 @@ namespace Exomia.ECS
             }
         }
 
-        /// <summary>
-        ///     Gets the take.
-        /// </summary>
-        /// <returns>
-        ///     An Entity.
-        /// </returns>
         internal Entity Take()
         {
             lock (_free)

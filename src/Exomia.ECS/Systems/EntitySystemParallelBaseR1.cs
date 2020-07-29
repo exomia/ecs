@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2019, exomia
+// Copyright (c) 2018-2020, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -24,7 +24,11 @@ namespace Exomia.ECS.Systems
         /// </summary>
         protected TComponent1[] _components1;
 
-        /// <inheritdoc />
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EntitySystemParallelBaseR1{TComponent1}" /> class.
+        /// </summary>
+        /// <param name="manager">                The manager. </param>
+        /// <param name="maxDegreeOfParallelism"> (Optional) The maximum degree of parallelism. </param>
         protected EntitySystemParallelBaseR1(EntityManager manager, int maxDegreeOfParallelism = 2)
             : base(manager, maxDegreeOfParallelism)
         {
@@ -51,13 +55,18 @@ namespace Exomia.ECS.Systems
         }
 
         /// <inheritdoc />
-        protected override void UpdateOrDraw(GameTime gameTime, Entity entity, int index)
+        protected override void Tick(GameTime gameTime, Entity entity, int index)
         {
-            UpdateOrDraw(gameTime, entity, _components1[index]);
+            Tick(gameTime, entity, _components1[index]);
         }
 
-        /// <inheritdoc cref="UpdateOrDraw(GameTime, Entity, int)" />
-        protected abstract void UpdateOrDraw(GameTime gameTime, Entity entity, TComponent1 c1);
+        /// <summary>
+        ///     Ticks every frame.
+        /// </summary>
+        /// <param name="gameTime"> The game time. </param>
+        /// <param name="entity">   The entity. </param>
+        /// <param name="c1">       The first TComponent1. </param>
+        protected abstract void Tick(GameTime gameTime, Entity entity, TComponent1 c1);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)

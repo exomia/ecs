@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2019, exomia
+// Copyright (c) 2018-2020, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -28,11 +28,6 @@ namespace Exomia.ECS
         ///     Unique identifier.
         /// </summary>
         public readonly Guid Guid;
-
-        /// <summary>
-        ///     The name.
-        /// </summary>
-        public string? Name;
 
         /// <summary>
         ///     True if this object is initialized.
@@ -99,7 +94,7 @@ namespace Exomia.ECS
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"[{Name}:{Guid}]";
+            return $"[{Guid}]";
         }
 
         /// <summary>

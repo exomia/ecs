@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2019, exomia
+// Copyright (c) 2018-2020, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -30,74 +30,21 @@ namespace Exomia.ECS
         /// </summary>
         internal const int INITIAL_ARRAY_SIZE = 64;
 
-        /// <summary>
-        ///     The currently to changed.
-        /// </summary>
-        private readonly List<Entity> _currentlyToChanged;
-
-        /// <summary>
-        ///     The currently to remove.
-        /// </summary>
-        private readonly List<Entity> _currentlyToRemove;
-
-        /// <summary>
-        ///     The entity map.
-        /// </summary>
-        private readonly Dictionary<Entity, int> _entityMap;
-
-        /// <summary>
-        ///     The entity pool.
-        /// </summary>
-        private readonly EntityPool _entityPool;
-
-        /// <summary>
-        ///     The initial templates.
-        /// </summary>
+        private readonly List<Entity>                                      _currentlyToChanged;
+        private readonly List<Entity>                                      _currentlyToRemove;
+        private readonly Dictionary<Entity, int>                           _entityMap;
+        private readonly EntityPool                                        _entityPool;
         private readonly Dictionary<string, Action<EntityManager, Entity>> _initialTemplates;
+        private readonly object                                            _thisLock = new object();
+        private readonly List<Entity>                                      _toChanged;
+        private readonly List<Entity>                                      _toRemove;
 
-        /// <summary>
-        ///     this lock.
-        /// </summary>
-        private readonly object _thisLock = new object();
-
-        /// <summary>
-        ///     to changed.
-        /// </summary>
-        private readonly List<Entity> _toChanged;
-
-        /// <summary>
-        ///     to remove.
-        /// </summary>
-        private readonly List<Entity> _toRemove;
-
-        /// <summary>
-        ///     The entities.
-        /// </summary>
-        private Entity[] _entities;
-
-        /// <summary>
-        ///     Number of entities.
-        /// </summary>
-        private int _entitiesCount;
-
-        /// <summary>
-        ///     The entity drawable systems.
-        /// </summary>
-        private EntitySystemBase[] _entityDrawableSystems = null!;
-
-        /// <summary>
-        ///     Number of entity drawable systems.
-        /// </summary>
-        private int _entityDrawableSystemsCount;
-
-        /// <summary>
-        ///     The entity updateable systems.
-        /// </summary>
+        private Entity[]           _entities;
         private EntitySystemBase[] _entityUpdateableSystems = null!;
+        private EntitySystemBase[] _entityDrawableSystems   = null!;
 
-        /// <summary>
-        ///     Number of entity updateable systems.
-        /// </summary>
+        private int _entitiesCount;
+        private int _entityDrawableSystemsCount;
         private int _entityUpdateableSystemsCount;
 
         /// <summary>
@@ -120,77 +67,6 @@ namespace Exomia.ECS
             _currentlyToRemove  = new List<Entity>(INITIAL_ARRAY_SIZE);
 
             InitializeEntitySystems();
-        }
-
-        /// <summary>
-        ///     Query if this object contains the given arr.
-        /// </summary>
-        /// <param name="arr">  The array. </param>
-        /// <param name="name"> The name. </param>
-        /// <returns>
-        ///     True if the object is in this collection, false if not.
-        /// </returns>
-        private static bool Contains(string[]? arr, string name)
-        {
-            if (arr == null) { return false; }
-            for (int a = 0; a < arr.Length; ++a)
-            {
-                if (name == arr[a])
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        ///     Inserts.
-        /// </summary>
-        /// <param name="sorted">          The sorted. </param>
-        /// <param name="current">         The current. </param>
-        /// <param name="collisionDegree"> (Optional) The collision degree. </param>
-        /// <exception cref="OverflowException"> Thrown when an arithmetic overflow occurs. </exception>
-        private static void Insert(IList<EntitySystemConfiguration> sorted, EntitySystemConfiguration current,
-                                   int                              collisionDegree = 0)
-        {
-            if (collisionDegree > sorted.Count + 1)
-            {
-                throw new OverflowException("A unresolvable collision occurred in the entity system configurations.");
-            }
-
-            int indexA = sorted.Count - 1;
-            for (; indexA >= 0; indexA--)
-            {
-                EntitySystemConfiguration system = sorted[indexA];
-                if (Contains(current.Configuration.After, system.Configuration.Name))
-                {
-                    indexA++;
-                    break;
-                }
-                if (Contains(system.Configuration.Before, current.Configuration.Name))
-                {
-                    indexA++;
-                    break;
-                }
-            }
-            int indexB = 0;
-            for (; indexB < sorted.Count; indexB++)
-            {
-                EntitySystemConfiguration system = sorted[indexB];
-                if (Contains(current.Configuration.Before, system.Configuration.Name)) { break; }
-                if (Contains(system.Configuration.After, current.Configuration.Name)) { break; }
-            }
-            if (indexB >= indexA) //no collision
-            {
-                sorted.Insert(indexB, current);
-            }
-            else //collision
-            {
-                EntitySystemConfiguration collision = sorted[indexB];
-                sorted.RemoveAt(indexB);
-                Insert(sorted, current, collisionDegree   + 1);
-                Insert(sorted, collision, collisionDegree + 1);
-            }
         }
 
         /// <summary>
@@ -288,7 +164,6 @@ namespace Exomia.ECS
         ///     An EntityManager.
         /// </returns>
         public EntityManager Add<TComponent>(Entity entity, Action<TComponent>? action = null)
-            where TComponent : new()
         {
             return Add(entity, true, action);
         }
@@ -304,9 +179,11 @@ namespace Exomia.ECS
         ///     An EntityManager.
         /// </returns>
         public EntityManager Add<TComponent>(Entity entity, bool usePooling, Action<TComponent>? action = null)
-            where TComponent : new()
         {
-            TComponent component = usePooling ? EntityComponentPool<TComponent>.Take() : new TComponent();
+            TComponent component = usePooling
+                ? EntityComponentPool<TComponent>.Take()
+                : EntityComponentPool<TComponent>.Create();
+
             action?.Invoke(component);
             entity.Add(component);
 
@@ -330,7 +207,6 @@ namespace Exomia.ECS
         ///     An EntityManager.
         /// </returns>
         public EntityManager Remove<TComponent>(Entity entity, Action<TComponent>? action = null)
-            where TComponent : new()
         {
             return Remove(entity, true, action);
         }
@@ -346,7 +222,6 @@ namespace Exomia.ECS
         ///     An EntityManager.
         /// </returns>
         public EntityManager Remove<TComponent>(Entity entity, bool usePooling, Action<TComponent>? action = null)
-            where TComponent : new()
         {
             if (entity.Get(out TComponent component))
             {
@@ -441,7 +316,7 @@ namespace Exomia.ECS
                 EntitySystemBase system = _entityUpdateableSystems[i];
                 if (system.Begin())
                 {
-                    system.UpdateOrDraw(gameTime);
+                    system.Tick(gameTime);
                     system.End();
                 }
             }
@@ -455,7 +330,7 @@ namespace Exomia.ECS
                 EntitySystemBase system = _entityDrawableSystems[i];
                 if (system.Begin())
                 {
-                    system.UpdateOrDraw(gameTime);
+                    system.Tick(gameTime);
                     system.End();
                 }
             }
@@ -523,78 +398,64 @@ namespace Exomia.ECS
 
         #endregion
 
-        /// <summary>
-        ///     Initializes the entity systems.
-        /// </summary>
-        private void InitializeEntitySystems()
+        private static bool Contains(string[]? arr, string name)
         {
-            List<EntitySystemConfiguration> entitySystemUpdateableConfigurations =
-                new List<EntitySystemConfiguration>(32);
-            List<EntitySystemConfiguration> entitySystemDrawableConfigurations =
-                new List<EntitySystemConfiguration>(32);
-
-            foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
+            if (arr == null) { return false; }
+            for (int a = 0; a < arr.Length; ++a)
             {
-                if (a.FullName.StartsWith("System")) { continue; }
-                if (a.FullName.StartsWith("SharpDX")) { continue; }
-                if (a.FullName.StartsWith("ms")) { continue; }
-                if (a.FullName.StartsWith("Xilium.CefGlue")) { continue; }
-                if (a.FullName.StartsWith("Exomia.Framework")) { continue; }
-
-                foreach (Type t in a.GetTypes())
+                if (name == arr[a])
                 {
-                    if (!t.IsClass || t.IsAbstract || t.IsInterface) { continue; }
-
-                    if (typeof(EntitySystemBase).IsAssignableFrom(t))
-                    {
-                        EntitySystemConfigurationAttribute attribute;
-                        if ((attribute = t.GetCustomAttribute<EntitySystemConfigurationAttribute>(false)) != null)
-                        {
-                            if (attribute.EntitySystemType == EntitySystemType.Update)
-                            {
-                                entitySystemUpdateableConfigurations.Add(new EntitySystemConfiguration(t, attribute));
-                            }
-                            else
-                            {
-                                entitySystemDrawableConfigurations.Add(new EntitySystemConfiguration(t, attribute));
-                            }
-                        }
-                    }
+                    return true;
                 }
             }
-            SortEntitySystems(ref entitySystemUpdateableConfigurations);
-            SortEntitySystems(ref entitySystemDrawableConfigurations);
-
-            Console.WriteLine("entitySystemUpdateableConfigurations");
-            _entityUpdateableSystems      = new EntitySystemBase[entitySystemUpdateableConfigurations.Count];
-            _entityUpdateableSystemsCount = _entityUpdateableSystems.Length;
-            for (int i = 0; i < entitySystemUpdateableConfigurations.Count; i++)
-            {
-                _entityUpdateableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
-                    entitySystemUpdateableConfigurations[i].Type, this);
-                Console.Write(entitySystemUpdateableConfigurations[i].Configuration.Name + ", ");
-            }
-            Console.WriteLine();
-            entitySystemUpdateableConfigurations.Clear();
-
-            Console.WriteLine("entitySystemDrawableConfigurations");
-            _entityDrawableSystems      = new EntitySystemBase[entitySystemDrawableConfigurations.Count];
-            _entityDrawableSystemsCount = _entityDrawableSystems.Length;
-            for (int i = 0; i < entitySystemDrawableConfigurations.Count; i++)
-            {
-                _entityDrawableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
-                    entitySystemDrawableConfigurations[i].Type, this);
-                Console.Write(entitySystemDrawableConfigurations[i].Configuration.Name + ", ");
-            }
-            Console.WriteLine();
-            entitySystemDrawableConfigurations.Clear();
+            return false;
         }
 
-        /// <summary>
-        ///     Sort entity systems.
-        /// </summary>
-        /// <param name="systems"> [in,out] The systems. </param>
-        private void SortEntitySystems(ref List<EntitySystemConfiguration> systems)
+        private static void Insert(IList<EntitySystemConfiguration> sorted,
+                                   EntitySystemConfiguration        current,
+                                   int                              collisionDegree = 0)
+        {
+            if (collisionDegree > sorted.Count + 1)
+            {
+                throw new OverflowException("A unresolvable collision occurred in the entity system configurations.");
+            }
+
+            int indexA = sorted.Count - 1;
+            for (; indexA >= 0; indexA--)
+            {
+                EntitySystemConfiguration system = sorted[indexA];
+                if (Contains(current.Configuration.After, system.Configuration.Name))
+                {
+                    indexA++;
+                    break;
+                }
+                if (Contains(system.Configuration.Before, current.Configuration.Name))
+                {
+                    indexA++;
+                    break;
+                }
+            }
+            int indexB = 0;
+            for (; indexB < sorted.Count; indexB++)
+            {
+                EntitySystemConfiguration system = sorted[indexB];
+                if (Contains(current.Configuration.Before, system.Configuration.Name)) { break; }
+                if (Contains(system.Configuration.After, current.Configuration.Name)) { break; }
+            }
+            if (indexB >= indexA) //no collision
+            {
+                sorted.Insert(indexB, current);
+            }
+            else //collision
+            {
+                EntitySystemConfiguration collision = sorted[indexB];
+                sorted.RemoveAt(indexB);
+                Insert(sorted, current, collisionDegree + 1);
+                Insert(sorted, collision, collisionDegree + 1);
+            }
+        }
+
+        private static void SortEntitySystems(ref List<EntitySystemConfiguration> systems)
         {
             List<EntitySystemConfiguration> sorted  = new List<EntitySystemConfiguration>(systems.Count);
             List<EntitySystemConfiguration> replace = new List<EntitySystemConfiguration>(systems.Count);
@@ -646,9 +507,79 @@ namespace Exomia.ECS
             systems = sorted;
         }
 
-        /// <summary>
-        ///     Ensures that capacity.
-        /// </summary>
+        private void InitializeEntitySystems()
+        {
+            List<EntitySystemConfiguration> entitySystemUpdateableConfigurations =
+                new List<EntitySystemConfiguration>(32);
+            List<EntitySystemConfiguration> entitySystemDrawableConfigurations =
+                new List<EntitySystemConfiguration>(32);
+
+            foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (a.FullName.StartsWith("System")) { continue; }
+                if (a.FullName.StartsWith("SharpDX")) { continue; }
+                if (a.FullName.StartsWith("ms")) { continue; }
+                if (a.FullName.StartsWith("Exomia.Framework")) { continue; }
+
+                foreach (Type t in a.GetTypes())
+                {
+                    if (!t.IsClass || t.IsAbstract || t.IsInterface) { continue; }
+
+                    if (typeof(EntitySystemBase).IsAssignableFrom(t))
+                    {
+                        EntitySystemConfigurationAttribute attribute;
+                        if ((attribute = t.GetCustomAttribute<EntitySystemConfigurationAttribute>(false)) != null)
+                        {
+                            if (attribute.EntitySystemType == EntitySystemType.Update)
+                            {
+                                entitySystemUpdateableConfigurations.Add(new EntitySystemConfiguration(t, attribute));
+                            }
+                            else
+                            {
+                                entitySystemDrawableConfigurations.Add(new EntitySystemConfiguration(t, attribute));
+                            }
+                        }
+                    }
+                }
+            }
+            SortEntitySystems(ref entitySystemUpdateableConfigurations);
+            SortEntitySystems(ref entitySystemDrawableConfigurations);
+#if DEBUG
+            Console.WriteLine("entitySystemUpdateableConfigurations");
+#endif
+            _entityUpdateableSystems      = new EntitySystemBase[entitySystemUpdateableConfigurations.Count];
+            _entityUpdateableSystemsCount = _entityUpdateableSystems.Length;
+            for (int i = 0; i < entitySystemUpdateableConfigurations.Count; i++)
+            {
+                _entityUpdateableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
+                    entitySystemUpdateableConfigurations[i].Type, this);
+#if DEBUG
+                Console.Write(entitySystemUpdateableConfigurations[i].Configuration.Name + ", ");
+#endif
+            }
+#if DEBUG
+            Console.WriteLine();
+#endif
+            entitySystemUpdateableConfigurations.Clear();
+#if DEBUG
+            Console.WriteLine("entitySystemDrawableConfigurations");
+#endif
+            _entityDrawableSystems      = new EntitySystemBase[entitySystemDrawableConfigurations.Count];
+            _entityDrawableSystemsCount = _entityDrawableSystems.Length;
+            for (int i = 0; i < entitySystemDrawableConfigurations.Count; i++)
+            {
+                _entityDrawableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
+                    entitySystemDrawableConfigurations[i].Type, this);
+#if DEBUG
+                Console.Write(entitySystemDrawableConfigurations[i].Configuration.Name + ", ");
+#endif
+            }
+#if DEBUG
+            Console.WriteLine();
+#endif
+            entitySystemDrawableConfigurations.Clear();
+        }
+
         private void EnsureCapacity()
         {
             if (_entitiesCount + 1 >= _entities.Length)
@@ -658,20 +589,10 @@ namespace Exomia.ECS
             }
         }
 
-        /// <summary>
-        ///     An entity system configuration.
-        /// </summary>
         private class EntitySystemConfiguration
         {
-            /// <summary>
-            ///     The configuration.
-            /// </summary>
             internal readonly EntitySystemConfigurationAttribute Configuration;
-
-            /// <summary>
-            ///     The type.
-            /// </summary>
-            internal readonly Type Type;
+            internal readonly Type                               Type;
 
             /// <summary>
             ///     Initializes a new instance of the <see cref="EntitySystemConfiguration" /> class.
@@ -756,7 +677,7 @@ namespace Exomia.ECS
         /// <param name="callback"> The callback. </param>
         public void Unregister<T1>(string key, R<T1> callback)
         {
-            RHandler<T1>.DeRegister(key);
+            RHandler<T1>.Unregister(key);
         }
 
         /// <summary>
@@ -767,7 +688,7 @@ namespace Exomia.ECS
         /// <param name="callback"> The callback. </param>
         public void Unregister<T1>(string key, O<T1> callback)
         {
-            OHandler<T1>.DeRegister(key);
+            OHandler<T1>.Unregister(key);
         }
 
         /// <summary>
@@ -779,7 +700,7 @@ namespace Exomia.ECS
         /// <param name="callback"> The callback. </param>
         public void Unregister<T1, T2>(string key, O<T1, T2> callback)
         {
-            OHandler<T1, T2>.DeRegister(key);
+            OHandler<T1, T2>.Unregister(key);
         }
 
         /// <summary>
@@ -792,7 +713,7 @@ namespace Exomia.ECS
         /// <param name="callback"> The callback. </param>
         public void Unregister<T1, T2, T3>(string key, O<T1, T2, T3> callback)
         {
-            OHandler<T1, T2, T3>.DeRegister(key);
+            OHandler<T1, T2, T3>.Unregister(key);
         }
 
         /// <summary>
@@ -806,7 +727,7 @@ namespace Exomia.ECS
         /// <param name="callback"> The callback. </param>
         public void Unregister<T1, T2, T3, T4>(string key, O<T1, T2, T3, T4> callback)
         {
-            OHandler<T1, T2, T3, T4>.DeRegister(key);
+            OHandler<T1, T2, T3, T4>.Unregister(key);
         }
 
         /// <summary>

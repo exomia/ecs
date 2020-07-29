@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2019, exomia
+// Copyright (c) 2018-2020, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 namespace Exomia.ECS.Events
 {
     /// <summary>
-    ///     Oes the given o 1.
+    ///     callback handler.
     /// </summary>
     /// <typeparam name="T1"> Generic type parameter. </typeparam>
     /// <param name="o1"> [out] The first out T1. </param>
@@ -25,9 +25,6 @@ namespace Exomia.ECS.Events
     /// <typeparam name="T1"> Generic type parameter. </typeparam>
     sealed class OHandler<T1>
     {
-        /// <summary>
-        ///     The callbacks.
-        /// </summary>
         private static readonly Dictionary<string, O<T1>> s_callbacks;
 
         /// <summary>
@@ -38,36 +35,16 @@ namespace Exomia.ECS.Events
             s_callbacks = new Dictionary<string, O<T1>>(16);
         }
 
-        /// <summary>
-        ///     Registers this object.
-        /// </summary>
-        /// <param name="key">      The key. </param>
-        /// <param name="callback"> The callback. </param>
         internal static void Register(string key, O<T1> callback)
         {
             s_callbacks[key] = callback;
         }
 
-        /// <summary>
-        ///     De register.
-        /// </summary>
-        /// <param name="key"> The key. </param>
-        /// <returns>
-        ///     True if it succeeds, false if it fails.
-        /// </returns>
-        internal static bool DeRegister(string key)
+        internal static bool Unregister(string key)
         {
             return s_callbacks.Remove(key);
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
-        /// <param name="key"> The key. </param>
-        /// <param name="o">   [out] The out <see cref="O{T1}" /> to process. </param>
-        /// <returns>
-        ///     True if it succeeds, false if it fails.
-        /// </returns>
         internal static bool Get(string key, out O<T1> o)
         {
             return s_callbacks.TryGetValue(key, out o);

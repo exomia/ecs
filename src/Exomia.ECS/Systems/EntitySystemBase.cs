@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2019, exomia
+// Copyright (c) 2018-2020, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -56,7 +56,7 @@ namespace Exomia.ECS.Systems
         protected bool _isInitialized;
 
         /// <summary>
-        ///     Gets a value indicating whether this object is enabled.
+        ///     Gets or sets a value indicating whether this object is enabled.
         /// </summary>
         /// <value>
         ///     True if enabled, false if not.
@@ -64,6 +64,7 @@ namespace Exomia.ECS.Systems
         public bool Enabled
         {
             get { return _enabled; }
+            set { _enabled = value; }
         }
 
         /// <summary>
@@ -77,6 +78,34 @@ namespace Exomia.ECS.Systems
             _entities  = new Entity[EntityManager.INITIAL_ARRAY_SIZE];
             _entityMap = new Dictionary<Entity, int>(EntityManager.INITIAL_ARRAY_SIZE);
         }
+
+        /// <summary>
+        ///     called before <see cref="Tick(Exomia.Framework.Game.GameTime)" />.
+        /// </summary>
+        /// <returns>
+        ///     True if it should call <see cref="Tick(Exomia.Framework.Game.GameTime)" />; false otherwise.
+        /// </returns>
+        public virtual bool Begin()
+        {
+            return _isInitialized && _enabled;
+        }
+
+        /// <summary>
+        ///     Ticks every frame.
+        /// </summary>
+        /// <param name="gameTime"> The game time. </param>
+        public virtual void Tick(GameTime gameTime)
+        {
+            for (int i = _entitiesCount - 1; i >= 0; i--)
+            {
+                Tick(gameTime, _entities[i], i);
+            }
+        }
+
+        /// <summary>
+        ///     called after <see cref="Tick(Exomia.Framework.Game.GameTime)" />.
+        /// </summary>
+        public virtual void End() { }
 
         /// <summary>
         ///     Executes the initialize action.
@@ -108,12 +137,12 @@ namespace Exomia.ECS.Systems
         protected abstract void Remove(int index, int swap);
 
         /// <summary>
-        ///     Updates the or draw described by gameTime.
+        ///     Ticks every frame.
         /// </summary>
         /// <param name="gameTime"> The game time. </param>
         /// <param name="e">        The Entity to process. </param>
         /// <param name="index">    Zero-based index of the. </param>
-        protected abstract void UpdateOrDraw(GameTime gameTime, Entity e, int index);
+        protected abstract void Tick(GameTime gameTime, Entity e, int index);
 
         /// <summary>
         ///     Initializes this object.
@@ -128,10 +157,6 @@ namespace Exomia.ECS.Systems
             }
         }
 
-        /// <summary>
-        ///     Changed the given entity.
-        /// </summary>
-        /// <param name="entity"> The entity to remove. </param>
         internal void Changed(Entity entity)
         {
             lock (_thisLock)
@@ -160,10 +185,6 @@ namespace Exomia.ECS.Systems
             }
         }
 
-        /// <summary>
-        ///     Removes the given entity.
-        /// </summary>
-        /// <param name="entity"> The entity to remove. </param>
         internal void Remove(Entity entity)
         {
             lock (_thisLock)
@@ -180,37 +201,6 @@ namespace Exomia.ECS.Systems
             }
         }
 
-        /// <summary>
-        ///     Begins this object.
-        /// </summary>
-        /// <returns>
-        ///     True if it succeeds, false if it fails.
-        /// </returns>
-        internal virtual bool Begin()
-        {
-            return _isInitialized && _enabled;
-        }
-
-        /// <summary>
-        ///     Updates the or draw described by gameTime.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        internal virtual void UpdateOrDraw(GameTime gameTime)
-        {
-            for (int i = _entitiesCount - 1; i >= 0; i--)
-            {
-                UpdateOrDraw(gameTime, _entities[i], i);
-            }
-        }
-
-        /// <summary>
-        ///     Ends this object.
-        /// </summary>
-        internal virtual void End() { }
-
-        /// <summary>
-        ///     Ensures that capacity.
-        /// </summary>
         private void EnsureCapacity()
         {
             if (_entitiesCount + 1 >= _entities.Length)
@@ -236,11 +226,6 @@ namespace Exomia.ECS.Systems
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        ///     Releases the unmanaged resources used by the Exomia.ECS.Systems.EntitySystemBase and
-        ///     optionally releases the managed resources.
-        /// </summary>
-        /// <param name="disposing"> True to disposing. </param>
         private void Dispose(bool disposing)
         {
             if (!_disposed)
@@ -260,7 +245,8 @@ namespace Exomia.ECS.Systems
         }
 
         /// <summary>
-        ///     Executes the dispose action.
+        ///     Release all the unmanaged resources used by the Exomia.ECS.Systems.EntitySystemBase and
+        ///     optionally releases the managed resources.
         /// </summary>
         /// <param name="disposing"> True to disposing. </param>
         protected virtual void OnDispose(bool disposing) { }

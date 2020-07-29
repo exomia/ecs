@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2019, exomia
+// Copyright (c) 2018-2020, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -24,7 +24,12 @@ namespace Exomia.ECS.Systems
         /// </summary>
         private readonly ParallelOptions _parallelOptions;
 
-        /// <inheritdoc />
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EntitySystemParallelBase" /> class.
+        /// </summary>
+        /// <param name="manager">                The manager. </param>
+        /// <param name="maxDegreeOfParallelism"> (Optional) The maximum degree of parallelism. </param>
+        /// <exception cref="ArgumentOutOfRangeException"> Thrown when one or more arguments are outside the required range. </exception>
         protected EntitySystemParallelBase(EntityManager manager, int maxDegreeOfParallelism = 2)
             : base(manager)
         {
@@ -36,12 +41,12 @@ namespace Exomia.ECS.Systems
         }
 
         /// <inheritdoc />
-        internal override void UpdateOrDraw(GameTime gameTime)
+        public override void Tick(GameTime gameTime)
         {
             Parallel.For(
                 0, _entitiesCount, _parallelOptions, i =>
                 {
-                    UpdateOrDraw(gameTime, _entities[i], i);
+                    Tick(gameTime, _entities[i], i);
                 });
         }
     }
