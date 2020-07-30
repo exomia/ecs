@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2019, exomia
+// Copyright (c) 2018-2020, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -8,7 +8,9 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reflection;
 using Exomia.ECS.Attributes;
 
@@ -27,7 +29,6 @@ namespace Exomia.ECS
         /// <typeparam name="TComponent"> Type of the component. </typeparam>
         /// <param name="component"> The component. </param>
         public static void Release<TComponent>(TComponent component)
-            where TComponent : new()
         {
             EntityComponentPool<TComponent>.Release(component);
         }
@@ -38,23 +39,18 @@ namespace Exomia.ECS
     /// </summary>
     /// <typeparam name="TComponent"> Type of the component. </typeparam>
     static class EntityComponentPool<TComponent>
-        where TComponent : new()
     {
-        /// <summary>
-        ///     True to use pooling.
-        /// </summary>
-        private static readonly bool s_usePooling;
-
-        /// <summary>
-        ///     The free.
-        /// </summary>
+        private static readonly bool              s_usePooling;
         private static readonly Stack<TComponent> s_free = null!;
+        private static readonly Func<TComponent>  s_getInstance;
 
         /// <summary>
         ///     Initializes static members of the <see cref="EntityComponentPool{TComponent}" /> class.
         /// </summary>
         static EntityComponentPool()
         {
+            s_getInstance = Expression.Lambda<Func<TComponent>>(Expression.New(typeof(TComponent))).Compile();
+
             EntityComponentConfigurationAttribute cfg =
                 typeof(TComponent).GetCustomAttribute<EntityComponentConfigurationAttribute>(false)
              ?? new EntityComponentConfigurationAttribute();
@@ -65,14 +61,15 @@ namespace Exomia.ECS
             s_free = new Stack<TComponent>(cfg.PoolSize);
             for (int i = 0; i < cfg.PoolSize; i++)
             {
-                s_free.Push(new TComponent());
+                s_free.Push(s_getInstance());
             }
         }
 
-        /// <summary>
-        ///     Releases the given component.
-        /// </summary>
-        /// <param name="component"> The component. </param>
+        internal static TComponent Create()
+        {
+            return s_getInstance();
+        }
+
         internal static void Release(TComponent component)
         {
             if (s_usePooling)
@@ -84,12 +81,6 @@ namespace Exomia.ECS
             }
         }
 
-        /// <summary>
-        ///     Gets an component from the pool or create a new one
-        /// </summary>
-        /// <returns>
-        ///     A TComponent.
-        /// </returns>
         internal static TComponent Take()
         {
             if (s_usePooling)
@@ -102,7 +93,7 @@ namespace Exomia.ECS
                     }
                 }
             }
-            return new TComponent();
+            return s_getInstance();
         }
     }
 }

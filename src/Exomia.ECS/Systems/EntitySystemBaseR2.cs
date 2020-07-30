@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2019, exomia
+// Copyright (c) 2018-2020, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -31,8 +31,7 @@ namespace Exomia.ECS.Systems
         protected TComponent2[] _components2;
 
         /// <summary>
-        ///     Initializes a new instance of the &lt;see cref="EntitySystemBaseR2&lt;TComponent1,
-        ///     TComponent2&gt;"/&gt; class.
+        ///     Initializes a new instance of the <see cref="EntitySystemBaseR2{TComponent1, TComponent2}" /> class.
         /// </summary>
         /// <param name="manager"> The manager. </param>
         protected EntitySystemBaseR2(EntityManager manager)
@@ -68,19 +67,19 @@ namespace Exomia.ECS.Systems
         }
 
         /// <inheritdoc />
-        protected override void UpdateOrDraw(GameTime gameTime, Entity entity, int index)
+        protected override void Tick(GameTime gameTime, Entity entity, int index)
         {
-            UpdateOrDraw(gameTime, entity, _components1[index], _components2[index]);
+            Tick(gameTime, entity, _components1[index], _components2[index]);
         }
 
         /// <summary>
-        ///     Updates or draws the system.
+        ///     Ticks every frame.
         /// </summary>
         /// <param name="gameTime"> The game time. </param>
         /// <param name="entity">   The entity. </param>
         /// <param name="c1">       The first TComponent1. </param>
         /// <param name="c2">       The second TComponent2. </param>
-        protected abstract void UpdateOrDraw(GameTime gameTime, Entity entity, TComponent1 c1, TComponent2 c2);
+        protected abstract void Tick(GameTime gameTime, Entity entity, TComponent1 c1, TComponent2 c2);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
