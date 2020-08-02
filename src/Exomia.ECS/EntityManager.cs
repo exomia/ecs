@@ -628,6 +628,17 @@ namespace Exomia.ECS
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key">      The key. </param>
         /// <param name="callback"> The callback. </param>
+        public void Register<T1>(string key, RR<T1> callback)
+        {
+            RrHandler<T1>.Register(key, callback);
+        }
+
+        /// <summary>
+        ///     Registers this object.
+        /// </summary>
+        /// <typeparam name="T1"> Generic type parameter. </typeparam>
+        /// <param name="key">      The key. </param>
+        /// <param name="callback"> The callback. </param>
         public void Register<T1>(string key, O<T1> callback)
         {
             OHandler<T1>.Register(key, callback);
@@ -689,6 +700,17 @@ namespace Exomia.ECS
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key">      The key. </param>
         /// <param name="callback"> The callback. </param>
+        public void Unregister<T1>(string key, RR<T1> callback)
+        {
+            RrHandler<T1>.Unregister(key);
+        }
+
+        /// <summary>
+        ///     Deregisters this object.
+        /// </summary>
+        /// <typeparam name="T1"> Generic type parameter. </typeparam>
+        /// <param name="key">      The key. </param>
+        /// <param name="callback"> The callback. </param>
         public void Unregister<T1>(string key, O<T1> callback)
         {
             OHandler<T1>.Unregister(key);
@@ -742,9 +764,27 @@ namespace Exomia.ECS
         ///     A ref T1.
         /// </returns>
         /// <exception cref="KeyNotFoundException"> Thrown when a Key Not Found error condition occurs. </exception>
-        public ref T1 Get<T1>(string key)
+        public T1 Get<T1>(string key)
         {
             if (!RHandler<T1>.Get(key, out R<T1> r))
+            {
+                throw new KeyNotFoundException(nameof(key));
+            }
+            return r.Invoke();
+        }
+
+        /// <summary>
+        ///     Gets.
+        /// </summary>
+        /// <typeparam name="T1"> Generic type parameter. </typeparam>
+        /// <param name="key"> The key. </param>
+        /// <returns>
+        ///     A ref T1.
+        /// </returns>
+        /// <exception cref="KeyNotFoundException"> Thrown when a Key Not Found error condition occurs. </exception>
+        public ref T1 GetR<T1>(string key)
+        {
+            if (!RrHandler<T1>.Get(key, out RR<T1> r))
             {
                 throw new KeyNotFoundException(nameof(key));
             }
@@ -837,6 +877,21 @@ namespace Exomia.ECS
         public void Get<T1>(string key, out R<T1> r)
         {
             if (!RHandler<T1>.Get(key, out r))
+            {
+                throw new KeyNotFoundException(nameof(key));
+            }
+        }
+
+        /// <summary>
+        ///     Gets.
+        /// </summary>
+        /// <typeparam name="T1"> Generic type parameter. </typeparam>
+        /// <param name="key"> The key. </param>
+        /// <param name="r">   [out] The out R&lt;T1&gt; to process. </param>
+        /// <exception cref="KeyNotFoundException"> Thrown when a Key Not Found error condition occurs. </exception>
+        public void Get<T1>(string key, out RR<T1> r)
+        {
+            if (!RrHandler<T1>.Get(key, out r))
             {
                 throw new KeyNotFoundException(nameof(key));
             }

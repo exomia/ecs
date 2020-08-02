@@ -11,7 +11,7 @@
 using System.Collections.Generic;
 
 namespace Exomia.ECS.Events
-{
+{    
     /// <summary>
     ///     callback handler.
     /// </summary>
@@ -19,25 +19,25 @@ namespace Exomia.ECS.Events
     /// <returns>
     ///     A ref T1.
     /// </returns>
-    public delegate T1 R<out T1>();
-
+    public delegate ref T1 RR<T1>();
+    
     /// <summary>
     ///     A handler. This class cannot be inherited.
     /// </summary>
     /// <typeparam name="T1"> Generic type parameter. </typeparam>
-    sealed class RHandler<T1>
+    sealed class RrHandler<T1>
     {
-        private static readonly Dictionary<string, R<T1>> s_callbacks;
+        private static readonly Dictionary<string, RR<T1>> s_callbacks;
 
         /// <summary>
-        ///     Initializes static members of the <see cref="RHandler{T1}" /> class.
+        ///     Initializes static members of the <see cref="RrHandler{T1}" /> class.
         /// </summary>
-        static RHandler()
+        static RrHandler()
         {
-            s_callbacks = new Dictionary<string, R<T1>>(16);
+            s_callbacks = new Dictionary<string, RR<T1>>(16);
         }
 
-        internal static void Register(string key, R<T1> callback)
+        internal static void Register(string key, RR<T1> callback)
         {
             s_callbacks[key] = callback;
         }
@@ -47,7 +47,7 @@ namespace Exomia.ECS.Events
             return s_callbacks.Remove(key);
         }
 
-        internal static bool Get(string key, out R<T1> r)
+        internal static bool Get(string key, out RR<T1> r)
         {
             return s_callbacks.TryGetValue(key, out r);
         }
