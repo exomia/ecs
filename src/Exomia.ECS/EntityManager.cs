@@ -519,7 +519,6 @@ namespace Exomia.ECS
                 if (a.FullName.StartsWith("System")) { continue; }
                 if (a.FullName.StartsWith("SharpDX")) { continue; }
                 if (a.FullName.StartsWith("ms")) { continue; }
-                if (a.FullName.StartsWith("Exomia.Framework")) { continue; }
 
                 foreach (Type t in a.GetTypes())
                 {
@@ -530,14 +529,18 @@ namespace Exomia.ECS
                         EntitySystemConfigurationAttribute attribute;
                         if ((attribute = t.GetCustomAttribute<EntitySystemConfigurationAttribute>(false)) != null)
                         {
-                            if (attribute.EntitySystemType == EntitySystemType.Update)
+                            switch (attribute.EntitySystemType)
                             {
-                                entitySystemUpdateableConfigurations.Add(new EntitySystemConfiguration(t, attribute));
+                                case EntitySystemType.Update:
+                                    entitySystemUpdateableConfigurations.Add(new EntitySystemConfiguration(t, attribute));
+                                    break;
+                                case EntitySystemType.Draw:
+                                    entitySystemDrawableConfigurations.Add(new EntitySystemConfiguration(t, attribute));
+                                    break;
+                                default:
+                                    throw new ArgumentOutOfRangeException(nameof(attribute.EntitySystemType));
                             }
-                            else
-                            {
-                                entitySystemDrawableConfigurations.Add(new EntitySystemConfiguration(t, attribute));
-                            }
+                            
                         }
                     }
                 }

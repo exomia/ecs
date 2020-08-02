@@ -14,11 +14,12 @@ using Exomia.Framework.Game;
 namespace Exomia.ECS.Systems
 {
     /// <summary>
-    ///     An entity system parallel base r 2.
+    ///     An entity system base r 3.
     /// </summary>
     /// <typeparam name="TComponent1"> Type of the component 1. </typeparam>
     /// <typeparam name="TComponent2"> Type of the component 2. </typeparam>
-    public abstract class EntitySystemParallelBaseR2<TComponent1, TComponent2> : EntitySystemParallelBase
+    /// <typeparam name="TComponent3"> Type of the component 3. </typeparam>
+    public abstract class EntitySystemBaseR3<TComponent1, TComponent2, TComponent3> : EntitySystemBase
     {
         /// <summary>
         ///     The first components.
@@ -31,15 +32,20 @@ namespace Exomia.ECS.Systems
         protected TComponent2[] _components2;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="EntitySystemParallelBaseR2{TComponent1, TComponent2}" /> class.
+        ///     The second components.
         /// </summary>
-        /// <param name="manager">                The manager. </param>
-        /// <param name="maxDegreeOfParallelism"> (Optional) The maximum degree of parallelism. </param>
-        protected EntitySystemParallelBaseR2(EntityManager manager, int maxDegreeOfParallelism = 2)
-            : base(manager, maxDegreeOfParallelism)
+        protected TComponent3[] _components3;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EntitySystemBaseR2{TComponent1, TComponent2}" /> class.
+        /// </summary>
+        /// <param name="manager"> The manager. </param>
+        protected EntitySystemBaseR3(EntityManager manager)
+            : base(manager)
         {
             _components1 = new TComponent1[EntityManager.INITIAL_ARRAY_SIZE];
-            _components2 = new TComponent2[EntityManager.INITIAL_ARRAY_SIZE];
+            _components2 = new TComponent2[EntityManager.INITIAL_ARRAY_SIZE]; 
+            _components3 = new TComponent3[EntityManager.INITIAL_ARRAY_SIZE];
         }
 
         /// <inheritdoc />
@@ -47,7 +53,8 @@ namespace Exomia.ECS.Systems
         {
             return
                 entity.Get(out _components1[index]) &&
-                entity.Get(out _components2[index]);
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]);
         }
 
         /// <inheritdoc />
@@ -58,6 +65,9 @@ namespace Exomia.ECS.Systems
 
             _components2[index] = _components2[swap];
             _components2[swap]  = default!;
+
+            _components3[index] = _components3[swap];
+            _components3[swap]  = default!;
         }
 
         /// <inheritdoc />
@@ -65,12 +75,13 @@ namespace Exomia.ECS.Systems
         {
             Array.Resize(ref _components1, size);
             Array.Resize(ref _components2, size);
+            Array.Resize(ref _components3, size);
         }
 
         /// <inheritdoc />
         protected override void Tick(GameTime gameTime, Entity entity, int index)
         {
-            Tick(gameTime, entity, _components1[index], _components2[index]);
+            Tick(gameTime, entity, _components1[index], _components2[index], _components3[index]);
         }
 
         /// <summary>
@@ -80,13 +91,15 @@ namespace Exomia.ECS.Systems
         /// <param name="entity">   The entity. </param>
         /// <param name="c1">       The <typeparamref name="TComponent1"/>. </param>
         /// <param name="c2">       The <typeparamref name="TComponent2"/>. </param>
-        protected abstract void Tick(GameTime gameTime, Entity entity, TComponent1 c1, TComponent2 c2);
+        /// <param name="c3">       The <typeparamref name="TComponent3"/>. </param>
+        protected abstract void Tick(GameTime gameTime, Entity entity, TComponent1 c1, TComponent2 c2, TComponent3 c3);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
         {
             _components1 = null!;
             _components2 = null!;
+            _components3 = null!;
         }
     }
 }

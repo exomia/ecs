@@ -77,8 +77,8 @@ namespace Exomia.ECS.Systems
         /// </summary>
         /// <param name="gameTime"> The game time. </param>
         /// <param name="entity">   The entity. </param>
-        /// <param name="c1">       The first TComponent1. </param>
-        /// <param name="c2">       The second TComponent2. </param>
+        /// <param name="c1">       The <typeparamref name="TComponent1"/>. </param>
+        /// <param name="c2">       The <typeparamref name="TComponent2"/>. </param>
         protected abstract void Tick(GameTime gameTime, Entity entity, TComponent1 c1, TComponent2 c2);
 
         /// <inheritdoc />
