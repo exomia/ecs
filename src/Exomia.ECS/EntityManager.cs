@@ -305,7 +305,7 @@ namespace Exomia.ECS
                 }
                 for (int si = _entityDrawableSystemsCount - 1; si >= 0; si--)
                 {
-                    _entityDrawableSystems[si].Remove(entity);
+                    _entityDrawableSystems[si].Changed(entity);
                 }
             }
 
