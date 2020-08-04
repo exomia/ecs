@@ -10,7 +10,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Exomia.ECS.Attributes;
 using Exomia.ECS.Events;
 using Exomia.ECS.Systems;
@@ -38,6 +42,8 @@ namespace Exomia.ECS
         private readonly object                                            _thisLock = new object();
         private readonly List<Entity>                                      _toChanged;
         private readonly List<Entity>                                      _toRemove;
+        private readonly Dictionary<string, EntitySystemBase>              _entitySystems;
+        private readonly Dictionary<Type, EntitySystemBase>                _entitySystemInterfaces;
 
         private Entity[]           _entities;
         private EntitySystemBase[] _entityUpdateableSystems = null!;
@@ -58,7 +64,9 @@ namespace Exomia.ECS
             _entities   = new Entity[INITIAL_ARRAY_SIZE];
             _entityMap  = new Dictionary<Entity, int>(INITIAL_ARRAY_SIZE);
 
-            _initialTemplates = new Dictionary<string, Action<EntityManager, Entity>>(INITIAL_ARRAY_SIZE);
+            _initialTemplates       = new Dictionary<string, Action<EntityManager, Entity>>(INITIAL_ARRAY_SIZE);
+            _entitySystems          = new Dictionary<string, EntitySystemBase>(INITIAL_ARRAY_SIZE);
+            _entitySystemInterfaces = new Dictionary<Type, EntitySystemBase>(INITIAL_ARRAY_SIZE);
 
             _toChanged = new List<Entity>(INITIAL_ARRAY_SIZE);
             _toRemove  = new List<Entity>(INITIAL_ARRAY_SIZE);
@@ -413,7 +421,9 @@ namespace Exomia.ECS
 
         private static void Insert(IList<EntitySystemConfiguration> sorted,
                                    EntitySystemConfiguration        current,
-                                   int                              collisionDegree = 0)
+
+                                   // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
+                                   int collisionDegree = 0)
         {
             if (collisionDegree > sorted.Count + 1)
             {
@@ -532,21 +542,24 @@ namespace Exomia.ECS
                             switch (attribute.EntitySystemType)
                             {
                                 case EntitySystemType.Update:
-                                    entitySystemUpdateableConfigurations.Add(new EntitySystemConfiguration(t, attribute));
+                                    entitySystemUpdateableConfigurations.Add(
+                                        new EntitySystemConfiguration(t, attribute));
                                     break;
                                 case EntitySystemType.Draw:
-                                    entitySystemDrawableConfigurations.Add(new EntitySystemConfiguration(t, attribute));
+                                    entitySystemDrawableConfigurations.Add(
+                                        new EntitySystemConfiguration(t, attribute));
                                     break;
                                 default:
                                     throw new ArgumentOutOfRangeException(nameof(attribute.EntitySystemType));
                             }
-                            
                         }
                     }
                 }
             }
+            
             SortEntitySystems(ref entitySystemUpdateableConfigurations);
             SortEntitySystems(ref entitySystemDrawableConfigurations);
+            
 #if DEBUG
             Console.WriteLine("entitySystemUpdateableConfigurations");
 #endif
@@ -556,6 +569,17 @@ namespace Exomia.ECS
             {
                 _entityUpdateableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
                     entitySystemUpdateableConfigurations[i].Type, this);
+
+                var t = entitySystemUpdateableConfigurations[i].Type;
+                foreach (var it in t.GetInterfaces()
+                                    .Except(t.BaseType.GetInterfaces()))
+                {
+                    _entitySystemInterfaces.Add(it, _entityUpdateableSystems[i]);
+                }
+
+                _entitySystems.Add(
+                    entitySystemUpdateableConfigurations[i].Configuration.Name,
+                    _entityUpdateableSystems[i]);
 #if DEBUG
                 Console.Write(entitySystemUpdateableConfigurations[i].Configuration.Name + ", ");
 #endif
@@ -573,6 +597,19 @@ namespace Exomia.ECS
             {
                 _entityDrawableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
                     entitySystemDrawableConfigurations[i].Type, this);
+
+                var t = entitySystemDrawableConfigurations[i].Type;
+                foreach (var it in t.GetInterfaces()
+                                    .Except(t.BaseType.GetInterfaces()))
+                {
+                    _entitySystemInterfaces.Add(it, _entityDrawableSystems[i]);
+                }
+                
+                _entitySystems.Add(
+                    entitySystemDrawableConfigurations[i].Configuration.Name,
+                    _entityDrawableSystems[i]);
+                
+                
 #if DEBUG
                 Console.Write(entitySystemDrawableConfigurations[i].Configuration.Name + ", ");
 #endif
@@ -608,6 +645,68 @@ namespace Exomia.ECS
                 Configuration = configuration;
             }
         }
+
+        #region Systems
+
+        /// <summary>
+        ///     Attempts to get an <see cref="EntitySystemBase"/> from the given name.
+        /// </summary>
+        /// <param name="name">   The name. </param>
+        /// <param name="system"> [out] The system. </param>
+        /// <returns>
+        ///     True if it succeeds, false if it fails.
+        /// </returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool TryGetSystem(string name, out EntitySystemBase system)
+        {
+            return _entitySystems.TryGetValue(name, out system);
+        }
+
+        /// <summary>
+        ///     Attempts to get an <see cref="EntitySystemBase"/> from the given name.
+        /// </summary>
+        /// <typeparam name="T"> Generic type parameter. </typeparam>
+        /// <param name="name">   The name. </param>
+        /// <param name="system"> [out] The system cast to <typeparamref name="T"/>. </param>
+        /// <returns>
+        ///     True if it succeeds, false if it fails.
+        /// </returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool TryGetSystem<T>(string name, out T system)
+        {
+            if (TryGetSystem(name, out EntitySystemBase s))
+            {
+                system = (T)(object)s;
+                return true;
+            }
+            system = default!;
+            return false;
+        }
+
+        /// <summary>
+        ///     Attempts to get an <see cref="EntitySystemBase"/> from the given name.
+        /// </summary>
+        /// <typeparam name="T"> any interface. </typeparam>
+        /// <param name="system"> [out] The system cast to <typeparamref name="T"/>. </param>
+        /// <returns>
+        ///     True if it succeeds, false if it fails.
+        /// </returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool TryGetSystem<T>(out T system) where T : class
+        {
+#if DEBUG
+            Debug.Assert(typeof(T).IsInterface, "typeof(T).IsInterface");
+#endif
+            if (_entitySystemInterfaces.TryGetValue(typeof(T), out EntitySystemBase s))
+            {
+                system = (T)(object)s;
+                return true;
+            }
+            system = default!;
+            return false;
+        }
+
+        #endregion
 
         #region EVENT SYSTEM
 
