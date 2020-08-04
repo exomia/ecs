@@ -11,7 +11,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>1.5.2</Version>
+    <Version>1.5.3</Version>
     <Company>exomia</Company>
     <Authors>exomia;saika01</Authors>
     <Description>entity component system for the exomia framework</Description>
@@ -89,7 +89,6 @@
     <IncludeSymbols>true</IncludeSymbols>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PackageVersion Condition="'$(cVersion)'!=''">$(Version)-$(cVersion)</PackageVersion>
     <Deterministic>True</Deterministic>
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)'=='true'">True</ContinuousIntegrationBuild>
   </PropertyGroup>
