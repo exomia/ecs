@@ -20,6 +20,8 @@ namespace Exomia.ECS.Systems
     /// </summary>
     public abstract class EntitySystemBase : IDisposable
     {
+        internal uint SystemFlags;
+        
         /// <summary>
         ///     The entity map.
         /// </summary>

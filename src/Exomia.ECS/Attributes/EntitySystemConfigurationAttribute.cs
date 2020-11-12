@@ -9,25 +9,10 @@
 #endregion
 
 using System;
+using Exomia.ECS.Systems;
 
 namespace Exomia.ECS.Attributes
 {
-    /// <summary>
-    ///     Values that represent EntitySystemType.
-    /// </summary>
-    public enum EntitySystemType
-    {
-        /// <summary>
-        ///     An enum constant representing the update option.
-        /// </summary>
-        Update,
-
-        /// <summary>
-        ///     An enum constant representing the draw option.
-        /// </summary>
-        Draw
-    }
-
     /// <summary>
     ///     Attribute for entity system configuration. This class cannot be inherited.
     /// </summary>
@@ -67,6 +52,21 @@ namespace Exomia.ECS.Attributes
         ///     The replace.
         /// </value>
         public string? Replace { get; set; }
+        
+        /// <summary>
+        ///     Gets or sets the group flags.
+        /// </summary>
+        /// <value>
+        ///     The group flags.
+        /// </value>
+        /// <remarks>
+        ///     The <see cref="SystemFlags"/> will be used to determine if an <see cref="Entity" /> 
+        ///     will be added to an <see cref="EntitySystemBase"/>.
+        ///     e.g.
+        ///     If the group flags is set to 3 all entities who have their first 2 bits set will be added to this system.
+        ///     But they will be added to systems with group flags set to 1 or 2 as well.
+        /// </remarks>
+        public uint SystemFlags { get; set; }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="EntitySystemConfigurationAttribute" />

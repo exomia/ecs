@@ -33,7 +33,12 @@ namespace Exomia.ECS
         ///     True if this object is initialized.
         /// </summary>
         internal bool _isInitialized = false;
-
+        
+        /// <summary>
+        ///     The group flags.
+        /// </summary>
+        internal uint _systemFlags = 0u;
+        
         /// <summary>
         ///     The components.
         /// </summary>
