@@ -292,7 +292,7 @@ namespace Exomia.ECS
                 for (int si = _entityUpdateableSystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entityUpdateableSystems[si];
-                    if ((entity._systemFlags & system.SystemFlags) == system.SystemFlags)
+                    if (system.SystemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
                     {
                         system.Remove(entity);
                     }
@@ -300,7 +300,7 @@ namespace Exomia.ECS
                 for (int si = _entityDrawableSystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entityDrawableSystems[si];
-                    if ((entity._systemFlags & system.SystemFlags) == system.SystemFlags)
+                    if (system.SystemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
                     {
                         system.Remove(entity);
                     }
@@ -321,7 +321,7 @@ namespace Exomia.ECS
                 for (int si = _entityUpdateableSystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entityUpdateableSystems[si];
-                    if ((entity._systemFlags & system.SystemFlags) == system.SystemFlags)
+                    if (system.SystemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
                     {
                         system.Changed(entity);
                     }
@@ -329,7 +329,7 @@ namespace Exomia.ECS
                 for (int si = _entityDrawableSystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entityDrawableSystems[si];
-                    if ((entity._systemFlags & system.SystemFlags) == system.SystemFlags)
+                    if (system.SystemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
                     {
                         system.Changed(entity);
                     }
