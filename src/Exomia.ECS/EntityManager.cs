@@ -81,11 +81,11 @@ namespace Exomia.ECS
         /// </summary>
         /// <param name="template">   The template. </param>
         /// <param name="initialize"> (Optional) The initialize. </param>
-        /// <param name="groupFlags"> (Optional) The group flags. </param>
+        /// <param name="systemFlags"> (Optional) The system flags. </param>
         /// <returns>
         ///     An <see cref="Entity"/>.
         /// </returns>
-        public Entity Create(string template, Action<EntityManager, Entity>? initialize = null, uint groupFlags = 0u)
+        public Entity Create(string template, Action<EntityManager, Entity>? initialize = null, uint systemFlags = 0u)
         {
             lock (_initialTemplates)
             {
@@ -96,7 +96,7 @@ namespace Exomia.ECS
                         {
                             action?.Invoke(m, e);
                             initialize?.Invoke(m, e);
-                        });
+                        }, systemFlags);
                 }
             }
             return Create(initialize);
@@ -106,15 +106,15 @@ namespace Exomia.ECS
         ///     Creates a new <see cref="Entity"/>.
         /// </summary>
         /// <param name="initialize"> (Optional) The initialize. </param>
-        /// <param name="groupFlags"> (Optional) The group flags. </param>
+        /// <param name="systemFlags"> (Optional) The system flags. </param>
         /// <returns>
         ///     An <see cref="Entity"/>.
         /// </returns>
-        public Entity Create(Action<EntityManager, Entity>? initialize = null, uint groupFlags = 0u)
+        public Entity Create(Action<EntityManager, Entity>? initialize = null, uint systemFlags = 0u)
         {
             Entity entity = _entityPool.Take();
             initialize?.Invoke(this, entity);
-            entity._systemFlags    = groupFlags;
+            entity._systemFlags   = systemFlags;
             entity._isInitialized = true;
             
             lock (_thisLock)
