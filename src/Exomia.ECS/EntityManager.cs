@@ -55,8 +55,9 @@ namespace Exomia.ECS
         /// <summary>
         ///     Initializes a new instance of the <see cref="EntityManager" /> class.
         /// </summary>
-        /// <param name="name"> (Optional) The name. </param>
-        public EntityManager(string name = "ECS")
+        /// <param name="name">         (Optional) The name. </param>
+        /// <param name="managerFlags"> (Optional) The manager flags. </param>
+        public EntityManager(string name = "ECS", uint managerFlags = 0u)
             : base(name)
         {
             _entityPool = new EntityPool(INITIAL_ARRAY_SIZE);
@@ -73,17 +74,17 @@ namespace Exomia.ECS
             _currentlyToChanged = new List<Entity>(INITIAL_ARRAY_SIZE);
             _currentlyToRemove  = new List<Entity>(INITIAL_ARRAY_SIZE);
 
-            InitializeEntitySystems();
+            InitializeEntitySystems(managerFlags);
         }
 
         /// <summary>
-        ///     Creates a new <see cref="Entity"/> from the specified template.
+        ///     Creates a new <see cref="Entity" /> from the specified template.
         /// </summary>
         /// <param name="template">   The template. </param>
         /// <param name="initialize"> (Optional) The initialize. </param>
         /// <param name="systemFlags"> (Optional) The system flags. </param>
         /// <returns>
-        ///     An <see cref="Entity"/>.
+        ///     An <see cref="Entity" />.
         /// </returns>
         public Entity Create(string template, Action<EntityManager, Entity>? initialize = null, uint systemFlags = 0u)
         {
@@ -103,12 +104,12 @@ namespace Exomia.ECS
         }
 
         /// <summary>
-        ///     Creates a new <see cref="Entity"/>.
+        ///     Creates a new <see cref="Entity" />.
         /// </summary>
         /// <param name="initialize"> (Optional) The initialize. </param>
         /// <param name="systemFlags"> (Optional) The system flags. </param>
         /// <returns>
-        ///     An <see cref="Entity"/>.
+        ///     An <see cref="Entity" />.
         /// </returns>
         public Entity Create(Action<EntityManager, Entity>? initialize = null, uint systemFlags = 0u)
         {
@@ -116,7 +117,7 @@ namespace Exomia.ECS
             initialize?.Invoke(this, entity);
             entity._systemFlags   = systemFlags;
             entity._isInitialized = true;
-            
+
             lock (_thisLock)
             {
                 EnsureCapacity();
@@ -133,9 +134,9 @@ namespace Exomia.ECS
         }
 
         /// <summary>
-        ///     Destroys the given <see cref="Entity"/>.
+        ///     Destroys the given <see cref="Entity" />.
         /// </summary>
-        /// <param name="entity"> [in,out] The <see cref="Entity"/>. </param>
+        /// <param name="entity"> [in,out] The <see cref="Entity" />. </param>
         public void Destroy(ref Entity entity)
         {
             if (_entityMap.TryGetValue(entity, out int index))
@@ -165,13 +166,13 @@ namespace Exomia.ECS
         }
 
         /// <summary>
-        ///     Adds a <typeparamref name="TComponent"/> to the specified <paramref name="entity"/> instance.
+        ///     Adds a <typeparamref name="TComponent" /> to the specified <paramref name="entity" /> instance.
         /// </summary>
         /// <typeparam name="TComponent"> Type of the component. </typeparam>
-        /// <param name="entity"> The <see cref="Entity"/>. </param>
+        /// <param name="entity"> The <see cref="Entity" />. </param>
         /// <param name="action"> (Optional) The action. </param>
         /// <returns>
-        ///     An <see cref="EntityManager"/>.
+        ///     An <see cref="EntityManager" />.
         /// </returns>
         public EntityManager Add<TComponent>(Entity entity, Action<TComponent>? action = null)
         {
@@ -179,14 +180,14 @@ namespace Exomia.ECS
         }
 
         /// <summary>
-        ///     Adds a <typeparamref name="TComponent"/> to the specified <paramref name="entity"/> instance.
+        ///     Adds a <typeparamref name="TComponent" /> to the specified <paramref name="entity" /> instance.
         /// </summary>
         /// <typeparam name="TComponent"> Type of the component. </typeparam>
         /// <param name="entity">     The entity. </param>
         /// <param name="usePooling"> True to use pooling. </param>
         /// <param name="action">     (Optional) The action. </param>
         /// <returns>
-        ///     An <see cref="EntityManager"/>.
+        ///     An <see cref="EntityManager" />.
         /// </returns>
         public EntityManager Add<TComponent>(Entity entity, bool usePooling, Action<TComponent>? action = null)
         {
@@ -208,13 +209,13 @@ namespace Exomia.ECS
         }
 
         /// <summary>
-        ///     Removes a <typeparamref name="TComponent"/> from the specified <paramref name="entity"/> instance.
+        ///     Removes a <typeparamref name="TComponent" /> from the specified <paramref name="entity" /> instance.
         /// </summary>
         /// <typeparam name="TComponent"> Type of the component. </typeparam>
         /// <param name="entity"> The entity. </param>
         /// <param name="action"> (Optional) The action. </param>
         /// <returns>
-        ///     An <see cref="EntityManager"/>.
+        ///     An <see cref="EntityManager" />.
         /// </returns>
         public EntityManager Remove<TComponent>(Entity entity, Action<TComponent>? action = null)
         {
@@ -222,14 +223,14 @@ namespace Exomia.ECS
         }
 
         /// <summary>
-        ///     Removes a <typeparamref name="TComponent"/> from the specified <paramref name="entity"/> instance.
+        ///     Removes a <typeparamref name="TComponent" /> from the specified <paramref name="entity" /> instance.
         /// </summary>
         /// <typeparam name="TComponent"> Type of the component. </typeparam>
         /// <param name="entity">     The entity. </param>
         /// <param name="usePooling"> True to use pooling. </param>
         /// <param name="action">     (Optional) The action. </param>
         /// <returns>
-        ///     An <see cref="EntityManager"/>.
+        ///     An <see cref="EntityManager" />.
         /// </returns>
         public EntityManager Remove<TComponent>(Entity entity, bool usePooling, Action<TComponent>? action = null)
         {
@@ -250,7 +251,7 @@ namespace Exomia.ECS
         }
 
         /// <summary>
-        ///     Adds a template to 'initialize' an <see cref="Entity"/> from.
+        ///     Adds a template to 'initialize' an <see cref="Entity" /> from.
         /// </summary>
         /// <param name="template">   The template. </param>
         /// <param name="initialize"> The initialize. </param>
@@ -285,14 +286,14 @@ namespace Exomia.ECS
                 _currentlyToRemove.AddRange(_toRemove);
                 _toRemove.Clear();
             }
-            
+
             for (int i = 0; i < _currentlyToRemove.Count; i++)
             {
                 Entity entity = _currentlyToRemove[i];
                 for (int si = _entityUpdateableSystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entityUpdateableSystems[si];
-                    if (system.SystemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
+                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
                     {
                         system.Remove(entity);
                     }
@@ -300,7 +301,7 @@ namespace Exomia.ECS
                 for (int si = _entityDrawableSystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entityDrawableSystems[si];
-                    if (system.SystemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
+                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
                     {
                         system.Remove(entity);
                     }
@@ -321,7 +322,7 @@ namespace Exomia.ECS
                 for (int si = _entityUpdateableSystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entityUpdateableSystems[si];
-                    if (system.SystemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
+                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
                     {
                         system.Changed(entity);
                     }
@@ -329,7 +330,7 @@ namespace Exomia.ECS
                 for (int si = _entityDrawableSystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entityDrawableSystems[si];
-                    if (system.SystemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
+                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
                     {
                         system.Changed(entity);
                     }
@@ -424,6 +425,115 @@ namespace Exomia.ECS
         }
 
         #endregion
+
+        private void InitializeEntitySystems(uint managerFlags)
+        {
+            List<EntitySystemConfiguration> entitySystemUpdateableConfigurations =
+                new List<EntitySystemConfiguration>(32);
+            List<EntitySystemConfiguration> entitySystemDrawableConfigurations =
+                new List<EntitySystemConfiguration>(32);
+
+            foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (a.FullName.StartsWith("System")) { continue; }
+                if (a.FullName.StartsWith("SharpDX")) { continue; }
+                if (a.FullName.StartsWith("ms")) { continue; }
+
+                foreach (Type t in a.GetTypes())
+                {
+                    if (!t.IsClass || t.IsAbstract || t.IsInterface) { continue; }
+
+                    if (typeof(EntitySystemBase).IsAssignableFrom(t))
+                    {
+                        EntitySystemConfigurationAttribute attribute;
+                        if ((attribute = t.GetCustomAttribute<EntitySystemConfigurationAttribute>(false)) != null)
+                        {
+                            if (attribute.ManagerFlags == 0 || (attribute.ManagerFlags & managerFlags) == managerFlags)
+                            {
+                                switch (attribute.EntitySystemType)
+                                {
+                                    case EntitySystemType.Update:
+                                        entitySystemUpdateableConfigurations.Add(
+                                            new EntitySystemConfiguration(t, attribute));
+                                        break;
+                                    case EntitySystemType.Draw:
+                                        entitySystemDrawableConfigurations.Add(
+                                            new EntitySystemConfiguration(t, attribute));
+                                        break;
+                                    default:
+                                        throw new ArgumentOutOfRangeException(nameof(attribute.EntitySystemType));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            SortEntitySystems(ref entitySystemUpdateableConfigurations);
+            SortEntitySystems(ref entitySystemDrawableConfigurations);
+
+            _entityUpdateableSystems      = new EntitySystemBase[entitySystemUpdateableConfigurations.Count];
+            _entityUpdateableSystemsCount = _entityUpdateableSystems.Length;
+            for (int i = 0; i < entitySystemUpdateableConfigurations.Count; i++)
+            {
+                _entityUpdateableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
+                    entitySystemUpdateableConfigurations[i].Type, this);
+                _entityUpdateableSystems[i].SystemFlags =
+                    entitySystemUpdateableConfigurations[i].Configuration.SystemFlags;
+
+                Type t = entitySystemUpdateableConfigurations[i].Type;
+                foreach (var it in t.GetInterfaces()
+                                    .Except(t.BaseType.GetInterfaces()))
+                {
+                    _entitySystemInterfaces.Add(it, _entityUpdateableSystems[i]);
+                }
+
+                _entitySystems.Add(
+                    entitySystemUpdateableConfigurations[i].Configuration.Name,
+                    _entityUpdateableSystems[i]);
+            }
+#if DEBUG
+            Console.WriteLine(nameof(entitySystemUpdateableConfigurations));
+            Console.WriteLine(string.Join(",", entitySystemUpdateableConfigurations.Select(s => s.Configuration.Name)));
+            Console.WriteLine();
+#endif
+            entitySystemUpdateableConfigurations.Clear();
+
+            _entityDrawableSystems      = new EntitySystemBase[entitySystemDrawableConfigurations.Count];
+            _entityDrawableSystemsCount = _entityDrawableSystems.Length;
+            for (int i = 0; i < entitySystemDrawableConfigurations.Count; i++)
+            {
+                _entityDrawableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
+                    entitySystemDrawableConfigurations[i].Type, this);
+                _entityDrawableSystems[i].SystemFlags = entitySystemDrawableConfigurations[i].Configuration.SystemFlags;
+
+                Type t = entitySystemDrawableConfigurations[i].Type;
+                foreach (var it in t.GetInterfaces()
+                                    .Except(t.BaseType.GetInterfaces()))
+                {
+                    _entitySystemInterfaces.Add(it, _entityDrawableSystems[i]);
+                }
+
+                _entitySystems.Add(
+                    entitySystemDrawableConfigurations[i].Configuration.Name,
+                    _entityDrawableSystems[i]);
+            }
+#if DEBUG
+            Console.WriteLine(nameof(entitySystemDrawableConfigurations));
+            Console.WriteLine(string.Join(",", entitySystemDrawableConfigurations.Select(s => s.Configuration.Name)));
+            Console.WriteLine();
+#endif
+            entitySystemDrawableConfigurations.Clear();
+        }
+
+        private void EnsureCapacity()
+        {
+            if (_entitiesCount + 1 >= _entities.Length)
+            {
+                int ns = _entities.Length * 2;
+                Array.Resize(ref _entities, ns);
+            }
+        }
 
         private static bool Contains(string[]? arr, string name)
         {
@@ -536,112 +646,6 @@ namespace Exomia.ECS
             systems = sorted;
         }
 
-        private void InitializeEntitySystems()
-        {
-            List<EntitySystemConfiguration> entitySystemUpdateableConfigurations =
-                new List<EntitySystemConfiguration>(32);
-            List<EntitySystemConfiguration> entitySystemDrawableConfigurations =
-                new List<EntitySystemConfiguration>(32);
-
-            foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                if (a.FullName.StartsWith("System")) { continue; }
-                if (a.FullName.StartsWith("SharpDX")) { continue; }
-                if (a.FullName.StartsWith("ms")) { continue; }
-
-                foreach (Type t in a.GetTypes())
-                {
-                    if (!t.IsClass || t.IsAbstract || t.IsInterface) { continue; }
-
-                    if (typeof(EntitySystemBase).IsAssignableFrom(t))
-                    {
-                        EntitySystemConfigurationAttribute attribute;
-                        if ((attribute = t.GetCustomAttribute<EntitySystemConfigurationAttribute>(false)) != null)
-                        {
-                            switch (attribute.EntitySystemType)
-                            {
-                                case EntitySystemType.Update:
-                                    entitySystemUpdateableConfigurations.Add(
-                                        new EntitySystemConfiguration(t, attribute));
-                                    break;
-                                case EntitySystemType.Draw:
-                                    entitySystemDrawableConfigurations.Add(
-                                        new EntitySystemConfiguration(t, attribute));
-                                    break;
-                                default:
-                                    throw new ArgumentOutOfRangeException(nameof(attribute.EntitySystemType));
-                            }
-                        }
-                    }
-                }
-            }
-            
-            SortEntitySystems(ref entitySystemUpdateableConfigurations);
-            SortEntitySystems(ref entitySystemDrawableConfigurations);
-            
-            _entityUpdateableSystems      = new EntitySystemBase[entitySystemUpdateableConfigurations.Count];
-            _entityUpdateableSystemsCount = _entityUpdateableSystems.Length;
-            for (int i = 0; i < entitySystemUpdateableConfigurations.Count; i++)
-            {
-                _entityUpdateableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
-                    entitySystemUpdateableConfigurations[i].Type, this);
-                _entityUpdateableSystems[i].SystemFlags = entitySystemUpdateableConfigurations[i].Configuration.SystemFlags;
-                
-                Type t = entitySystemUpdateableConfigurations[i].Type;
-                foreach (var it in t.GetInterfaces()
-                                    .Except(t.BaseType.GetInterfaces()))
-                {
-                    _entitySystemInterfaces.Add(it, _entityUpdateableSystems[i]);
-                }
-
-                _entitySystems.Add(
-                    entitySystemUpdateableConfigurations[i].Configuration.Name,
-                    _entityUpdateableSystems[i]);
-            }
-#if DEBUG
-            Console.WriteLine(nameof(entitySystemUpdateableConfigurations));
-            Console.WriteLine(string.Join(",", entitySystemUpdateableConfigurations.Select(s => s.Configuration.Name)));
-            Console.WriteLine();
-#endif
-            entitySystemUpdateableConfigurations.Clear();
-
-            _entityDrawableSystems      = new EntitySystemBase[entitySystemDrawableConfigurations.Count];
-            _entityDrawableSystemsCount = _entityDrawableSystems.Length;
-            for (int i = 0; i < entitySystemDrawableConfigurations.Count; i++)
-            {
-                _entityDrawableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
-                    entitySystemDrawableConfigurations[i].Type, this);
-                _entityDrawableSystems[i].SystemFlags = entitySystemDrawableConfigurations[i].Configuration.SystemFlags;
-
-
-                Type t = entitySystemDrawableConfigurations[i].Type;
-                foreach (var it in t.GetInterfaces()
-                                    .Except(t.BaseType.GetInterfaces()))
-                {
-                    _entitySystemInterfaces.Add(it, _entityDrawableSystems[i]);
-                }
-                
-                _entitySystems.Add(
-                    entitySystemDrawableConfigurations[i].Configuration.Name,
-                    _entityDrawableSystems[i]);
-            }
-#if DEBUG
-            Console.WriteLine(nameof(entitySystemDrawableConfigurations));
-            Console.WriteLine(string.Join(",", entitySystemDrawableConfigurations.Select(s => s.Configuration.Name)));
-            Console.WriteLine();
-#endif
-            entitySystemDrawableConfigurations.Clear();
-        }
-
-        private void EnsureCapacity()
-        {
-            if (_entitiesCount + 1 >= _entities.Length)
-            {
-                int ns = _entities.Length * 2;
-                Array.Resize(ref _entities, ns);
-            }
-        }
-
         private class EntitySystemConfiguration
         {
             internal readonly EntitySystemConfigurationAttribute Configuration;
@@ -662,7 +666,7 @@ namespace Exomia.ECS
         #region Systems
 
         /// <summary>
-        ///     Attempts to get an <see cref="EntitySystemBase"/> from the given name.
+        ///     Attempts to get an <see cref="EntitySystemBase" /> from the given name.
         /// </summary>
         /// <param name="name">   The name. </param>
         /// <param name="system"> [out] The system. </param>
@@ -676,11 +680,11 @@ namespace Exomia.ECS
         }
 
         /// <summary>
-        ///     Attempts to get an <see cref="EntitySystemBase"/> from the given name.
+        ///     Attempts to get an <see cref="EntitySystemBase" /> from the given name.
         /// </summary>
         /// <typeparam name="T"> Generic type parameter. </typeparam>
         /// <param name="name">   The name. </param>
-        /// <param name="system"> [out] The system cast to <typeparamref name="T"/>. </param>
+        /// <param name="system"> [out] The system cast to <typeparamref name="T" />. </param>
         /// <returns>
         ///     True if it succeeds, false if it fails.
         /// </returns>
@@ -697,10 +701,10 @@ namespace Exomia.ECS
         }
 
         /// <summary>
-        ///     Attempts to get an <see cref="EntitySystemBase"/> from the given name.
+        ///     Attempts to get an <see cref="EntitySystemBase" /> from the given name.
         /// </summary>
         /// <typeparam name="T"> any interface. </typeparam>
-        /// <param name="system"> [out] The system cast to <typeparamref name="T"/>. </param>
+        /// <param name="system"> [out] The system cast to <typeparamref name="T" />. </param>
         /// <returns>
         ///     True if it succeeds, false if it fails.
         /// </returns>

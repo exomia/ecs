@@ -52,19 +52,34 @@ namespace Exomia.ECS.Attributes
         ///     The replace.
         /// </value>
         public string? Replace { get; set; }
-        
+
         /// <summary>
-        ///     Gets or sets the group flags.
+        ///     Gets or sets the manager flags.
         /// </summary>
         /// <value>
-        ///     The group flags.
+        ///     The manager flags.
+        /// </value>
+        /// <remarks>
+        ///     The <see cref="ManagerFlags"/> will be used to determine if an <see cref="Entity" /> 
+        ///     will be added to an <see cref="EntityManager"/>.
+        ///     e.g.
+        ///     If the manager flags is set to 3 all entities who have their first 2 bits set will be added to this system.
+        ///     But they will be added to managers with manager flags set to 1 or 2 as well.
+        /// </remarks>
+        public uint ManagerFlags { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the system flags.
+        /// </summary>
+        /// <value>
+        ///     The system flags.
         /// </value>
         /// <remarks>
         ///     The <see cref="SystemFlags"/> will be used to determine if an <see cref="Entity" /> 
         ///     will be added to an <see cref="EntitySystemBase"/>.
         ///     e.g.
-        ///     If the group flags is set to 3 all entities who have their first 2 bits set will be added to this system.
-        ///     But they will be added to systems with group flags set to 1 or 2 as well.
+        ///     If the system flags is set to 3 all entities who have their first 2 bits set will be added to this system.
+        ///     But they will be added to systems with system flags set to 1 or 2 as well.
         /// </remarks>
         public uint SystemFlags { get; set; }
 
