@@ -69,19 +69,19 @@ namespace Exomia.ECS.Attributes
         public uint ManagerFlags { get; set; }
 
         /// <summary>
-        ///     Gets or sets the system flags.
+        ///     Gets or sets the system mask.
         /// </summary>
         /// <value>
-        ///     The system flags.
+        ///     The system mask.
         /// </value>
         /// <remarks>
-        ///     The <see cref="SystemFlags"/> will be used to determine if an <see cref="Entity" /> 
+        ///     The <see cref="SystemMask"/> will be used to determine if an <see cref="Entity" />
         ///     will be added to an <see cref="EntitySystemBase"/>.
         ///     e.g.
-        ///     If the system flags is set to 3 all entities who have their first 2 bits set will be added to this system.
-        ///     But they will be added to systems with system flags set to 1 or 2 as well.
+        ///     If the system mask is set to 3 all entities who have their first 2 bits set will be added to this system.
+        ///     But they will be added to systems with system mask set to 1 or 2 as well.
         /// </remarks>
-        public uint SystemFlags { get; set; }
+        public uint SystemMask { get; set; }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="EntitySystemConfigurationAttribute" />

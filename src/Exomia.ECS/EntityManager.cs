@@ -55,9 +55,9 @@ namespace Exomia.ECS
         /// <summary>
         ///     Initializes a new instance of the <see cref="EntityManager" /> class.
         /// </summary>
-        /// <param name="name">         (Optional) The name. </param>
-        /// <param name="managerFlags"> (Optional) The manager flags. </param>
-        public EntityManager(string name = "ECS", uint managerFlags = 0u)
+        /// <param name="name">        (Optional) The name. </param>
+        /// <param name="managerMask"> (Optional) The manager mask. </param>
+        public EntityManager(string name = "ECS", uint managerMask = 0u)
             : base(name)
         {
             _entityPool = new EntityPool(INITIAL_ARRAY_SIZE);
@@ -74,7 +74,7 @@ namespace Exomia.ECS
             _currentlyToChanged = new List<Entity>(INITIAL_ARRAY_SIZE);
             _currentlyToRemove  = new List<Entity>(INITIAL_ARRAY_SIZE);
 
-            InitializeEntitySystems(managerFlags);
+            InitializeEntitySystems(managerMask);
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace Exomia.ECS
                 for (int si = _entityUpdateableSystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entityUpdateableSystems[si];
-                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
+                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemMask) == system.SystemMask)
                     {
                         system.Remove(entity);
                     }
@@ -301,7 +301,7 @@ namespace Exomia.ECS
                 for (int si = _entityDrawableSystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entityDrawableSystems[si];
-                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
+                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemMask) == system.SystemMask)
                     {
                         system.Remove(entity);
                     }
@@ -322,7 +322,7 @@ namespace Exomia.ECS
                 for (int si = _entityUpdateableSystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entityUpdateableSystems[si];
-                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
+                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemMask) == system.SystemMask)
                     {
                         system.Changed(entity);
                     }
@@ -330,7 +330,7 @@ namespace Exomia.ECS
                 for (int si = _entityDrawableSystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entityDrawableSystems[si];
-                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemFlags) == system.SystemFlags)
+                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemMask) == system.SystemMask)
                     {
                         system.Changed(entity);
                     }
@@ -426,7 +426,7 @@ namespace Exomia.ECS
 
         #endregion
 
-        private void InitializeEntitySystems(uint managerFlags)
+        private void InitializeEntitySystems(uint managerMask)
         {
             List<EntitySystemConfiguration> entitySystemUpdateableConfigurations =
                 new List<EntitySystemConfiguration>(32);
@@ -448,7 +448,7 @@ namespace Exomia.ECS
                         EntitySystemConfigurationAttribute attribute;
                         if ((attribute = t.GetCustomAttribute<EntitySystemConfigurationAttribute>(false)) != null)
                         {
-                            if (attribute.ManagerFlags == 0 || (attribute.ManagerFlags & managerFlags) == managerFlags)
+                            if (attribute.ManagerFlags == 0 || (attribute.ManagerFlags & managerMask) == managerMask)
                             {
                                 switch (attribute.EntitySystemType)
                                 {
@@ -478,8 +478,8 @@ namespace Exomia.ECS
             {
                 _entityUpdateableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
                     entitySystemUpdateableConfigurations[i].Type, this);
-                _entityUpdateableSystems[i].SystemFlags =
-                    entitySystemUpdateableConfigurations[i].Configuration.SystemFlags;
+                _entityUpdateableSystems[i].SystemMask =
+                    entitySystemUpdateableConfigurations[i].Configuration.SystemMask;
 
                 Type t = entitySystemUpdateableConfigurations[i].Type;
                 foreach (var it in t.GetInterfaces()
@@ -505,7 +505,7 @@ namespace Exomia.ECS
             {
                 _entityDrawableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
                     entitySystemDrawableConfigurations[i].Type, this);
-                _entityDrawableSystems[i].SystemFlags = entitySystemDrawableConfigurations[i].Configuration.SystemFlags;
+                _entityDrawableSystems[i].SystemMask = entitySystemDrawableConfigurations[i].Configuration.SystemMask;
 
                 Type t = entitySystemDrawableConfigurations[i].Type;
                 foreach (var it in t.GetInterfaces()
