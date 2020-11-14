@@ -29,7 +29,7 @@ namespace Exomia.ECS
             _free = new Stack<Entity>(initialSize);
             for (int i = 0; i < initialSize; i++)
             {
-                _free.Push(new Entity(Guid.NewGuid()));
+                _free.Push(new Entity());
             }
         }
 
@@ -42,16 +42,21 @@ namespace Exomia.ECS
             }
         }
 
-        internal Entity Take()
+        internal Entity Take(Guid guid)
         {
             lock (_free)
             {
                 if (_free.Count > 0)
                 {
-                    return _free.Pop();
+                    Entity entity = _free.Pop();
+                    entity.Guid = guid;
+                    return entity;
                 }
             }
-            return new Entity(Guid.NewGuid());
+            return new Entity
+            {
+                Guid = guid
+            };
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Exomia.ECS.Attributes
         internal readonly string Name;
 
         /// <summary>
-        ///     get or set the list of system names which has to be executed after this one.
+        ///     Gets or sets the list of system names which has to be executed after this one.
         /// </summary>
         /// <value>
         ///     The after.
@@ -38,7 +38,7 @@ namespace Exomia.ECS.Attributes
         public string[]? After { get; set; }
 
         /// <summary>
-        ///     get or set the list of system names which has to be executed before this one.
+        ///     Gets or sets the list of system names which has to be executed before this one.
         /// </summary>
         /// <value>
         ///     The before.
@@ -46,7 +46,7 @@ namespace Exomia.ECS.Attributes
         public string[]? Before { get; set; }
 
         /// <summary>
-        ///     get or set a system name to be replaced with this one.
+        ///     Gets or sets a system name to be replaced with this one.
         /// </summary>
         /// <value>
         ///     The replace.

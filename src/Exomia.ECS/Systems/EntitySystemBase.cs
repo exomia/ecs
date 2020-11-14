@@ -82,7 +82,7 @@ namespace Exomia.ECS.Systems
         }
 
         /// <summary>
-        ///     called before <see cref="Tick(Exomia.Framework.Game.GameTime)" />.
+        ///     Called before <see cref="Tick(Exomia.Framework.Game.GameTime)" />.
         /// </summary>
         /// <returns>
         ///     True if it should call <see cref="Tick(Exomia.Framework.Game.GameTime)" />; false otherwise.
@@ -105,9 +105,9 @@ namespace Exomia.ECS.Systems
         }
 
         /// <summary>
-        ///     called after <see cref="Tick(Exomia.Framework.Game.GameTime)" />.
+        ///     Called after <see cref="Tick(Exomia.Framework.Game.GameTime)" />.
         /// </summary>
-        public virtual void End() { }
+        public virtual void OnEnd() { }
 
         /// <summary>
         ///     Executes the initialize action.

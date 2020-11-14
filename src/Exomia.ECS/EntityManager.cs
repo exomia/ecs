@@ -10,7 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -77,13 +76,14 @@ namespace Exomia.ECS
         /// <summary>
         ///     Creates a new <see cref="Entity" /> from the specified template.
         /// </summary>
-        /// <param name="template">   The template. </param>
-        /// <param name="initialize"> (Optional) The initialize. </param>
+        /// <param name="template">    The template. </param>
+        /// <param name="initialize">  (Optional) The initialize. </param>
         /// <param name="systemFlags"> (Optional) The system flags. </param>
+        /// <param name="guid">        (Optional) Unique identifier. </param>
         /// <returns>
         ///     An <see cref="Entity" />.
         /// </returns>
-        public Entity Create(string template, Action<EntityManager, Entity>? initialize = null, uint systemFlags = 0u)
+        public Entity Create(string template, Action<EntityManager, Entity>? initialize = null, uint systemFlags = 0u, Guid? guid = null)
         {
             lock (_initialTemplates)
             {
@@ -94,7 +94,7 @@ namespace Exomia.ECS
                         {
                             action?.Invoke(m, e);
                             initialize?.Invoke(m, e);
-                        }, systemFlags);
+                        }, systemFlags, guid);
                 }
             }
             return Create(initialize);
@@ -103,14 +103,15 @@ namespace Exomia.ECS
         /// <summary>
         ///     Creates a new <see cref="Entity" />.
         /// </summary>
-        /// <param name="initialize"> (Optional) The initialize. </param>
+        /// <param name="initialize">  (Optional) The initialize. </param>
         /// <param name="systemFlags"> (Optional) The system flags. </param>
+        /// <param name="guid">        (Optional) Unique identifier. </param>
         /// <returns>
         ///     An <see cref="Entity" />.
         /// </returns>
-        public Entity Create(Action<EntityManager, Entity>? initialize = null, uint systemFlags = 0u)
+        public Entity Create(Action<EntityManager, Entity>? initialize = null, uint systemFlags = 0u, Guid? guid = null)
         {
-            Entity entity = _entityPool.Take();
+            Entity entity = _entityPool.Take(guid ?? Guid.NewGuid());
             initialize?.Invoke(this, entity);
             entity._systemFlags   = systemFlags;
             entity._isInitialized = true;
@@ -171,7 +172,8 @@ namespace Exomia.ECS
         /// <returns>
         ///     An <see cref="EntityManager" />.
         /// </returns>
-        public EntityManager Add<TComponent>(Entity entity, Action<TComponent>? action = null)
+        public EntityManager Add<TComponent>(Entity entity, Action<TComponent>? action = null) 
+            where TComponent : class
         {
             return Add(entity, true, action);
         }
@@ -186,7 +188,8 @@ namespace Exomia.ECS
         /// <returns>
         ///     An <see cref="EntityManager" />.
         /// </returns>
-        public EntityManager Add<TComponent>(Entity entity, bool usePooling, Action<TComponent>? action = null)
+        public EntityManager Add<TComponent>(Entity entity, bool usePooling, Action<TComponent>? action = null) 
+            where TComponent : class
         {
             TComponent component = usePooling
                 ? EntityComponentPool<TComponent>.Take()
@@ -214,7 +217,8 @@ namespace Exomia.ECS
         /// <returns>
         ///     An <see cref="EntityManager" />.
         /// </returns>
-        public EntityManager Remove<TComponent>(Entity entity, Action<TComponent>? action = null)
+        public EntityManager Remove<TComponent>(Entity entity, Action<TComponent>? action = null) 
+            where TComponent : class
         {
             return Remove(entity, true, action);
         }
@@ -229,7 +233,8 @@ namespace Exomia.ECS
         /// <returns>
         ///     An <see cref="EntityManager" />.
         /// </returns>
-        public EntityManager Remove<TComponent>(Entity entity, bool usePooling, Action<TComponent>? action = null)
+        public EntityManager Remove<TComponent>(Entity entity, bool usePooling, Action<TComponent>? action = null) 
+            where TComponent : class
         {
             if (entity.Get(out TComponent component))
             {
@@ -342,7 +347,7 @@ namespace Exomia.ECS
                 if (system.Begin())
                 {
                     system.Tick(gameTime);
-                    system.End();
+                    system.OnEnd();
                 }
             }
         }
@@ -356,7 +361,7 @@ namespace Exomia.ECS
                 if (system.Begin())
                 {
                     system.Tick(gameTime);
-                    system.End();
+                    system.OnEnd();
                 }
             }
         }
