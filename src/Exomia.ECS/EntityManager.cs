@@ -28,9 +28,6 @@ namespace Exomia.ECS
     /// </summary>
     public sealed class EntityManager : DrawableComponent
     {
-        /// <summary>
-        ///     Initial size of the array.
-        /// </summary>
         internal const int INITIAL_ARRAY_SIZE = 64;
 
         private readonly List<Entity>                                      _currentlyToChanged;
@@ -483,7 +480,7 @@ namespace Exomia.ECS
 
                 Type t = entitySystemUpdateableConfigurations[i].Type;
                 foreach (var it in t.GetInterfaces()
-                                    .Except(t.BaseType.GetInterfaces()))
+                                    .Except(t.BaseType!.GetInterfaces()))
                 {
                     _entitySystemInterfaces.Add(it, _entityUpdateableSystems[i]);
                 }
@@ -509,7 +506,7 @@ namespace Exomia.ECS
 
                 Type t = entitySystemDrawableConfigurations[i].Type;
                 foreach (var it in t.GetInterfaces()
-                                    .Except(t.BaseType.GetInterfaces()))
+                                    .Except(t.BaseType!.GetInterfaces()))
                 {
                     _entitySystemInterfaces.Add(it, _entityDrawableSystems[i]);
                 }
@@ -708,11 +705,16 @@ namespace Exomia.ECS
         /// <returns>
         ///     True if it succeeds, false if it fails.
         /// </returns>
+        /// <exception cref="AmbiguousMatchException"> Thrown when the Ambiguous Match error condition occurs. </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetSystem<T>(out T system) where T : class
         {
 #if DEBUG
-            Debug.Assert(typeof(T).IsInterface, "typeof(T).IsInterface");
+            if (!typeof(T).IsInterface)
+            {
+                throw new AmbiguousMatchException(
+                    "The typeof(T) is not an interface and could be ambiguous or not the expected result!");
+            }
 #endif
             if (_entitySystemInterfaces.TryGetValue(typeof(T), out EntitySystemBase s))
             {
