@@ -141,10 +141,10 @@ namespace Exomia.ECS
             }
 
             AddSystems(
-                nameof(updateableConfigurations), ref updateableConfigurations, 
+                nameof(updateableConfigurations), ref updateableConfigurations,
                 out _entityUpdateableSystems, out _entityUpdateableSystemsCount);
             AddSystems(
-                nameof(drawableConfigurations), ref drawableConfigurations, 
+                nameof(drawableConfigurations), ref drawableConfigurations,
                 out _entityDrawableSystems, out _entityDrawableSystemsCount);
         }
 
@@ -272,10 +272,10 @@ namespace Exomia.ECS
         {
             internal readonly EntitySystemConfigurationAttribute Attribute;
             internal readonly Type                               Type;
-            
+
             internal EntitySystemConfiguration(Type type, EntitySystemConfigurationAttribute attribute)
             {
-                Type          = type;
+                Type      = type;
                 Attribute = attribute;
             }
         }

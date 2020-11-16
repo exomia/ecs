@@ -1,36 +1,47 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
-<#@ output extension=".cs" #>
+<#@ output extension=".Generated.cs" #>
 <#@ assembly name="System.Core" #>
-<#@ import namespace="System" #>
 <#@ import namespace="System.Linq" #>
 using System;
 using Exomia.Framework.Game;
 
 namespace Exomia.ECS.Systems
 {
-<# 
-const int TT_COUNT = 20;
-for(int tt_i = 1; tt_i <= TT_COUNT; tt_i++ )
-{
-    string tt_components = string.Join(",", Enumerable.Range(1, tt_i).Select(i => $"TComponent{i}"));
+<#
+    const int TT_COUNT = 20;
+    for (int tt_i = 1; tt_i <= TT_COUNT; tt_i++)
+    {
+        string tt_components = string.Join(",", Enumerable.Range(1, tt_i).Select(i => $"TComponent{i}"));
 #>
     /// <summary>
     ///     An entity system parallel base with <#= tt_i #> required components.
     /// </summary>
-<# for(int tt_c = 1; tt_c<=tt_i; tt_c++ ) { #>
+<#
+        for (int tt_c = 1; tt_c <= tt_i; tt_c++)
+        {
+#>
     /// <typeparam name="TComponent<#= tt_c #>"> Type of the component <#= tt_c #>. </typeparam>
-<# } #>
+<#
+        } #>
     public abstract class EntitySystemParallelBaseR<#= tt_i #><<#= tt_components #>> : EntitySystemParallelBase
-<# for(int tt_c = 1; tt_c<=tt_i; tt_c++ ) { #>
+<#
+        for (int tt_c = 1; tt_c <= tt_i; tt_c++)
+        {
+#>
         where TComponent<#= tt_c #> : class
-<# } #>
+<#
+        } #>
     {
-<# for(int tt_c = 1; tt_c<=tt_i; tt_c++ ) { #>
+<#
+        for (int tt_c = 1; tt_c <= tt_i; tt_c++)
+        {
+#>
         /// <summary>
         ///     The required components at index <#= tt_c #>.
         /// </summary>
         protected TComponent<#= tt_c #>[] _components<#= tt_c #>;
-<# } #>
+<#
+        } #>
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="EntitySystemParallelBaseR<#= tt_i #>{<#= tt_components #>}" /> class.
@@ -40,36 +51,52 @@ for(int tt_i = 1; tt_i <= TT_COUNT; tt_i++ )
         protected EntitySystemParallelBaseR<#= tt_i #>(EntityManager manager, int maxDegreeOfParallelism = 2)
                 : base(manager, maxDegreeOfParallelism) 
         {
-<# for (int tt_c = 1; tt_c <= tt_i; tt_c++) { #>
+<#
+        for (int tt_c = 1; tt_c <= tt_i; tt_c++)
+        {
+#>
             _components<#= tt_c #> = new TComponent<#= tt_c #>[EntityManager.INITIAL_ARRAY_SIZE];
-<# } #>
+<#
+        } #>
         }
 
         /// <inheritdoc />
         protected override bool Add(Entity entity, int index)
         {
             return
-<# for (int tt_c = 1; tt_c < tt_i; tt_c++) { #>
+<#
+        for (int tt_c = 1; tt_c < tt_i; tt_c++)
+        {
+#>
                 entity.Get(out _components<#= tt_c #>[index]) &&
-<# } #>
+<#
+        } #>
                 entity.Get(out _components<#= tt_i #>[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
-<# for (int tt_c = 1; tt_c <= tt_i; tt_c++) { #>
+<#
+        for (int tt_c = 1; tt_c <= tt_i; tt_c++)
+        {
+#>
             _components<#= tt_c #>[index] = _components<#= tt_c #>[swap];
             _components<#= tt_c #>[swap] = null!;
-<# } #>
+<#
+        } #>
         }
 
         /// <inheritdoc />
         protected override void Grow(int size)
         {
-<# for (int tt_c = 1; tt_c <= tt_i; tt_c++) { #>
+<#
+        for (int tt_c = 1; tt_c <= tt_i; tt_c++)
+        {
+#>
             Array.Resize(ref _components<#= tt_c #>, size);
-<# } #>
+<#
+        } #>
         }
 
         /// <inheritdoc />
@@ -78,9 +105,13 @@ for(int tt_i = 1; tt_i <= TT_COUNT; tt_i++ )
             Tick(
                 gameTime, 
                 entity,
-<# for (int tt_c = 1; tt_c < tt_i; tt_c++) { #>
+<#
+        for (int tt_c = 1; tt_c < tt_i; tt_c++)
+        {
+#>
                 _components<#= tt_c #>[index],
-<# } #>
+<#
+        } #>
                 _components<#= tt_i #>[index]      
             );
         }
@@ -90,27 +121,39 @@ for(int tt_i = 1; tt_i <= TT_COUNT; tt_i++ )
         /// </summary>
         /// <param name="gameTime"> The game time. </param>
         /// <param name="entity">   The entity. </param>
-<# for(int tt_c = 1; tt_c<=tt_i; tt_c++ ) { #>
+<#
+        for (int tt_c = 1; tt_c <= tt_i; tt_c++)
+        {
+#>
         /// <param name="c<#= tt_c #>"> The <typeparamref name="TComponent<#= tt_c #>"/>. </param>
-<# } #>
+<#
+        } #>
         protected abstract void Tick(
             GameTime gameTime, 
             Entity entity,
-<# for(int tt_c = 1; tt_c<tt_i; tt_c++ ) { #>
+<#
+        for (int tt_c = 1; tt_c < tt_i; tt_c++)
+        {
+#>
             TComponent<#= tt_c #> c<#= tt_c #>,
-<# } #>
+<#
+        } #>
             TComponent<#= tt_i #> c<#= tt_i #>);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
         {
-<# for (int tt_c = 1; tt_c <= tt_i; tt_c++) { #>
+<#
+        for (int tt_c = 1; tt_c <= tt_i; tt_c++)
+        {
+#>
             _components<#= tt_c #> = null!;
-<# } #>
+<#
+        } #>
         }
     }
 
 <#
-}
+    }
 #>
  }
