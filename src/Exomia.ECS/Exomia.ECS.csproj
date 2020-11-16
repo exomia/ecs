@@ -85,6 +85,13 @@
     <PackageReference Include="Exomia.Framework.$(Platform)" Version="1.5.0-rc.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="EntityManager.cs"></Compile>
+    <Compile Update="EntityManager.*.cs">
+      <DependentUpon>EntityManager.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
   <!-- Source Link Support -->
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <IncludeSymbols>true</IncludeSymbols>

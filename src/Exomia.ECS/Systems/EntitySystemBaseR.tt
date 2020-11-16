@@ -21,6 +21,9 @@ for(int tt_i = 1; tt_i <= TT_COUNT; tt_i++ )
     /// <typeparam name="TComponent<#= tt_c #>"> Type of the component <#= tt_c #>. </typeparam>
 <# } #>
     public abstract class EntitySystemBaseR<#= tt_i #><<#= tt_components #>> : EntitySystemBase
+<# for(int tt_c = 1; tt_c<=tt_i; tt_c++ ) { #>
+        where TComponent<#= tt_c #> : class
+<# } #>
     {
 <# for(int tt_c = 1; tt_c<=tt_i; tt_c++ ) { #>
         /// <summary>
@@ -46,9 +49,9 @@ for(int tt_i = 1; tt_i <= TT_COUNT; tt_i++ )
         {
             return
 <# for (int tt_c = 1; tt_c < tt_i; tt_c++) { #>
-            entity.Get(out _components<#= tt_c #>[index]) &&
+                entity.Get(out _components<#= tt_c #>[index]) &&
 <# } #>
-            entity.Get(out _components<#= tt_i #>[index]);
+                entity.Get(out _components<#= tt_i #>[index]);
         }
 
         /// <inheritdoc />
@@ -56,7 +59,7 @@ for(int tt_i = 1; tt_i <= TT_COUNT; tt_i++ )
         {
 <# for (int tt_c = 1; tt_c <= tt_i; tt_c++) { #>
             _components<#= tt_c #>[index] = _components<#= tt_c #>[swap];
-            _components<#= tt_c #>[swap] = default!;
+            _components<#= tt_c #>[swap] = null!;
 <# } #>
         }
 

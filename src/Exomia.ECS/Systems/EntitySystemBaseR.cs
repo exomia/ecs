@@ -8,6 +8,7 @@ namespace Exomia.ECS.Systems
     /// </summary>
     /// <typeparam name="TComponent1"> Type of the component 1. </typeparam>
     public abstract class EntitySystemBaseR1<TComponent1> : EntitySystemBase
+        where TComponent1 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -28,14 +29,14 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]);
+                entity.Get(out _components1[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -78,6 +79,8 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent1"> Type of the component 1. </typeparam>
     /// <typeparam name="TComponent2"> Type of the component 2. </typeparam>
     public abstract class EntitySystemBaseR2<TComponent1,TComponent2> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -103,17 +106,17 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -162,6 +165,9 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent2"> Type of the component 2. </typeparam>
     /// <typeparam name="TComponent3"> Type of the component 3. </typeparam>
     public abstract class EntitySystemBaseR3<TComponent1,TComponent2,TComponent3> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -192,20 +198,20 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -260,6 +266,10 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent3"> Type of the component 3. </typeparam>
     /// <typeparam name="TComponent4"> Type of the component 4. </typeparam>
     public abstract class EntitySystemBaseR4<TComponent1,TComponent2,TComponent3,TComponent4> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -295,23 +305,23 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -372,6 +382,11 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent4"> Type of the component 4. </typeparam>
     /// <typeparam name="TComponent5"> Type of the component 5. </typeparam>
     public abstract class EntitySystemBaseR5<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -412,26 +427,26 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -498,6 +513,12 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent5"> Type of the component 5. </typeparam>
     /// <typeparam name="TComponent6"> Type of the component 6. </typeparam>
     public abstract class EntitySystemBaseR6<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -543,29 +564,29 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -638,6 +659,13 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent6"> Type of the component 6. </typeparam>
     /// <typeparam name="TComponent7"> Type of the component 7. </typeparam>
     public abstract class EntitySystemBaseR7<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -688,32 +716,32 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -792,6 +820,14 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent7"> Type of the component 7. </typeparam>
     /// <typeparam name="TComponent8"> Type of the component 8. </typeparam>
     public abstract class EntitySystemBaseR8<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -847,35 +883,35 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -960,6 +996,15 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent8"> Type of the component 8. </typeparam>
     /// <typeparam name="TComponent9"> Type of the component 9. </typeparam>
     public abstract class EntitySystemBaseR9<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8,TComponent9> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
+        where TComponent9 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -1020,38 +1065,38 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]) &&
-            entity.Get(out _components9[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]) &&
+                entity.Get(out _components9[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
             _components9[index] = _components9[swap];
-            _components9[swap] = default!;
+            _components9[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -1142,6 +1187,16 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent9"> Type of the component 9. </typeparam>
     /// <typeparam name="TComponent10"> Type of the component 10. </typeparam>
     public abstract class EntitySystemBaseR10<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8,TComponent9,TComponent10> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
+        where TComponent9 : class
+        where TComponent10 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -1207,41 +1262,41 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]) &&
-            entity.Get(out _components9[index]) &&
-            entity.Get(out _components10[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]) &&
+                entity.Get(out _components9[index]) &&
+                entity.Get(out _components10[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
             _components9[index] = _components9[swap];
-            _components9[swap] = default!;
+            _components9[swap] = null!;
             _components10[index] = _components10[swap];
-            _components10[swap] = default!;
+            _components10[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -1338,6 +1393,17 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent10"> Type of the component 10. </typeparam>
     /// <typeparam name="TComponent11"> Type of the component 11. </typeparam>
     public abstract class EntitySystemBaseR11<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8,TComponent9,TComponent10,TComponent11> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
+        where TComponent9 : class
+        where TComponent10 : class
+        where TComponent11 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -1408,44 +1474,44 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]) &&
-            entity.Get(out _components9[index]) &&
-            entity.Get(out _components10[index]) &&
-            entity.Get(out _components11[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]) &&
+                entity.Get(out _components9[index]) &&
+                entity.Get(out _components10[index]) &&
+                entity.Get(out _components11[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
             _components9[index] = _components9[swap];
-            _components9[swap] = default!;
+            _components9[swap] = null!;
             _components10[index] = _components10[swap];
-            _components10[swap] = default!;
+            _components10[swap] = null!;
             _components11[index] = _components11[swap];
-            _components11[swap] = default!;
+            _components11[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -1548,6 +1614,18 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent11"> Type of the component 11. </typeparam>
     /// <typeparam name="TComponent12"> Type of the component 12. </typeparam>
     public abstract class EntitySystemBaseR12<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8,TComponent9,TComponent10,TComponent11,TComponent12> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
+        where TComponent9 : class
+        where TComponent10 : class
+        where TComponent11 : class
+        where TComponent12 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -1623,47 +1701,47 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]) &&
-            entity.Get(out _components9[index]) &&
-            entity.Get(out _components10[index]) &&
-            entity.Get(out _components11[index]) &&
-            entity.Get(out _components12[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]) &&
+                entity.Get(out _components9[index]) &&
+                entity.Get(out _components10[index]) &&
+                entity.Get(out _components11[index]) &&
+                entity.Get(out _components12[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
             _components9[index] = _components9[swap];
-            _components9[swap] = default!;
+            _components9[swap] = null!;
             _components10[index] = _components10[swap];
-            _components10[swap] = default!;
+            _components10[swap] = null!;
             _components11[index] = _components11[swap];
-            _components11[swap] = default!;
+            _components11[swap] = null!;
             _components12[index] = _components12[swap];
-            _components12[swap] = default!;
+            _components12[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -1772,6 +1850,19 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent12"> Type of the component 12. </typeparam>
     /// <typeparam name="TComponent13"> Type of the component 13. </typeparam>
     public abstract class EntitySystemBaseR13<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8,TComponent9,TComponent10,TComponent11,TComponent12,TComponent13> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
+        where TComponent9 : class
+        where TComponent10 : class
+        where TComponent11 : class
+        where TComponent12 : class
+        where TComponent13 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -1852,50 +1943,50 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]) &&
-            entity.Get(out _components9[index]) &&
-            entity.Get(out _components10[index]) &&
-            entity.Get(out _components11[index]) &&
-            entity.Get(out _components12[index]) &&
-            entity.Get(out _components13[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]) &&
+                entity.Get(out _components9[index]) &&
+                entity.Get(out _components10[index]) &&
+                entity.Get(out _components11[index]) &&
+                entity.Get(out _components12[index]) &&
+                entity.Get(out _components13[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
             _components9[index] = _components9[swap];
-            _components9[swap] = default!;
+            _components9[swap] = null!;
             _components10[index] = _components10[swap];
-            _components10[swap] = default!;
+            _components10[swap] = null!;
             _components11[index] = _components11[swap];
-            _components11[swap] = default!;
+            _components11[swap] = null!;
             _components12[index] = _components12[swap];
-            _components12[swap] = default!;
+            _components12[swap] = null!;
             _components13[index] = _components13[swap];
-            _components13[swap] = default!;
+            _components13[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -2010,6 +2101,20 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent13"> Type of the component 13. </typeparam>
     /// <typeparam name="TComponent14"> Type of the component 14. </typeparam>
     public abstract class EntitySystemBaseR14<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8,TComponent9,TComponent10,TComponent11,TComponent12,TComponent13,TComponent14> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
+        where TComponent9 : class
+        where TComponent10 : class
+        where TComponent11 : class
+        where TComponent12 : class
+        where TComponent13 : class
+        where TComponent14 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -2095,53 +2200,53 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]) &&
-            entity.Get(out _components9[index]) &&
-            entity.Get(out _components10[index]) &&
-            entity.Get(out _components11[index]) &&
-            entity.Get(out _components12[index]) &&
-            entity.Get(out _components13[index]) &&
-            entity.Get(out _components14[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]) &&
+                entity.Get(out _components9[index]) &&
+                entity.Get(out _components10[index]) &&
+                entity.Get(out _components11[index]) &&
+                entity.Get(out _components12[index]) &&
+                entity.Get(out _components13[index]) &&
+                entity.Get(out _components14[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
             _components9[index] = _components9[swap];
-            _components9[swap] = default!;
+            _components9[swap] = null!;
             _components10[index] = _components10[swap];
-            _components10[swap] = default!;
+            _components10[swap] = null!;
             _components11[index] = _components11[swap];
-            _components11[swap] = default!;
+            _components11[swap] = null!;
             _components12[index] = _components12[swap];
-            _components12[swap] = default!;
+            _components12[swap] = null!;
             _components13[index] = _components13[swap];
-            _components13[swap] = default!;
+            _components13[swap] = null!;
             _components14[index] = _components14[swap];
-            _components14[swap] = default!;
+            _components14[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -2262,6 +2367,21 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent14"> Type of the component 14. </typeparam>
     /// <typeparam name="TComponent15"> Type of the component 15. </typeparam>
     public abstract class EntitySystemBaseR15<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8,TComponent9,TComponent10,TComponent11,TComponent12,TComponent13,TComponent14,TComponent15> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
+        where TComponent9 : class
+        where TComponent10 : class
+        where TComponent11 : class
+        where TComponent12 : class
+        where TComponent13 : class
+        where TComponent14 : class
+        where TComponent15 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -2352,56 +2472,56 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]) &&
-            entity.Get(out _components9[index]) &&
-            entity.Get(out _components10[index]) &&
-            entity.Get(out _components11[index]) &&
-            entity.Get(out _components12[index]) &&
-            entity.Get(out _components13[index]) &&
-            entity.Get(out _components14[index]) &&
-            entity.Get(out _components15[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]) &&
+                entity.Get(out _components9[index]) &&
+                entity.Get(out _components10[index]) &&
+                entity.Get(out _components11[index]) &&
+                entity.Get(out _components12[index]) &&
+                entity.Get(out _components13[index]) &&
+                entity.Get(out _components14[index]) &&
+                entity.Get(out _components15[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
             _components9[index] = _components9[swap];
-            _components9[swap] = default!;
+            _components9[swap] = null!;
             _components10[index] = _components10[swap];
-            _components10[swap] = default!;
+            _components10[swap] = null!;
             _components11[index] = _components11[swap];
-            _components11[swap] = default!;
+            _components11[swap] = null!;
             _components12[index] = _components12[swap];
-            _components12[swap] = default!;
+            _components12[swap] = null!;
             _components13[index] = _components13[swap];
-            _components13[swap] = default!;
+            _components13[swap] = null!;
             _components14[index] = _components14[swap];
-            _components14[swap] = default!;
+            _components14[swap] = null!;
             _components15[index] = _components15[swap];
-            _components15[swap] = default!;
+            _components15[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -2528,6 +2648,22 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent15"> Type of the component 15. </typeparam>
     /// <typeparam name="TComponent16"> Type of the component 16. </typeparam>
     public abstract class EntitySystemBaseR16<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8,TComponent9,TComponent10,TComponent11,TComponent12,TComponent13,TComponent14,TComponent15,TComponent16> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
+        where TComponent9 : class
+        where TComponent10 : class
+        where TComponent11 : class
+        where TComponent12 : class
+        where TComponent13 : class
+        where TComponent14 : class
+        where TComponent15 : class
+        where TComponent16 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -2623,59 +2759,59 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]) &&
-            entity.Get(out _components9[index]) &&
-            entity.Get(out _components10[index]) &&
-            entity.Get(out _components11[index]) &&
-            entity.Get(out _components12[index]) &&
-            entity.Get(out _components13[index]) &&
-            entity.Get(out _components14[index]) &&
-            entity.Get(out _components15[index]) &&
-            entity.Get(out _components16[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]) &&
+                entity.Get(out _components9[index]) &&
+                entity.Get(out _components10[index]) &&
+                entity.Get(out _components11[index]) &&
+                entity.Get(out _components12[index]) &&
+                entity.Get(out _components13[index]) &&
+                entity.Get(out _components14[index]) &&
+                entity.Get(out _components15[index]) &&
+                entity.Get(out _components16[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
             _components9[index] = _components9[swap];
-            _components9[swap] = default!;
+            _components9[swap] = null!;
             _components10[index] = _components10[swap];
-            _components10[swap] = default!;
+            _components10[swap] = null!;
             _components11[index] = _components11[swap];
-            _components11[swap] = default!;
+            _components11[swap] = null!;
             _components12[index] = _components12[swap];
-            _components12[swap] = default!;
+            _components12[swap] = null!;
             _components13[index] = _components13[swap];
-            _components13[swap] = default!;
+            _components13[swap] = null!;
             _components14[index] = _components14[swap];
-            _components14[swap] = default!;
+            _components14[swap] = null!;
             _components15[index] = _components15[swap];
-            _components15[swap] = default!;
+            _components15[swap] = null!;
             _components16[index] = _components16[swap];
-            _components16[swap] = default!;
+            _components16[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -2808,6 +2944,23 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent16"> Type of the component 16. </typeparam>
     /// <typeparam name="TComponent17"> Type of the component 17. </typeparam>
     public abstract class EntitySystemBaseR17<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8,TComponent9,TComponent10,TComponent11,TComponent12,TComponent13,TComponent14,TComponent15,TComponent16,TComponent17> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
+        where TComponent9 : class
+        where TComponent10 : class
+        where TComponent11 : class
+        where TComponent12 : class
+        where TComponent13 : class
+        where TComponent14 : class
+        where TComponent15 : class
+        where TComponent16 : class
+        where TComponent17 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -2908,62 +3061,62 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]) &&
-            entity.Get(out _components9[index]) &&
-            entity.Get(out _components10[index]) &&
-            entity.Get(out _components11[index]) &&
-            entity.Get(out _components12[index]) &&
-            entity.Get(out _components13[index]) &&
-            entity.Get(out _components14[index]) &&
-            entity.Get(out _components15[index]) &&
-            entity.Get(out _components16[index]) &&
-            entity.Get(out _components17[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]) &&
+                entity.Get(out _components9[index]) &&
+                entity.Get(out _components10[index]) &&
+                entity.Get(out _components11[index]) &&
+                entity.Get(out _components12[index]) &&
+                entity.Get(out _components13[index]) &&
+                entity.Get(out _components14[index]) &&
+                entity.Get(out _components15[index]) &&
+                entity.Get(out _components16[index]) &&
+                entity.Get(out _components17[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
             _components9[index] = _components9[swap];
-            _components9[swap] = default!;
+            _components9[swap] = null!;
             _components10[index] = _components10[swap];
-            _components10[swap] = default!;
+            _components10[swap] = null!;
             _components11[index] = _components11[swap];
-            _components11[swap] = default!;
+            _components11[swap] = null!;
             _components12[index] = _components12[swap];
-            _components12[swap] = default!;
+            _components12[swap] = null!;
             _components13[index] = _components13[swap];
-            _components13[swap] = default!;
+            _components13[swap] = null!;
             _components14[index] = _components14[swap];
-            _components14[swap] = default!;
+            _components14[swap] = null!;
             _components15[index] = _components15[swap];
-            _components15[swap] = default!;
+            _components15[swap] = null!;
             _components16[index] = _components16[swap];
-            _components16[swap] = default!;
+            _components16[swap] = null!;
             _components17[index] = _components17[swap];
-            _components17[swap] = default!;
+            _components17[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -3102,6 +3255,24 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent17"> Type of the component 17. </typeparam>
     /// <typeparam name="TComponent18"> Type of the component 18. </typeparam>
     public abstract class EntitySystemBaseR18<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8,TComponent9,TComponent10,TComponent11,TComponent12,TComponent13,TComponent14,TComponent15,TComponent16,TComponent17,TComponent18> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
+        where TComponent9 : class
+        where TComponent10 : class
+        where TComponent11 : class
+        where TComponent12 : class
+        where TComponent13 : class
+        where TComponent14 : class
+        where TComponent15 : class
+        where TComponent16 : class
+        where TComponent17 : class
+        where TComponent18 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -3207,65 +3378,65 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]) &&
-            entity.Get(out _components9[index]) &&
-            entity.Get(out _components10[index]) &&
-            entity.Get(out _components11[index]) &&
-            entity.Get(out _components12[index]) &&
-            entity.Get(out _components13[index]) &&
-            entity.Get(out _components14[index]) &&
-            entity.Get(out _components15[index]) &&
-            entity.Get(out _components16[index]) &&
-            entity.Get(out _components17[index]) &&
-            entity.Get(out _components18[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]) &&
+                entity.Get(out _components9[index]) &&
+                entity.Get(out _components10[index]) &&
+                entity.Get(out _components11[index]) &&
+                entity.Get(out _components12[index]) &&
+                entity.Get(out _components13[index]) &&
+                entity.Get(out _components14[index]) &&
+                entity.Get(out _components15[index]) &&
+                entity.Get(out _components16[index]) &&
+                entity.Get(out _components17[index]) &&
+                entity.Get(out _components18[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
             _components9[index] = _components9[swap];
-            _components9[swap] = default!;
+            _components9[swap] = null!;
             _components10[index] = _components10[swap];
-            _components10[swap] = default!;
+            _components10[swap] = null!;
             _components11[index] = _components11[swap];
-            _components11[swap] = default!;
+            _components11[swap] = null!;
             _components12[index] = _components12[swap];
-            _components12[swap] = default!;
+            _components12[swap] = null!;
             _components13[index] = _components13[swap];
-            _components13[swap] = default!;
+            _components13[swap] = null!;
             _components14[index] = _components14[swap];
-            _components14[swap] = default!;
+            _components14[swap] = null!;
             _components15[index] = _components15[swap];
-            _components15[swap] = default!;
+            _components15[swap] = null!;
             _components16[index] = _components16[swap];
-            _components16[swap] = default!;
+            _components16[swap] = null!;
             _components17[index] = _components17[swap];
-            _components17[swap] = default!;
+            _components17[swap] = null!;
             _components18[index] = _components18[swap];
-            _components18[swap] = default!;
+            _components18[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -3410,6 +3581,25 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent18"> Type of the component 18. </typeparam>
     /// <typeparam name="TComponent19"> Type of the component 19. </typeparam>
     public abstract class EntitySystemBaseR19<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8,TComponent9,TComponent10,TComponent11,TComponent12,TComponent13,TComponent14,TComponent15,TComponent16,TComponent17,TComponent18,TComponent19> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
+        where TComponent9 : class
+        where TComponent10 : class
+        where TComponent11 : class
+        where TComponent12 : class
+        where TComponent13 : class
+        where TComponent14 : class
+        where TComponent15 : class
+        where TComponent16 : class
+        where TComponent17 : class
+        where TComponent18 : class
+        where TComponent19 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -3520,68 +3710,68 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]) &&
-            entity.Get(out _components9[index]) &&
-            entity.Get(out _components10[index]) &&
-            entity.Get(out _components11[index]) &&
-            entity.Get(out _components12[index]) &&
-            entity.Get(out _components13[index]) &&
-            entity.Get(out _components14[index]) &&
-            entity.Get(out _components15[index]) &&
-            entity.Get(out _components16[index]) &&
-            entity.Get(out _components17[index]) &&
-            entity.Get(out _components18[index]) &&
-            entity.Get(out _components19[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]) &&
+                entity.Get(out _components9[index]) &&
+                entity.Get(out _components10[index]) &&
+                entity.Get(out _components11[index]) &&
+                entity.Get(out _components12[index]) &&
+                entity.Get(out _components13[index]) &&
+                entity.Get(out _components14[index]) &&
+                entity.Get(out _components15[index]) &&
+                entity.Get(out _components16[index]) &&
+                entity.Get(out _components17[index]) &&
+                entity.Get(out _components18[index]) &&
+                entity.Get(out _components19[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
             _components9[index] = _components9[swap];
-            _components9[swap] = default!;
+            _components9[swap] = null!;
             _components10[index] = _components10[swap];
-            _components10[swap] = default!;
+            _components10[swap] = null!;
             _components11[index] = _components11[swap];
-            _components11[swap] = default!;
+            _components11[swap] = null!;
             _components12[index] = _components12[swap];
-            _components12[swap] = default!;
+            _components12[swap] = null!;
             _components13[index] = _components13[swap];
-            _components13[swap] = default!;
+            _components13[swap] = null!;
             _components14[index] = _components14[swap];
-            _components14[swap] = default!;
+            _components14[swap] = null!;
             _components15[index] = _components15[swap];
-            _components15[swap] = default!;
+            _components15[swap] = null!;
             _components16[index] = _components16[swap];
-            _components16[swap] = default!;
+            _components16[swap] = null!;
             _components17[index] = _components17[swap];
-            _components17[swap] = default!;
+            _components17[swap] = null!;
             _components18[index] = _components18[swap];
-            _components18[swap] = default!;
+            _components18[swap] = null!;
             _components19[index] = _components19[swap];
-            _components19[swap] = default!;
+            _components19[swap] = null!;
         }
 
         /// <inheritdoc />
@@ -3732,6 +3922,26 @@ namespace Exomia.ECS.Systems
     /// <typeparam name="TComponent19"> Type of the component 19. </typeparam>
     /// <typeparam name="TComponent20"> Type of the component 20. </typeparam>
     public abstract class EntitySystemBaseR20<TComponent1,TComponent2,TComponent3,TComponent4,TComponent5,TComponent6,TComponent7,TComponent8,TComponent9,TComponent10,TComponent11,TComponent12,TComponent13,TComponent14,TComponent15,TComponent16,TComponent17,TComponent18,TComponent19,TComponent20> : EntitySystemBase
+        where TComponent1 : class
+        where TComponent2 : class
+        where TComponent3 : class
+        where TComponent4 : class
+        where TComponent5 : class
+        where TComponent6 : class
+        where TComponent7 : class
+        where TComponent8 : class
+        where TComponent9 : class
+        where TComponent10 : class
+        where TComponent11 : class
+        where TComponent12 : class
+        where TComponent13 : class
+        where TComponent14 : class
+        where TComponent15 : class
+        where TComponent16 : class
+        where TComponent17 : class
+        where TComponent18 : class
+        where TComponent19 : class
+        where TComponent20 : class
     {
         /// <summary>
         ///     The required components at index 1.
@@ -3847,71 +4057,71 @@ namespace Exomia.ECS.Systems
         protected override bool Add(Entity entity, int index)
         {
             return
-            entity.Get(out _components1[index]) &&
-            entity.Get(out _components2[index]) &&
-            entity.Get(out _components3[index]) &&
-            entity.Get(out _components4[index]) &&
-            entity.Get(out _components5[index]) &&
-            entity.Get(out _components6[index]) &&
-            entity.Get(out _components7[index]) &&
-            entity.Get(out _components8[index]) &&
-            entity.Get(out _components9[index]) &&
-            entity.Get(out _components10[index]) &&
-            entity.Get(out _components11[index]) &&
-            entity.Get(out _components12[index]) &&
-            entity.Get(out _components13[index]) &&
-            entity.Get(out _components14[index]) &&
-            entity.Get(out _components15[index]) &&
-            entity.Get(out _components16[index]) &&
-            entity.Get(out _components17[index]) &&
-            entity.Get(out _components18[index]) &&
-            entity.Get(out _components19[index]) &&
-            entity.Get(out _components20[index]);
+                entity.Get(out _components1[index]) &&
+                entity.Get(out _components2[index]) &&
+                entity.Get(out _components3[index]) &&
+                entity.Get(out _components4[index]) &&
+                entity.Get(out _components5[index]) &&
+                entity.Get(out _components6[index]) &&
+                entity.Get(out _components7[index]) &&
+                entity.Get(out _components8[index]) &&
+                entity.Get(out _components9[index]) &&
+                entity.Get(out _components10[index]) &&
+                entity.Get(out _components11[index]) &&
+                entity.Get(out _components12[index]) &&
+                entity.Get(out _components13[index]) &&
+                entity.Get(out _components14[index]) &&
+                entity.Get(out _components15[index]) &&
+                entity.Get(out _components16[index]) &&
+                entity.Get(out _components17[index]) &&
+                entity.Get(out _components18[index]) &&
+                entity.Get(out _components19[index]) &&
+                entity.Get(out _components20[index]);
         }
 
         /// <inheritdoc />
         protected override void Remove(int index, int swap)
         {
             _components1[index] = _components1[swap];
-            _components1[swap] = default!;
+            _components1[swap] = null!;
             _components2[index] = _components2[swap];
-            _components2[swap] = default!;
+            _components2[swap] = null!;
             _components3[index] = _components3[swap];
-            _components3[swap] = default!;
+            _components3[swap] = null!;
             _components4[index] = _components4[swap];
-            _components4[swap] = default!;
+            _components4[swap] = null!;
             _components5[index] = _components5[swap];
-            _components5[swap] = default!;
+            _components5[swap] = null!;
             _components6[index] = _components6[swap];
-            _components6[swap] = default!;
+            _components6[swap] = null!;
             _components7[index] = _components7[swap];
-            _components7[swap] = default!;
+            _components7[swap] = null!;
             _components8[index] = _components8[swap];
-            _components8[swap] = default!;
+            _components8[swap] = null!;
             _components9[index] = _components9[swap];
-            _components9[swap] = default!;
+            _components9[swap] = null!;
             _components10[index] = _components10[swap];
-            _components10[swap] = default!;
+            _components10[swap] = null!;
             _components11[index] = _components11[swap];
-            _components11[swap] = default!;
+            _components11[swap] = null!;
             _components12[index] = _components12[swap];
-            _components12[swap] = default!;
+            _components12[swap] = null!;
             _components13[index] = _components13[swap];
-            _components13[swap] = default!;
+            _components13[swap] = null!;
             _components14[index] = _components14[swap];
-            _components14[swap] = default!;
+            _components14[swap] = null!;
             _components15[index] = _components15[swap];
-            _components15[swap] = default!;
+            _components15[swap] = null!;
             _components16[index] = _components16[swap];
-            _components16[swap] = default!;
+            _components16[swap] = null!;
             _components17[index] = _components17[swap];
-            _components17[swap] = default!;
+            _components17[swap] = null!;
             _components18[index] = _components18[swap];
-            _components18[swap] = default!;
+            _components18[swap] = null!;
             _components19[index] = _components19[swap];
-            _components19[swap] = default!;
+            _components19[swap] = null!;
             _components20[index] = _components20[swap];
-            _components20[swap] = default!;
+            _components20[swap] = null!;
         }
 
         /// <inheritdoc />

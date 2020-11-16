@@ -95,6 +95,7 @@ namespace Exomia.ECS
         /// <inheritdoc />
         public override int GetHashCode()
         {
+            // ReSharper disable once NonReadonlyMemberInGetHashCode
             return Guid.GetHashCode();
         }
 
