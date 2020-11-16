@@ -12,8 +12,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Exomia.ECS.Attributes;
 using Exomia.ECS.Systems;
+using SharpDX.D3DCompiler;
 
 namespace Exomia.ECS
 {
@@ -65,9 +67,9 @@ namespace Exomia.ECS
 
         private void InitializeEntitySystems(uint managerMask)
         {
-            List<EntitySystemConfiguration> entitySystemUpdateableConfigurations =
+            List<EntitySystemConfiguration> updateableConfigurations =
                 new List<EntitySystemConfiguration>(32);
-            List<EntitySystemConfiguration> entitySystemDrawableConfigurations =
+            List<EntitySystemConfiguration> drawableConfigurations =
                 new List<EntitySystemConfiguration>(32);
 
             foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
@@ -90,11 +92,11 @@ namespace Exomia.ECS
                                 switch (attribute.EntitySystemType)
                                 {
                                     case EntitySystemType.Update:
-                                        entitySystemUpdateableConfigurations.Add(
+                                        updateableConfigurations.Add(
                                             new EntitySystemConfiguration(t, attribute));
                                         break;
                                     case EntitySystemType.Draw:
-                                        entitySystemDrawableConfigurations.Add(
+                                        drawableConfigurations.Add(
                                             new EntitySystemConfiguration(t, attribute));
                                         break;
                                     default:
@@ -106,61 +108,46 @@ namespace Exomia.ECS
                 }
             }
 
-            SortEntitySystems(ref entitySystemUpdateableConfigurations);
-            SortEntitySystems(ref entitySystemDrawableConfigurations);
+            SortEntitySystems(ref updateableConfigurations);
+            SortEntitySystems(ref drawableConfigurations);
 
-            _entityUpdateableSystems      = new EntitySystemBase[entitySystemUpdateableConfigurations.Count];
-            _entityUpdateableSystemsCount = _entityUpdateableSystems.Length;
-            for (int i = 0; i < entitySystemUpdateableConfigurations.Count; i++)
+            void AddSystems(string                              name,
+                            ref List<EntitySystemConfiguration> configurations,
+                            out EntitySystemBase[]              systems,
+                            out int                             systemsCount)
             {
-                _entityUpdateableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
-                    entitySystemUpdateableConfigurations[i].Type, this);
-                _entityUpdateableSystems[i].SystemMask =
-                    entitySystemUpdateableConfigurations[i].Configuration.SystemMask;
-
-                Type t = entitySystemUpdateableConfigurations[i].Type;
-                foreach (var it in t.GetInterfaces()
-                                    .Except(t.BaseType!.GetInterfaces()))
+                systems      = new EntitySystemBase[updateableConfigurations.Count];
+                systemsCount = systems.Length;
+                for (int i = 0; i < configurations.Count; i++)
                 {
-                    _entitySystemInterfaces.Add(it, _entityUpdateableSystems[i]);
+                    EntitySystemConfiguration cfg = configurations[i];
+                    Type                      t   = cfg.Type;
+                    systems[i]            = (EntitySystemBase)Activator.CreateInstance(t, this);
+                    systems[i].SystemMask = cfg.Attribute.SystemMask;
+
+                    foreach (var it in t.GetInterfaces()
+                                        .Except(t.BaseType!.GetInterfaces()))
+                    {
+                        _entitySystemInterfaces.Add(it, systems[i]);
+                    }
+
+                    _entitySystems.Add(cfg.Attribute.Name, systems[i]);
                 }
-
-                _entitySystems.Add(
-                    entitySystemUpdateableConfigurations[i].Configuration.Name,
-                    _entityUpdateableSystems[i]);
-            }
 #if DEBUG
-            Console.WriteLine(nameof(entitySystemUpdateableConfigurations));
-            Console.WriteLine(string.Join(",", entitySystemUpdateableConfigurations.Select(s => s.Configuration.Name)));
-            Console.WriteLine();
+                Console.WriteLine(name);
+                Console.WriteLine(string.Join(",", configurations.Select(s => s.Attribute.Name)));
+                Console.WriteLine();
 #endif
-            entitySystemUpdateableConfigurations.Clear();
-
-            _entityDrawableSystems      = new EntitySystemBase[entitySystemDrawableConfigurations.Count];
-            _entityDrawableSystemsCount = _entityDrawableSystems.Length;
-            for (int i = 0; i < entitySystemDrawableConfigurations.Count; i++)
-            {
-                _entityDrawableSystems[i] = (EntitySystemBase)Activator.CreateInstance(
-                    entitySystemDrawableConfigurations[i].Type, this);
-                _entityDrawableSystems[i].SystemMask = entitySystemDrawableConfigurations[i].Configuration.SystemMask;
-
-                Type t = entitySystemDrawableConfigurations[i].Type;
-                foreach (var it in t.GetInterfaces()
-                                    .Except(t.BaseType!.GetInterfaces()))
-                {
-                    _entitySystemInterfaces.Add(it, _entityDrawableSystems[i]);
-                }
-
-                _entitySystems.Add(
-                    entitySystemDrawableConfigurations[i].Configuration.Name,
-                    _entityDrawableSystems[i]);
+                configurations.Clear();
+                configurations = null!;
             }
-#if DEBUG
-            Console.WriteLine(nameof(entitySystemDrawableConfigurations));
-            Console.WriteLine(string.Join(",", entitySystemDrawableConfigurations.Select(s => s.Configuration.Name)));
-            Console.WriteLine();
-#endif
-            entitySystemDrawableConfigurations.Clear();
+
+            AddSystems(
+                nameof(updateableConfigurations), ref updateableConfigurations, 
+                out _entityUpdateableSystems, out _entityUpdateableSystemsCount);
+            AddSystems(
+                nameof(drawableConfigurations), ref drawableConfigurations, 
+                out _entityDrawableSystems, out _entityDrawableSystemsCount);
         }
 
         private void EnsureCapacity()
@@ -200,12 +187,12 @@ namespace Exomia.ECS
             for (; indexA >= 0; indexA--)
             {
                 EntitySystemConfiguration system = sorted[indexA];
-                if (Contains(current.Configuration.After, system.Configuration.Name))
+                if (Contains(current.Attribute.After, system.Attribute.Name))
                 {
                     indexA++;
                     break;
                 }
-                if (Contains(system.Configuration.Before, current.Configuration.Name))
+                if (Contains(system.Attribute.Before, current.Attribute.Name))
                 {
                     indexA++;
                     break;
@@ -215,8 +202,8 @@ namespace Exomia.ECS
             for (; indexB < sorted.Count; indexB++)
             {
                 EntitySystemConfiguration system = sorted[indexB];
-                if (Contains(current.Configuration.Before, system.Configuration.Name)) { break; }
-                if (Contains(system.Configuration.After, current.Configuration.Name)) { break; }
+                if (Contains(current.Attribute.Before, system.Attribute.Name)) { break; }
+                if (Contains(system.Attribute.After, current.Attribute.Name)) { break; }
             }
             if (indexB >= indexA) //no collision
             {
@@ -239,7 +226,7 @@ namespace Exomia.ECS
             for (int i = 0; i < systems.Count; i++)
             {
                 EntitySystemConfiguration current = systems[i];
-                if (!string.IsNullOrEmpty(current.Configuration.Replace))
+                if (!string.IsNullOrEmpty(current.Attribute.Replace))
                 {
                     replace.Add(current);
                     continue;
@@ -260,9 +247,9 @@ namespace Exomia.ECS
 
                 for (int k = 0; k < sorted.Count; k++)
                 {
-                    if (sorted[k].Configuration.Name == current.Configuration.Replace)
+                    if (sorted[k].Attribute.Name == current.Attribute.Replace)
                     {
-                        if (current.Configuration.After == null && current.Configuration.Before == null)
+                        if (current.Attribute.After == null && current.Attribute.Before == null)
                         {
                             sorted[k] = current;
                             break;
@@ -285,18 +272,13 @@ namespace Exomia.ECS
 
         private class EntitySystemConfiguration
         {
-            internal readonly EntitySystemConfigurationAttribute Configuration;
+            internal readonly EntitySystemConfigurationAttribute Attribute;
             internal readonly Type                               Type;
-
-            /// <summary>
-            ///     Initializes a new instance of the <see cref="EntitySystemConfiguration" /> class.
-            /// </summary>
-            /// <param name="type">          The type. </param>
-            /// <param name="configuration"> The configuration. </param>
-            internal EntitySystemConfiguration(Type type, EntitySystemConfigurationAttribute configuration)
+            
+            internal EntitySystemConfiguration(Type type, EntitySystemConfigurationAttribute attribute)
             {
                 Type          = type;
-                Configuration = configuration;
+                Attribute = attribute;
             }
         }
     }
