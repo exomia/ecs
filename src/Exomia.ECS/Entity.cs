@@ -24,15 +24,6 @@ namespace Exomia.ECS
         private const int INITIAL_COMPONENTS_SIZE = 8;
 
         /// <summary>
-        ///     Unique identifier.
-        /// </summary>
-        public Guid Guid
-        {
-            get;
-            internal set;
-        }
-
-        /// <summary>
         ///     True if this object is initialized.
         /// </summary>
         internal bool _isInitialized = false;
@@ -46,6 +37,11 @@ namespace Exomia.ECS
         ///     The components.
         /// </summary>
         private readonly Dictionary<Type, object> _components;
+
+        /// <summary>
+        ///     Unique identifier.
+        /// </summary>
+        public Guid Guid { get; internal set; }
 
         /// <summary>
         ///     Gets the components.

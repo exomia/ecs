@@ -53,10 +53,7 @@ namespace Exomia.ECS
                     return entity;
                 }
             }
-            return new Entity
-            {
-                Guid = guid
-            };
+            return new Entity { Guid = guid };
         }
     }
 }

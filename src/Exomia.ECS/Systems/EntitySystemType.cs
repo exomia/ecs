@@ -8,7 +8,6 @@
 
 #endregion
 
-
 namespace Exomia.ECS.Attributes
 {
     /// <summary>

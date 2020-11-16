@@ -39,8 +39,8 @@ namespace Exomia.ECS
     ///     An entity component pool.
     /// </summary>
     /// <typeparam name="TComponent"> Type of the component. </typeparam>
-    static class EntityComponentPool<TComponent> 
-        where  TComponent : class
+    static class EntityComponentPool<TComponent>
+        where TComponent : class
     {
         private static readonly bool              s_usePooling;
         private static readonly Stack<TComponent> s_free = null!;

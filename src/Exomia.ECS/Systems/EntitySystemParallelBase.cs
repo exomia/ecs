@@ -24,7 +24,7 @@ namespace Exomia.ECS.Systems
         /// <summary>
         ///     Initializes a new instance of the <see cref="EntitySystemParallelBase" /> class.
         /// </summary>
-        /// <param name="manager">                The <see cref="EntityManager"/>. </param>
+        /// <param name="manager">                The <see cref="EntityManager" />. </param>
         /// <param name="maxDegreeOfParallelism"> (Optional) The maximum degree of parallelism. </param>
         /// <exception cref="ArgumentOutOfRangeException"> Thrown when one or more arguments are outside the required range. </exception>
         protected EntitySystemParallelBase(EntityManager manager, int maxDegreeOfParallelism = 2)

@@ -11,7 +11,7 @@
 using System.Collections.Generic;
 
 namespace Exomia.ECS.Events
-{    
+{
     /// <summary>
     ///     callback handler.
     /// </summary>
@@ -20,7 +20,7 @@ namespace Exomia.ECS.Events
     ///     A ref T1.
     /// </returns>
     public delegate ref T1 RR<T1>();
-    
+
     /// <summary>
     ///     A handler. This class cannot be inherited.
     /// </summary>

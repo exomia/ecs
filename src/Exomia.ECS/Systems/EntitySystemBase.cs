@@ -20,8 +20,6 @@ namespace Exomia.ECS.Systems
     /// </summary>
     public abstract class EntitySystemBase : IDisposable
     {
-        internal uint SystemMask;
-        
         /// <summary>
         ///     The entity map.
         /// </summary>
@@ -56,6 +54,8 @@ namespace Exomia.ECS.Systems
         ///     True if this object is initialized.
         /// </summary>
         protected bool _isInitialized;
+
+        internal uint SystemMask;
 
         /// <summary>
         ///     Gets or sets a value indicating whether this object is enabled.
