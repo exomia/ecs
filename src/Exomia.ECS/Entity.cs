@@ -81,11 +81,7 @@ namespace Exomia.ECS
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (obj is Entity other)
-            {
-                return Guid.Equals(other.Guid);
-            }
-            return obj?.Equals(this) ?? false;
+            return obj is Entity other && Guid.Equals(other.Guid);
         }
 
         /// <inheritdoc />
