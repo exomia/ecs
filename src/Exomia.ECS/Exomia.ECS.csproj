@@ -15,7 +15,6 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>1.5.3</Version>
     <Company>exomia</Company>
     <Authors>exomia;saika01</Authors>
     <Description>entity component system for the exomia framework</Description>
@@ -78,11 +77,11 @@
   </ItemGroup>
   
   <ItemGroup Condition="'$(Platform)'=='AnyCPU'">
-    <PackageReference Include="Exomia.Framework" Version="1.5.0-rc.1" />
+    <PackageReference Include="Exomia.Framework" Version="1.*" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Platform)'!='AnyCPU'">
-    <PackageReference Include="Exomia.Framework.$(Platform)" Version="1.5.0-rc.1" />
+    <PackageReference Include="Exomia.Framework.$(Platform)" Version="1.*" />
   </ItemGroup>
 
   <ItemGroup>
