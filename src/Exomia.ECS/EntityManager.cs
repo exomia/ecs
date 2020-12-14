@@ -114,7 +114,7 @@ namespace Exomia.ECS
                             out EntitySystemBase[]              systems,
                             out int                             systemsCount)
             {
-                systems      = new EntitySystemBase[updateableConfigurations.Count];
+                systems      = new EntitySystemBase[configurations.Count];
                 systemsCount = systems.Length;
                 for (int i = 0; i < configurations.Count; i++)
                 {
