@@ -85,7 +85,7 @@ namespace Exomia.ECS
                         EntitySystemConfigurationAttribute attribute;
                         if ((attribute = t.GetCustomAttribute<EntitySystemConfigurationAttribute>(false)) != null)
                         {
-                            if (attribute.ManagerFlags == 0 || (attribute.ManagerFlags & managerMask) == managerMask)
+                            if (attribute.ManagerFlags == 0 || (managerMask & attribute.ManagerFlags) == attribute.ManagerFlags)
                             {
                                 switch (attribute.EntitySystemType)
                                 {
