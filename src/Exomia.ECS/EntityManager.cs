@@ -73,7 +73,6 @@ namespace Exomia.ECS
             foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
             {
                 if (a.FullName.StartsWith("System")) { continue; }
-                if (a.FullName.StartsWith("SharpDX")) { continue; }
                 if (a.FullName.StartsWith("ms")) { continue; }
 
                 foreach (Type t in a.GetTypes())
