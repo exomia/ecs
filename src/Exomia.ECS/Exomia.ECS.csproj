@@ -8,10 +8,13 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
     <NullableReferenceTypes>true</NullableReferenceTypes>
+    <DefineConstants>TRACE;$(Platform)</DefineConstants>
+    <TransformOnBuild>true</TransformOnBuild>
+    <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>1.5.3</Version>
     <Company>exomia</Company>
     <Authors>exomia;saika01</Authors>
     <Description>entity component system for the exomia framework</Description>
@@ -42,16 +45,13 @@
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DefineConstants Condition="'$(Platform)'=='AnyCPU'">DEBUG;TRACE;x86</DefineConstants>
-    <DefineConstants Condition="'$(Platform)'!='AnyCPU'">DEBUG;TRACE;$(Platform)</DefineConstants>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
-    <DefineConstants Condition="'$(Platform)'=='AnyCPU'">TRACE;x86</DefineConstants>
-    <DefineConstants Condition="'$(Platform)'!='AnyCPU'">TRACE;$(Platform)</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -77,11 +77,18 @@
   </ItemGroup>
   
   <ItemGroup Condition="'$(Platform)'=='AnyCPU'">
-    <PackageReference Include="Exomia.Framework" Version="1.4.1" />
+    <PackageReference Include="Exomia.Framework" Version="1.*" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Platform)'!='AnyCPU'">
-    <PackageReference Include="Exomia.Framework.$(Platform)" Version="1.4.1" />
+    <PackageReference Include="Exomia.Framework.$(Platform)" Version="1.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="EntityManager.cs"></Compile>
+    <Compile Update="EntityManager.*.cs">
+      <DependentUpon>EntityManager.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <!-- Source Link Support -->
@@ -95,5 +102,34 @@
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Systems\EntitySystemBaseR.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EntitySystemBaseR.Generated.cs</LastGenOutput>
+    </None>
+    
+    <None Update="Systems\EntitySystemParallelBaseR.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EntitySystemParallelBaseR.Generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Systems\EntitySystemBaseR.Generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EntitySystemBaseR.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Systems\EntitySystemParallelBaseR.Generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EntitySystemParallelBaseR.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

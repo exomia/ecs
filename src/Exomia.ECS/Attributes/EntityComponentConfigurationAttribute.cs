@@ -19,14 +19,17 @@ namespace Exomia.ECS.Attributes
     public sealed class EntityComponentConfigurationAttribute : Attribute
     {
         /// <summary>
-        ///     Size of the pool.
-        /// </summary>
-        public int PoolSize = EntityManager.INITIAL_ARRAY_SIZE;
-
-        /// <summary>
         ///     True to use pooling.
         /// </summary>
         internal bool _usePooling;
+
+        /// <summary>
+        ///     Gets or sets the pool size.
+        /// </summary>
+        /// <value>
+        ///     The size of the pool.
+        /// </value>
+        public int PoolSize { get; set; } = EntityManager.INITIAL_ARRAY_SIZE;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="EntityComponentConfigurationAttribute" />

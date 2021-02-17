@@ -10,7 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Exomia.ECS
 {
@@ -25,19 +24,24 @@ namespace Exomia.ECS
         private const int INITIAL_COMPONENTS_SIZE = 8;
 
         /// <summary>
-        ///     Unique identifier.
-        /// </summary>
-        public readonly Guid Guid;
-
-        /// <summary>
         ///     True if this object is initialized.
         /// </summary>
         internal bool _isInitialized = false;
 
         /// <summary>
+        ///     The group flags.
+        /// </summary>
+        internal uint _systemFlags = 0u;
+
+        /// <summary>
         ///     The components.
         /// </summary>
         private readonly Dictionary<Type, object> _components;
+
+        /// <summary>
+        ///     Unique identifier.
+        /// </summary>
+        public Guid Guid { get; internal set; }
 
         /// <summary>
         ///     Gets the components.
@@ -53,10 +57,8 @@ namespace Exomia.ECS
         /// <summary>
         ///     Initializes a new instance of the <see cref="Entity" /> class.
         /// </summary>
-        /// <param name="guid"> Unique identifier. </param>
-        internal Entity(Guid guid)
+        internal Entity()
         {
-            Guid        = guid;
             _components = new Dictionary<Type, object>(INITIAL_COMPONENTS_SIZE);
         }
 
@@ -69,6 +71,7 @@ namespace Exomia.ECS
         ///     True if it succeeds, false if it fails.
         /// </returns>
         public bool Get<T>(out T component)
+            where T : class
         {
             bool res = _components.TryGetValue(typeof(T), out object c);
             component = (T)c;
@@ -78,16 +81,13 @@ namespace Exomia.ECS
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (obj is Entity other)
-            {
-                return Guid.Equals(other.Guid);
-            }
-            return obj?.Equals(this) ?? false;
+            return obj is Entity other && Guid.Equals(other.Guid);
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
+            // ReSharper disable once NonReadonlyMemberInGetHashCode
             return Guid.GetHashCode();
         }
 
@@ -103,8 +103,11 @@ namespace Exomia.ECS
         /// <typeparam name="T"> Generic type parameter. </typeparam>
         /// <param name="component"> The component. </param>
         internal void Add<T>(T component)
+            where T : class
         {
-            Debug.Assert(component != null, nameof(component) + " != null");
+#if DEBUG
+            if (component == null) { throw new ArgumentNullException(nameof(component)); }
+#endif
             _components.Add(typeof(T), component!);
         }
 
@@ -116,6 +119,7 @@ namespace Exomia.ECS
         ///     True if it succeeds, false if it fails.
         /// </returns>
         internal bool Remove<T>()
+            where T : class
         {
             return _components.Remove(typeof(T));
         }
