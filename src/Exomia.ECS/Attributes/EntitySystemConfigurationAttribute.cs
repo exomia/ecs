@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2020, exomia
+// Copyright (c) 2018-2021, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -17,9 +17,6 @@ namespace Exomia.ECS.Attributes
     [AttributeUsage(AttributeTargets.Class)]
     public sealed class EntitySystemConfigurationAttribute : Attribute
     {
-        /// <summary>
-        ///     The name.
-        /// </summary>
         internal readonly string Name;
 
         /// <summary> Gets or sets the list of system names which has to be executed after this one. </summary>

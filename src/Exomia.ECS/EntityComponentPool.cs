@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2020, exomia
+// Copyright (c) 2018-2021, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -15,19 +15,10 @@ using System.Reflection;
 using Exomia.ECS.Attributes;
 
 // ReSharper disable StaticMemberInGenericType
-
 namespace Exomia.ECS
 {
-    /// <summary>
-    ///     An entity component pool.
-    /// </summary>
-    static class EntityComponentPool
+    internal static class EntityComponentPool
     {
-        /// <summary>
-        ///     Releases the given component.
-        /// </summary>
-        /// <typeparam name="TComponent"> Type of the component. </typeparam>
-        /// <param name="component"> The component. </param>
         public static void Release<TComponent>(TComponent component)
             where TComponent : class
         {
@@ -35,29 +26,22 @@ namespace Exomia.ECS
         }
     }
 
-    /// <summary>
-    ///     An entity component pool.
-    /// </summary>
-    /// <typeparam name="TComponent"> Type of the component. </typeparam>
-    static class EntityComponentPool<TComponent>
+    internal static class EntityComponentPool<TComponent>
         where TComponent : class
     {
         private static readonly bool              s_usePooling;
         private static readonly Stack<TComponent> s_free = null!;
         private static readonly Func<TComponent>  s_getInstance;
 
-        /// <summary>
-        ///     Initializes static members of the <see cref="EntityComponentPool{TComponent}" /> class.
-        /// </summary>
         static EntityComponentPool()
         {
             s_getInstance = Expression.Lambda<Func<TComponent>>(Expression.New(typeof(TComponent))).Compile();
 
             EntityComponentConfigurationAttribute cfg =
                 typeof(TComponent).GetCustomAttribute<EntityComponentConfigurationAttribute>(false)
-             ?? new EntityComponentConfigurationAttribute();
+                ?? new EntityComponentConfigurationAttribute();
 
-            s_usePooling = cfg._usePooling;
+            s_usePooling = cfg.UsePooling;
             if (!s_usePooling) { return; }
 
             s_free = new Stack<TComponent>(cfg.PoolSize);

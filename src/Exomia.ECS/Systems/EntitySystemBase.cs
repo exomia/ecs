@@ -135,7 +135,7 @@ namespace Exomia.ECS.Systems
         /// <summary> True if disposed. </summary>
         protected bool _disposed;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);
@@ -160,10 +160,7 @@ namespace Exomia.ECS.Systems
             }
         }
 
-        /// <summary>
-        ///     Release all the unmanaged resources used by the Exomia.ECS.Systems.EntitySystemBase and optionally releases
-        ///     the managed resources.
-        /// </summary>
+        /// <summary> Release all the unmanaged resources used by the Exomia.ECS.Systems.EntitySystemBase and optionally releases the managed resources. </summary>
         /// <param name="disposing"> True to disposing. </param>
         protected virtual void OnDispose(bool disposing) { }
 

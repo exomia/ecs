@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2020, exomia
+// Copyright (c) 2018-2021, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -15,12 +15,13 @@ using Exomia.Framework.Game;
 
 namespace Exomia.ECS
 {
+    /// <content> Manager for entities. This class cannot be inherited. </content>
     public sealed partial class EntityManager : DrawableComponent
     {
         private readonly Entity[] _currentlyToChanged = new Entity[INITIAL_ARRAY_SIZE];
         private readonly Entity[] _currentlyToRemove  = new Entity[INITIAL_ARRAY_SIZE];
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Update(GameTime gameTime)
         {
             int currentlyToRemoveCount;
@@ -39,7 +40,7 @@ namespace Exomia.ECS
                 for (int si = _entitySystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entitySystems[si];
-                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemMask) == system.SystemMask)
+                    if (entity.SystemFlags == 0 || (entity.SystemFlags & system.SystemMask) == system.SystemMask)
                     {
                         system.Remove(entity);
                     }
@@ -62,7 +63,7 @@ namespace Exomia.ECS
                 for (int si = _entitySystemsCount - 1; si >= 0; si--)
                 {
                     EntitySystemBase system = _entitySystems[si];
-                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemMask) == system.SystemMask)
+                    if (entity.SystemFlags == 0 || (entity.SystemFlags & system.SystemMask) == system.SystemMask)
                     {
                         system.Changed(entity);
                     }
@@ -79,7 +80,7 @@ namespace Exomia.ECS
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Draw(GameTime gameTime)
         {
             for (int i = 0; i < _entityDrawableSystemsCount; i++)
@@ -93,7 +94,7 @@ namespace Exomia.ECS
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnInitialize(IServiceRegistry registry)
         {
             for (int si = _entitySystemsCount - 1; si >= 0; si--)
@@ -104,7 +105,7 @@ namespace Exomia.ECS
 
         #region IDisposable Support
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnDispose(bool disposing)
         {
             if (disposing)
