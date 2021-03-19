@@ -27,7 +27,7 @@ namespace Exomia.ECS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetSystem(string name, out EntitySystemBase system)
         {
-            return _entitySystems.TryGetValue(name, out system);
+            return _entitySystemsMap.TryGetValue(name, out system);
         }
 
         /// <summary>

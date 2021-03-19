@@ -99,47 +99,6 @@ namespace Exomia.ECS.Systems
         }
 
         /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-<#
-        for (int tt_c = 1; tt_c < tt_i; tt_c++)
-        {
-#>
-                _components<#= tt_c #>[index],
-<#
-        } #>
-                _components<#= tt_i #>[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-<#
-        for (int tt_c = 1; tt_c <= tt_i; tt_c++)
-        {
-#>
-        /// <param name="c<#= tt_c #>"> The <typeparamref name="TComponent<#= tt_c #>"/>. </param>
-<#
-        } #>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-<#
-        for (int tt_c = 1; tt_c < tt_i; tt_c++)
-        {
-#>
-            TComponent<#= tt_c #> c<#= tt_c #>,
-<#
-        } #>
-            TComponent<#= tt_i #> c<#= tt_i #>);
-
-        /// <inheritdoc />
         protected override void OnDispose(bool disposing)
         {
 <#

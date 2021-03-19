@@ -46,27 +46,6 @@ namespace Exomia.ECS.Systems
         }
 
         /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1);
-
-        /// <inheritdoc />
         protected override void OnDispose(bool disposing)
         {
             _components1 = null!;
@@ -125,30 +104,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components1, size);
             Array.Resize(ref _components2, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -221,33 +176,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components2, size);
             Array.Resize(ref _components3, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -332,36 +260,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components3, size);
             Array.Resize(ref _components4, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -458,39 +356,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components4, size);
             Array.Resize(ref _components5, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -599,42 +464,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components5, size);
             Array.Resize(ref _components6, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -755,45 +584,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components6, size);
             Array.Resize(ref _components7, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -926,48 +716,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components7, size);
             Array.Resize(ref _components8, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -1112,51 +860,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components8, size);
             Array.Resize(ref _components9, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index],
-                _components9[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        /// <param name="c9"> The <typeparamref name="TComponent9"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8,
-            TComponent9 c9);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -1313,54 +1016,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components9, size);
             Array.Resize(ref _components10, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index],
-                _components9[index],
-                _components10[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        /// <param name="c9"> The <typeparamref name="TComponent9"/>. </param>
-        /// <param name="c10"> The <typeparamref name="TComponent10"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8,
-            TComponent9 c9,
-            TComponent10 c10);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -1529,57 +1184,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components10, size);
             Array.Resize(ref _components11, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index],
-                _components9[index],
-                _components10[index],
-                _components11[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        /// <param name="c9"> The <typeparamref name="TComponent9"/>. </param>
-        /// <param name="c10"> The <typeparamref name="TComponent10"/>. </param>
-        /// <param name="c11"> The <typeparamref name="TComponent11"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8,
-            TComponent9 c9,
-            TComponent10 c10,
-            TComponent11 c11);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -1760,60 +1364,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components11, size);
             Array.Resize(ref _components12, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index],
-                _components9[index],
-                _components10[index],
-                _components11[index],
-                _components12[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        /// <param name="c9"> The <typeparamref name="TComponent9"/>. </param>
-        /// <param name="c10"> The <typeparamref name="TComponent10"/>. </param>
-        /// <param name="c11"> The <typeparamref name="TComponent11"/>. </param>
-        /// <param name="c12"> The <typeparamref name="TComponent12"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8,
-            TComponent9 c9,
-            TComponent10 c10,
-            TComponent11 c11,
-            TComponent12 c12);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -2006,63 +1556,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components12, size);
             Array.Resize(ref _components13, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index],
-                _components9[index],
-                _components10[index],
-                _components11[index],
-                _components12[index],
-                _components13[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        /// <param name="c9"> The <typeparamref name="TComponent9"/>. </param>
-        /// <param name="c10"> The <typeparamref name="TComponent10"/>. </param>
-        /// <param name="c11"> The <typeparamref name="TComponent11"/>. </param>
-        /// <param name="c12"> The <typeparamref name="TComponent12"/>. </param>
-        /// <param name="c13"> The <typeparamref name="TComponent13"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8,
-            TComponent9 c9,
-            TComponent10 c10,
-            TComponent11 c11,
-            TComponent12 c12,
-            TComponent13 c13);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -2267,66 +1760,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components13, size);
             Array.Resize(ref _components14, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index],
-                _components9[index],
-                _components10[index],
-                _components11[index],
-                _components12[index],
-                _components13[index],
-                _components14[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        /// <param name="c9"> The <typeparamref name="TComponent9"/>. </param>
-        /// <param name="c10"> The <typeparamref name="TComponent10"/>. </param>
-        /// <param name="c11"> The <typeparamref name="TComponent11"/>. </param>
-        /// <param name="c12"> The <typeparamref name="TComponent12"/>. </param>
-        /// <param name="c13"> The <typeparamref name="TComponent13"/>. </param>
-        /// <param name="c14"> The <typeparamref name="TComponent14"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8,
-            TComponent9 c9,
-            TComponent10 c10,
-            TComponent11 c11,
-            TComponent12 c12,
-            TComponent13 c13,
-            TComponent14 c14);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -2543,69 +1976,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components14, size);
             Array.Resize(ref _components15, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index],
-                _components9[index],
-                _components10[index],
-                _components11[index],
-                _components12[index],
-                _components13[index],
-                _components14[index],
-                _components15[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        /// <param name="c9"> The <typeparamref name="TComponent9"/>. </param>
-        /// <param name="c10"> The <typeparamref name="TComponent10"/>. </param>
-        /// <param name="c11"> The <typeparamref name="TComponent11"/>. </param>
-        /// <param name="c12"> The <typeparamref name="TComponent12"/>. </param>
-        /// <param name="c13"> The <typeparamref name="TComponent13"/>. </param>
-        /// <param name="c14"> The <typeparamref name="TComponent14"/>. </param>
-        /// <param name="c15"> The <typeparamref name="TComponent15"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8,
-            TComponent9 c9,
-            TComponent10 c10,
-            TComponent11 c11,
-            TComponent12 c12,
-            TComponent13 c13,
-            TComponent14 c14,
-            TComponent15 c15);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -2834,72 +2204,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components15, size);
             Array.Resize(ref _components16, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index],
-                _components9[index],
-                _components10[index],
-                _components11[index],
-                _components12[index],
-                _components13[index],
-                _components14[index],
-                _components15[index],
-                _components16[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        /// <param name="c9"> The <typeparamref name="TComponent9"/>. </param>
-        /// <param name="c10"> The <typeparamref name="TComponent10"/>. </param>
-        /// <param name="c11"> The <typeparamref name="TComponent11"/>. </param>
-        /// <param name="c12"> The <typeparamref name="TComponent12"/>. </param>
-        /// <param name="c13"> The <typeparamref name="TComponent13"/>. </param>
-        /// <param name="c14"> The <typeparamref name="TComponent14"/>. </param>
-        /// <param name="c15"> The <typeparamref name="TComponent15"/>. </param>
-        /// <param name="c16"> The <typeparamref name="TComponent16"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8,
-            TComponent9 c9,
-            TComponent10 c10,
-            TComponent11 c11,
-            TComponent12 c12,
-            TComponent13 c13,
-            TComponent14 c14,
-            TComponent15 c15,
-            TComponent16 c16);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -3140,75 +2444,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components16, size);
             Array.Resize(ref _components17, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index],
-                _components9[index],
-                _components10[index],
-                _components11[index],
-                _components12[index],
-                _components13[index],
-                _components14[index],
-                _components15[index],
-                _components16[index],
-                _components17[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        /// <param name="c9"> The <typeparamref name="TComponent9"/>. </param>
-        /// <param name="c10"> The <typeparamref name="TComponent10"/>. </param>
-        /// <param name="c11"> The <typeparamref name="TComponent11"/>. </param>
-        /// <param name="c12"> The <typeparamref name="TComponent12"/>. </param>
-        /// <param name="c13"> The <typeparamref name="TComponent13"/>. </param>
-        /// <param name="c14"> The <typeparamref name="TComponent14"/>. </param>
-        /// <param name="c15"> The <typeparamref name="TComponent15"/>. </param>
-        /// <param name="c16"> The <typeparamref name="TComponent16"/>. </param>
-        /// <param name="c17"> The <typeparamref name="TComponent17"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8,
-            TComponent9 c9,
-            TComponent10 c10,
-            TComponent11 c11,
-            TComponent12 c12,
-            TComponent13 c13,
-            TComponent14 c14,
-            TComponent15 c15,
-            TComponent16 c16,
-            TComponent17 c17);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -3461,78 +2696,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components17, size);
             Array.Resize(ref _components18, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index],
-                _components9[index],
-                _components10[index],
-                _components11[index],
-                _components12[index],
-                _components13[index],
-                _components14[index],
-                _components15[index],
-                _components16[index],
-                _components17[index],
-                _components18[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        /// <param name="c9"> The <typeparamref name="TComponent9"/>. </param>
-        /// <param name="c10"> The <typeparamref name="TComponent10"/>. </param>
-        /// <param name="c11"> The <typeparamref name="TComponent11"/>. </param>
-        /// <param name="c12"> The <typeparamref name="TComponent12"/>. </param>
-        /// <param name="c13"> The <typeparamref name="TComponent13"/>. </param>
-        /// <param name="c14"> The <typeparamref name="TComponent14"/>. </param>
-        /// <param name="c15"> The <typeparamref name="TComponent15"/>. </param>
-        /// <param name="c16"> The <typeparamref name="TComponent16"/>. </param>
-        /// <param name="c17"> The <typeparamref name="TComponent17"/>. </param>
-        /// <param name="c18"> The <typeparamref name="TComponent18"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8,
-            TComponent9 c9,
-            TComponent10 c10,
-            TComponent11 c11,
-            TComponent12 c12,
-            TComponent13 c13,
-            TComponent14 c14,
-            TComponent15 c15,
-            TComponent16 c16,
-            TComponent17 c17,
-            TComponent18 c18);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -3797,81 +2960,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components18, size);
             Array.Resize(ref _components19, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index],
-                _components9[index],
-                _components10[index],
-                _components11[index],
-                _components12[index],
-                _components13[index],
-                _components14[index],
-                _components15[index],
-                _components16[index],
-                _components17[index],
-                _components18[index],
-                _components19[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        /// <param name="c9"> The <typeparamref name="TComponent9"/>. </param>
-        /// <param name="c10"> The <typeparamref name="TComponent10"/>. </param>
-        /// <param name="c11"> The <typeparamref name="TComponent11"/>. </param>
-        /// <param name="c12"> The <typeparamref name="TComponent12"/>. </param>
-        /// <param name="c13"> The <typeparamref name="TComponent13"/>. </param>
-        /// <param name="c14"> The <typeparamref name="TComponent14"/>. </param>
-        /// <param name="c15"> The <typeparamref name="TComponent15"/>. </param>
-        /// <param name="c16"> The <typeparamref name="TComponent16"/>. </param>
-        /// <param name="c17"> The <typeparamref name="TComponent17"/>. </param>
-        /// <param name="c18"> The <typeparamref name="TComponent18"/>. </param>
-        /// <param name="c19"> The <typeparamref name="TComponent19"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8,
-            TComponent9 c9,
-            TComponent10 c10,
-            TComponent11 c11,
-            TComponent12 c12,
-            TComponent13 c13,
-            TComponent14 c14,
-            TComponent15 c15,
-            TComponent16 c16,
-            TComponent17 c17,
-            TComponent18 c18,
-            TComponent19 c19);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
@@ -4148,84 +3236,6 @@ namespace Exomia.ECS.Systems
             Array.Resize(ref _components19, size);
             Array.Resize(ref _components20, size);
         }
-
-        /// <inheritdoc />
-        protected override void Tick(GameTime gameTime, Entity entity, int index)
-        {
-            Tick(
-                gameTime, 
-                entity,
-                _components1[index],
-                _components2[index],
-                _components3[index],
-                _components4[index],
-                _components5[index],
-                _components6[index],
-                _components7[index],
-                _components8[index],
-                _components9[index],
-                _components10[index],
-                _components11[index],
-                _components12[index],
-                _components13[index],
-                _components14[index],
-                _components15[index],
-                _components16[index],
-                _components17[index],
-                _components18[index],
-                _components19[index],
-                _components20[index]      
-            );
-        }
-
-        /// <summary>
-        ///     Ticks every frame.
-        /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="entity">   The entity. </param>
-        /// <param name="c1"> The <typeparamref name="TComponent1"/>. </param>
-        /// <param name="c2"> The <typeparamref name="TComponent2"/>. </param>
-        /// <param name="c3"> The <typeparamref name="TComponent3"/>. </param>
-        /// <param name="c4"> The <typeparamref name="TComponent4"/>. </param>
-        /// <param name="c5"> The <typeparamref name="TComponent5"/>. </param>
-        /// <param name="c6"> The <typeparamref name="TComponent6"/>. </param>
-        /// <param name="c7"> The <typeparamref name="TComponent7"/>. </param>
-        /// <param name="c8"> The <typeparamref name="TComponent8"/>. </param>
-        /// <param name="c9"> The <typeparamref name="TComponent9"/>. </param>
-        /// <param name="c10"> The <typeparamref name="TComponent10"/>. </param>
-        /// <param name="c11"> The <typeparamref name="TComponent11"/>. </param>
-        /// <param name="c12"> The <typeparamref name="TComponent12"/>. </param>
-        /// <param name="c13"> The <typeparamref name="TComponent13"/>. </param>
-        /// <param name="c14"> The <typeparamref name="TComponent14"/>. </param>
-        /// <param name="c15"> The <typeparamref name="TComponent15"/>. </param>
-        /// <param name="c16"> The <typeparamref name="TComponent16"/>. </param>
-        /// <param name="c17"> The <typeparamref name="TComponent17"/>. </param>
-        /// <param name="c18"> The <typeparamref name="TComponent18"/>. </param>
-        /// <param name="c19"> The <typeparamref name="TComponent19"/>. </param>
-        /// <param name="c20"> The <typeparamref name="TComponent20"/>. </param>
-        protected abstract void Tick(
-            GameTime gameTime, 
-            Entity entity,
-            TComponent1 c1,
-            TComponent2 c2,
-            TComponent3 c3,
-            TComponent4 c4,
-            TComponent5 c5,
-            TComponent6 c6,
-            TComponent7 c7,
-            TComponent8 c8,
-            TComponent9 c9,
-            TComponent10 c10,
-            TComponent11 c11,
-            TComponent12 c12,
-            TComponent13 c13,
-            TComponent14 c14,
-            TComponent15 c15,
-            TComponent16 c16,
-            TComponent17 c17,
-            TComponent18 c18,
-            TComponent19 c19,
-            TComponent20 c20);
 
         /// <inheritdoc />
         protected override void OnDispose(bool disposing)
