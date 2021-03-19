@@ -8,7 +8,7 @@
 
 #endregion
 
-namespace Exomia.ECS.Attributes
+namespace Exomia.ECS.Systems
 {
     /// <summary>
     ///     Values that represent EntitySystemType.
