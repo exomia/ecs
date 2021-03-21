@@ -205,9 +205,7 @@ namespace Exomia.ECS
                                         drawableConfigurations.Add(new EntitySystemConfiguration(attribute, entitySystemBase));
                                     }
 
-                                    if (it == typeof(IDisposable)) { continue; }
-
-                                    if (it != typeof(IUpdateableSystem) || it != typeof(IDrawableSystem))
+                                    if (it != typeof(IDisposable) && it != typeof(IUpdateableSystem) && it != typeof(IDrawableSystem))
                                     {
                                         _entitySystemInterfaces.Add(it, entitySystemBase);
                                     }
