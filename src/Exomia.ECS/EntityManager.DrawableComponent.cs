@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2020, exomia
+// Copyright (c) 2018-2021, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -8,75 +8,62 @@
 
 #endregion
 
-using System.Collections.Generic;
+using System;
 using Exomia.ECS.Systems;
 using Exomia.Framework;
 using Exomia.Framework.Game;
 
 namespace Exomia.ECS
 {
+    /// <content> Manager for entities. This class cannot be inherited. </content>
     public sealed partial class EntityManager : DrawableComponent
     {
-        private readonly List<Entity> _currentlyToChanged = new List<Entity>(INITIAL_ARRAY_SIZE);
-        private readonly List<Entity> _currentlyToRemove  = new List<Entity>(INITIAL_ARRAY_SIZE);
+        private readonly Entity[] _currentlyToChanged = new Entity[INITIAL_ARRAY_SIZE];
+        private readonly Entity[] _currentlyToRemove  = new Entity[INITIAL_ARRAY_SIZE];
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Update(GameTime gameTime)
         {
+            int currentlyToRemoveCount;
             lock (_toRemove)
             {
-                _currentlyToRemove.Clear();
-                _currentlyToRemove.AddRange(_toRemove);
-                _toRemove.Clear();
+                currentlyToRemoveCount = Math.Min(_toRemove.Count, INITIAL_ARRAY_SIZE);
+                _toRemove.CopyTo(0, _currentlyToRemove, 0, currentlyToRemoveCount);
+                _toRemove.RemoveRange(0, currentlyToRemoveCount);
             }
 
             // ReSharper disable once InconsistentlySynchronizedField
-            for (int i = 0; i < _currentlyToRemove.Count; i++)
+            for (int i = 0; i < currentlyToRemoveCount; i++)
             {
                 // ReSharper disable once InconsistentlySynchronizedField
                 Entity entity = _currentlyToRemove[i];
-                for (int si = _entityUpdateableSystemsCount - 1; si >= 0; si--)
+                for (int si = _entitySystemsCount - 1; si >= 0; si--)
                 {
-                    EntitySystemBase system = _entityUpdateableSystems[si];
-                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemMask) == system.SystemMask)
-                    {
-                        system.Remove(entity);
-                    }
-                }
-                for (int si = _entityDrawableSystemsCount - 1; si >= 0; si--)
-                {
-                    EntitySystemBase system = _entityDrawableSystems[si];
-                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemMask) == system.SystemMask)
+                    EntitySystemBase system = _entitySystems[si];
+                    if (entity.SystemFlags == 0 || (entity.SystemFlags & system.SystemMask) == system.SystemMask)
                     {
                         system.Remove(entity);
                     }
                 }
             }
 
+            int currentlyToChangedCount;
             lock (_toChanged)
             {
-                _currentlyToChanged.Clear();
-                _currentlyToChanged.AddRange(_toChanged);
-                _toChanged.Clear();
+                currentlyToChangedCount = Math.Min(_toChanged.Count, INITIAL_ARRAY_SIZE);
+                _toChanged.CopyTo(0, _currentlyToChanged, 0, currentlyToChangedCount);
+                _toChanged.RemoveRange(0, currentlyToChangedCount);
             }
 
             // ReSharper disable once InconsistentlySynchronizedField
-            for (int i = 0; i < _currentlyToChanged.Count; i++)
+            for (int i = 0; i < currentlyToChangedCount; i++)
             {
                 // ReSharper disable once InconsistentlySynchronizedField
                 Entity entity = _currentlyToChanged[i];
-                for (int si = _entityUpdateableSystemsCount - 1; si >= 0; si--)
+                for (int si = _entitySystemsCount - 1; si >= 0; si--)
                 {
-                    EntitySystemBase system = _entityUpdateableSystems[si];
-                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemMask) == system.SystemMask)
-                    {
-                        system.Changed(entity);
-                    }
-                }
-                for (int si = _entityDrawableSystemsCount - 1; si >= 0; si--)
-                {
-                    EntitySystemBase system = _entityDrawableSystems[si];
-                    if (entity._systemFlags == 0 || (entity._systemFlags & system.SystemMask) == system.SystemMask)
+                    EntitySystemBase system = _entitySystems[si];
+                    if (entity.SystemFlags == 0 || (entity.SystemFlags & system.SystemMask) == system.SystemMask)
                     {
                         system.Changed(entity);
                     }
@@ -85,62 +72,55 @@ namespace Exomia.ECS
 
             for (int i = 0; i < _entityUpdateableSystemsCount; i++)
             {
-                EntitySystemBase system = _entityUpdateableSystems[i];
-                if (system.Begin())
+                IUpdateableSystem system = _entityUpdateableSystems[i];
+                if (system.Enabled)
                 {
-                    system.Tick(gameTime);
-                    system.OnEnd();
+                    system.Update(gameTime);
                 }
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Draw(GameTime gameTime)
         {
             for (int i = 0; i < _entityDrawableSystemsCount; i++)
             {
-                EntitySystemBase system = _entityDrawableSystems[i];
-                if (system.Begin())
+                IDrawableSystem system = _entityDrawableSystems[i];
+                if (system.BeginDraw())
                 {
-                    system.Tick(gameTime);
-                    system.OnEnd();
+                    system.Draw(gameTime);
+                    system.EndDraw();
                 }
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnInitialize(IServiceRegistry registry)
         {
-            for (int si = _entityUpdateableSystemsCount - 1; si >= 0; si--)
+            for (int si = _entitySystemsCount - 1; si >= 0; si--)
             {
-                _entityUpdateableSystems[si].Initialize(registry);
-            }
-            for (int si = _entityDrawableSystemsCount - 1; si >= 0; si--)
-            {
-                _entityDrawableSystems[si].Initialize(registry);
+                _entitySystems[si].Initialize(registry);
             }
         }
 
         #region IDisposable Support
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnDispose(bool disposing)
         {
             if (disposing)
             {
-                for (int si = _entityUpdateableSystemsCount - 1; si >= 0; si--)
+                for (int si = _entitySystemsCount - 1; si >= 0; si--)
                 {
-                    _entityUpdateableSystems[si].Dispose();
+                    _entitySystems[si].Dispose();
                 }
+
+                _entitySystemsCount           = 0;
+                _entitySystems                = null!;
                 _entityUpdateableSystemsCount = 0;
                 _entityUpdateableSystems      = null!;
-
-                for (int si = _entityDrawableSystemsCount - 1; si >= 0; si--)
-                {
-                    _entityDrawableSystems[si].Dispose();
-                }
-                _entityDrawableSystemsCount = 0;
-                _entityDrawableSystems      = null!;
+                _entityDrawableSystemsCount   = 0;
+                _entityDrawableSystems        = null!;
 
                 lock (_thisLock)
                 {
@@ -157,13 +137,13 @@ namespace Exomia.ECS
                 lock (_toChanged)
                 {
                     _toChanged.Clear();
-                    _currentlyToChanged.Clear();
+                    Array.Clear(_currentlyToChanged, 0, _currentlyToChanged.Length);
                 }
 
                 lock (_toRemove)
                 {
                     _toRemove.Clear();
-                    _currentlyToRemove.Clear();
+                    Array.Clear(_currentlyToRemove, 0, _currentlyToRemove.Length);
                 }
             }
         }

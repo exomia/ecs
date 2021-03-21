@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2020, exomia
+// Copyright (c) 2018-2021, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -13,17 +13,10 @@ using System.Collections.Generic;
 
 namespace Exomia.ECS
 {
-    /// <summary>
-    ///     An entity pool. This class cannot be inherited.
-    /// </summary>
-    sealed class EntityPool
+    internal sealed class EntityPool
     {
         private readonly Stack<Entity> _free;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="EntityPool" /> class.
-        /// </summary>
-        /// <param name="initialSize"> Size of the initial. </param>
         internal EntityPool(int initialSize)
         {
             _free = new Stack<Entity>(initialSize);
@@ -37,7 +30,7 @@ namespace Exomia.ECS
         {
             lock (_free)
             {
-                entity._isInitialized = false;
+                entity.IsInitialized = false;
                 _free.Push(entity);
             }
         }
@@ -53,7 +46,7 @@ namespace Exomia.ECS
                     return entity;
                 }
             }
-            return new Entity { Guid = guid };
+            return new Entity {Guid = guid};
         }
     }
 }

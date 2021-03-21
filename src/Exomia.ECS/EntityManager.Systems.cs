@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2020, exomia
+// Copyright (c) 2018-2021, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -14,31 +14,24 @@ using Exomia.ECS.Systems;
 
 namespace Exomia.ECS
 {
+    /// <content> Manager for entities. This class cannot be inherited. </content>
     public sealed partial class EntityManager
     {
-        /// <summary>
-        ///     Attempts to get an <see cref="EntitySystemBase" /> from the given name.
-        /// </summary>
+        /// <summary> Attempts to get an <see cref="EntitySystemBase" /> from the given name. </summary>
         /// <param name="name">   The name. </param>
         /// <param name="system"> [out] The system. </param>
-        /// <returns>
-        ///     True if it succeeds, false if it fails.
-        /// </returns>
+        /// <returns> True if it succeeds, false if it fails. </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetSystem(string name, out EntitySystemBase system)
         {
-            return _entitySystems.TryGetValue(name, out system);
+            return _entitySystemsMap.TryGetValue(name, out system);
         }
 
-        /// <summary>
-        ///     Attempts to get an <see cref="EntitySystemBase" /> from the given name.
-        /// </summary>
+        /// <summary> Attempts to get an <see cref="EntitySystemBase" /> from the given name. </summary>
         /// <typeparam name="T"> Generic type parameter. </typeparam>
         /// <param name="name">   The name. </param>
         /// <param name="system"> [out] The system cast to <typeparamref name="T" />. </param>
-        /// <returns>
-        ///     True if it succeeds, false if it fails.
-        /// </returns>
+        /// <returns> True if it succeeds, false if it fails. </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetSystem<T>(string name, out T system)
         {
@@ -51,14 +44,10 @@ namespace Exomia.ECS
             return false;
         }
 
-        /// <summary>
-        ///     Attempts to get an <see cref="EntitySystemBase" /> from the given name.
-        /// </summary>
+        /// <summary> Attempts to get an <see cref="EntitySystemBase" /> from the given name. </summary>
         /// <typeparam name="T"> any interface. </typeparam>
         /// <param name="system"> [out] The system cast to <typeparamref name="T" />. </param>
-        /// <returns>
-        ///     True if it succeeds, false if it fails.
-        /// </returns>
+        /// <returns> True if it succeeds, false if it fails. </returns>
         /// <exception cref="AmbiguousMatchException"> Thrown when the Ambiguous Match error condition occurs. </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetSystem<T>(out T system)

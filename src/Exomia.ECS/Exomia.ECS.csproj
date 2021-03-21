@@ -109,11 +109,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EntitySystemBaseR.Generated.cs</LastGenOutput>
     </None>
-    
-    <None Update="Systems\EntitySystemParallelBaseR.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>EntitySystemParallelBaseR.Generated.cs</LastGenOutput>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -125,11 +120,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>EntitySystemBaseR.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Systems\EntitySystemParallelBaseR.Generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EntitySystemParallelBaseR.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

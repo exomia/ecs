@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2020, exomia
+// Copyright (c) 2018-2021, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -13,11 +13,10 @@ using Exomia.ECS.Events;
 
 namespace Exomia.ECS
 {
+    /// <content> Manager for entities. This class cannot be inherited. </content>
     public sealed partial class EntityManager
     {
-        /// <summary>
-        ///     Registers this object.
-        /// </summary>
+        /// <summary> Registers this object. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key">      The key. </param>
         /// <param name="callback"> The callback. </param>
@@ -26,9 +25,7 @@ namespace Exomia.ECS
             RHandler<T1>.Register(key, callback);
         }
 
-        /// <summary>
-        ///     Registers this object.
-        /// </summary>
+        /// <summary> Registers this object. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key">      The key. </param>
         /// <param name="callback"> The callback. </param>
@@ -37,9 +34,7 @@ namespace Exomia.ECS
             RrHandler<T1>.Register(key, callback);
         }
 
-        /// <summary>
-        ///     Registers this object.
-        /// </summary>
+        /// <summary> Registers this object. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key">      The key. </param>
         /// <param name="callback"> The callback. </param>
@@ -48,9 +43,7 @@ namespace Exomia.ECS
             OHandler<T1>.Register(key, callback);
         }
 
-        /// <summary>
-        ///     Registers this object.
-        /// </summary>
+        /// <summary> Registers this object. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <typeparam name="T2"> Generic type parameter. </typeparam>
         /// <param name="key">      The key. </param>
@@ -60,9 +53,7 @@ namespace Exomia.ECS
             OHandler<T1, T2>.Register(key, callback);
         }
 
-        /// <summary>
-        ///     Registers this object.
-        /// </summary>
+        /// <summary> Registers this object. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <typeparam name="T2"> Generic type parameter. </typeparam>
         /// <typeparam name="T3"> Generic type parameter. </typeparam>
@@ -73,9 +64,7 @@ namespace Exomia.ECS
             OHandler<T1, T2, T3>.Register(key, callback);
         }
 
-        /// <summary>
-        ///     Registers this object.
-        /// </summary>
+        /// <summary> Registers this object. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <typeparam name="T2"> Generic type parameter. </typeparam>
         /// <typeparam name="T3"> Generic type parameter. </typeparam>
@@ -87,9 +76,7 @@ namespace Exomia.ECS
             OHandler<T1, T2, T3, T4>.Register(key, callback);
         }
 
-        /// <summary>
-        ///     Deregisters this object.
-        /// </summary>
+        /// <summary> Deregisters this object. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key">      The key. </param>
         /// <param name="callback"> The callback. </param>
@@ -98,9 +85,7 @@ namespace Exomia.ECS
             RHandler<T1>.Unregister(key);
         }
 
-        /// <summary>
-        ///     Deregisters this object.
-        /// </summary>
+        /// <summary> Deregisters this object. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key">      The key. </param>
         /// <param name="callback"> The callback. </param>
@@ -109,9 +94,7 @@ namespace Exomia.ECS
             RrHandler<T1>.Unregister(key);
         }
 
-        /// <summary>
-        ///     Deregisters this object.
-        /// </summary>
+        /// <summary> Deregisters this object. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key">      The key. </param>
         /// <param name="callback"> The callback. </param>
@@ -120,9 +103,7 @@ namespace Exomia.ECS
             OHandler<T1>.Unregister(key);
         }
 
-        /// <summary>
-        ///     Deregisters this object.
-        /// </summary>
+        /// <summary> Deregisters this object. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <typeparam name="T2"> Generic type parameter. </typeparam>
         /// <param name="key">      The key. </param>
@@ -132,9 +113,7 @@ namespace Exomia.ECS
             OHandler<T1, T2>.Unregister(key);
         }
 
-        /// <summary>
-        ///     Deregisters this object.
-        /// </summary>
+        /// <summary> Deregisters this object. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <typeparam name="T2"> Generic type parameter. </typeparam>
         /// <typeparam name="T3"> Generic type parameter. </typeparam>
@@ -145,9 +124,7 @@ namespace Exomia.ECS
             OHandler<T1, T2, T3>.Unregister(key);
         }
 
-        /// <summary>
-        ///     Deregisters this object.
-        /// </summary>
+        /// <summary> Deregisters this object. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <typeparam name="T2"> Generic type parameter. </typeparam>
         /// <typeparam name="T3"> Generic type parameter. </typeparam>
@@ -159,14 +136,10 @@ namespace Exomia.ECS
             OHandler<T1, T2, T3, T4>.Unregister(key);
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
+        /// <summary> Gets. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key"> The key. </param>
-        /// <returns>
-        ///     A ref T1.
-        /// </returns>
+        /// <returns> A ref T1. </returns>
         /// <exception cref="KeyNotFoundException"> Thrown when a Key Not Found error condition occurs. </exception>
         public T1 Get<T1>(string key)
         {
@@ -177,14 +150,10 @@ namespace Exomia.ECS
             return r.Invoke();
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
+        /// <summary> Gets. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key"> The key. </param>
-        /// <returns>
-        ///     A ref T1.
-        /// </returns>
+        /// <returns> A ref T1. </returns>
         /// <exception cref="KeyNotFoundException"> Thrown when a Key Not Found error condition occurs. </exception>
         public ref T1 GetR<T1>(string key)
         {
@@ -195,9 +164,7 @@ namespace Exomia.ECS
             return ref r.Invoke();
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
+        /// <summary> Gets. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key"> The key. </param>
         /// <param name="o1">  [out] The first out T1. </param>
@@ -211,9 +178,7 @@ namespace Exomia.ECS
             o.Invoke(out o1);
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
+        /// <summary> Gets. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <typeparam name="T2"> Generic type parameter. </typeparam>
         /// <param name="key"> The key. </param>
@@ -229,9 +194,7 @@ namespace Exomia.ECS
             o.Invoke(out o1, out o2);
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
+        /// <summary> Gets. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <typeparam name="T2"> Generic type parameter. </typeparam>
         /// <typeparam name="T3"> Generic type parameter. </typeparam>
@@ -249,9 +212,7 @@ namespace Exomia.ECS
             o.Invoke(out o1, out o2, out o3);
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
+        /// <summary> Gets. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <typeparam name="T2"> Generic type parameter. </typeparam>
         /// <typeparam name="T3"> Generic type parameter. </typeparam>
@@ -271,9 +232,7 @@ namespace Exomia.ECS
             o.Invoke(out o1, out o2, out o3, out o4);
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
+        /// <summary> Gets. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key"> The key. </param>
         /// <param name="r">   [out] The out R&lt;T1&gt; to process. </param>
@@ -286,9 +245,7 @@ namespace Exomia.ECS
             }
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
+        /// <summary> Gets. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key"> The key. </param>
         /// <param name="r">   [out] The out R&lt;T1&gt; to process. </param>
@@ -301,9 +258,7 @@ namespace Exomia.ECS
             }
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
+        /// <summary> Gets. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <param name="key"> The key. </param>
         /// <param name="o">   [out] The out O&lt;T1,T2,T3,T4&gt; to process. </param>
@@ -316,9 +271,7 @@ namespace Exomia.ECS
             }
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
+        /// <summary> Gets. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <typeparam name="T2"> Generic type parameter. </typeparam>
         /// <param name="key"> The key. </param>
@@ -332,9 +285,7 @@ namespace Exomia.ECS
             }
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
+        /// <summary> Gets. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <typeparam name="T2"> Generic type parameter. </typeparam>
         /// <typeparam name="T3"> Generic type parameter. </typeparam>
@@ -349,9 +300,7 @@ namespace Exomia.ECS
             }
         }
 
-        /// <summary>
-        ///     Gets.
-        /// </summary>
+        /// <summary> Gets. </summary>
         /// <typeparam name="T1"> Generic type parameter. </typeparam>
         /// <typeparam name="T2"> Generic type parameter. </typeparam>
         /// <typeparam name="T3"> Generic type parameter. </typeparam>

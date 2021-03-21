@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2018-2020, exomia
+// Copyright (c) 2018-2021, exomia
 // All rights reserved.
 // 
 // This source code is licensed under the BSD-style license found in the
@@ -13,63 +13,33 @@ using System.Collections.Generic;
 
 namespace Exomia.ECS
 {
-    /// <summary>
-    ///     An entity. This class cannot be inherited.
-    /// </summary>
+    /// <summary> An entity. This class cannot be inherited. </summary>
     public sealed class Entity
     {
-        /// <summary>
-        ///     Initial size of the components.
-        /// </summary>
         private const int INITIAL_COMPONENTS_SIZE = 8;
 
-        /// <summary>
-        ///     True if this object is initialized.
-        /// </summary>
-        internal bool _isInitialized = false;
-
-        /// <summary>
-        ///     The group flags.
-        /// </summary>
-        internal uint _systemFlags = 0u;
-
-        /// <summary>
-        ///     The components.
-        /// </summary>
+        internal         bool                     IsInitialized = false;
+        internal         uint                     SystemFlags   = 0u;
         private readonly Dictionary<Type, object> _components;
 
-        /// <summary>
-        ///     Unique identifier.
-        /// </summary>
+        /// <summary> Unique identifier. </summary>
+        /// <value> The identifier of the unique. </value>
         public Guid Guid { get; internal set; }
 
-        /// <summary>
-        ///     Gets the components.
-        /// </summary>
-        /// <value>
-        ///     The components.
-        /// </value>
         internal IEnumerable<object> Components
         {
             get { return _components.Values; }
         }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Entity" /> class.
-        /// </summary>
         internal Entity()
         {
             _components = new Dictionary<Type, object>(INITIAL_COMPONENTS_SIZE);
         }
 
-        /// <summary>
-        ///     Gets a bool using the given component.
-        /// </summary>
+        /// <summary> Gets a bool using the given component. </summary>
         /// <typeparam name="T"> Generic type parameter. </typeparam>
         /// <param name="component"> [out] The component. </param>
-        /// <returns>
-        ///     True if it succeeds, false if it fails.
-        /// </returns>
+        /// <returns> True if it succeeds, false if it fails. </returns>
         public bool Get<T>(out T component)
             where T : class
         {
@@ -78,30 +48,25 @@ namespace Exomia.ECS
             return res;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is Entity other && Guid.Equals(other.Guid);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             // ReSharper disable once NonReadonlyMemberInGetHashCode
             return Guid.GetHashCode();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
-            return $"[{Guid}]";
+            return $"[{Guid.ToString()}]";
         }
 
-        /// <summary>
-        ///     Adds component.
-        /// </summary>
-        /// <typeparam name="T"> Generic type parameter. </typeparam>
-        /// <param name="component"> The component. </param>
         internal void Add<T>(T component)
             where T : class
         {
@@ -111,13 +76,6 @@ namespace Exomia.ECS
             _components.Add(typeof(T), component!);
         }
 
-        /// <summary>
-        ///     Removes this object.
-        /// </summary>
-        /// <typeparam name="T"> Generic type parameter. </typeparam>
-        /// <returns>
-        ///     True if it succeeds, false if it fails.
-        /// </returns>
         internal bool Remove<T>()
             where T : class
         {
